@@ -1,0 +1,762 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Planet Hoto</title><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* i18n + 18+ notice. Layout: one calm column system. Crisis strip on top, hero with a "next step" finder, then guides, a grounding tool, and ways to help. */
+:root {
+  --bg: #f2f6f5;
+  --surface: #ffffff;
+  --fg: #12232f;
+  --muted: #4b6069;
+  --line: #d3dedc;
+  --accent: #14675f;
+  --accent-fg: #ffffff;
+  --signal: #b7411f;
+  --signal-bg: #fbe9e2;
+  --soft: #dcece8;
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", "Noto Sans Devanagari", "Nirmala UI", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1a21; --surface: #15262f; --fg: #e6f0ee; --muted: #9fb4b9; --line: #26404a;
+    --accent: #5fc2b5; --accent-fg: #07201d; --signal: #ff9a7a; --signal-bg: #3a211a; --soft: #183a3a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1a21; --surface: #15262f; --fg: #e6f0ee; --muted: #9fb4b9; --line: #26404a;
+  --accent: #5fc2b5; --accent-fg: #07201d; --signal: #ff9a7a; --signal-bg: #3a211a; --soft: #183a3a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 17px; line-height: 1.6; }
+a { color: var(--accent); }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+p { margin: 0; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.wrap { max-width: 1080px; margin-inline: auto; padding-inline: 16px; }
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 16px; top: 8px; background: var(--surface); padding: 8px 12px; z-index: 10; }
+
+.crisis { background: var(--signal-bg); color: var(--fg); border-bottom: 1px solid var(--line); font-size: 15px; }
+.crisis .wrap { padding-block: 10px; display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: center; }
+.crisis strong { color: var(--signal); }
+.crisis select { font: inherit; font-size: 15px; padding: 4px 8px; border-radius: 6px; border: 1.5px solid var(--line); background: var(--surface); color: var(--fg); max-width: 100%; }
+.crisis .sep { color: var(--muted); }
+
+header.top { padding-block: 18px; }
+header.top .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.brand { font-family: var(--font-display); font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); }
+nav { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: 16px; }
+nav a { color: var(--fg); text-decoration: none; padding-block: 4px; border-bottom: 2px solid transparent; }
+nav a:hover { border-color: var(--accent); }
+
+.hero { padding-block: 36px 48px; }
+.hero .wrap { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: start; }
+.hero h1 { font-size: clamp(34px, 5.4vw, 60px); font-weight: 800; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.lede { font-size: 19px; color: var(--muted); max-width: 54ch; margin-top: 18px; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+.btn { font: inherit; font-weight: 700; padding: 12px 20px; border-radius: 8px; border: 2px solid var(--accent); background: var(--accent); color: var(--accent-fg); text-decoration: none; cursor: pointer; display: inline-block; }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn:hover { filter: brightness(1.08); }
+
+.finder { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; min-width: 0; }
+.finder h2 { font-size: 22px; }
+.finder .sub { color: var(--muted); font-size: 15px; margin-top: 4px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.chip { font: inherit; font-size: 15px; padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.steps { margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--line); }
+.steps h3 { font-size: 17px; }
+.steps ol { margin: 10px 0 0; padding-left: 22px; display: grid; gap: 8px; }
+.steps .note { margin-top: 12px; font-size: 14px; color: var(--muted); }
+
+section.block { padding-block: 56px; }
+section.alt { background: var(--soft); }
+.kicker { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+.block h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 800; max-width: 22ch; }
+.intro { color: var(--muted); max-width: 60ch; margin-top: 14px; }
+
+.guides { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 32px; }
+.guide { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.guide h3 { font-size: 20px; }
+.guide p { color: var(--muted); font-size: 16px; }
+.guide .tag { margin-top: auto; padding-top: 6px; font-size: 13px; font-weight: 700; color: var(--accent); }
+a.guide { color: inherit; text-decoration: none; }
+a.guide:hover, a.guide:focus-visible { border-color: var(--accent); }
+.guide.warn { border-top: 4px solid #e8b100; }
+
+.tool { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 32px; align-items: center; }
+.breath { display: grid; place-items: center; gap: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 28px 16px; }
+.orb { width: 170px; height: 170px; border-radius: 50%; background: var(--accent); opacity: 0.85; display: grid; place-items: center; color: var(--accent-fg); font-family: var(--font-display); font-weight: 700; font-size: 20px; transform: scale(0.6); transition: transform 4s ease-in-out; }
+.orb.in { transform: scale(1); transition-duration: 4s; }
+.orb.out { transform: scale(0.6); transition-duration: 6s; }
+@media (prefers-reduced-motion: reduce) { .orb, .orb.in, .orb.out { transition: none; } }
+.senses { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
+.senses li { display: flex; gap: 14px; align-items: baseline; }
+.senses b { font-family: var(--font-display); font-size: 28px; color: var(--accent); min-width: 1.2em; }
+
+.help { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 32px; }
+.help > div { border-top: 3px solid var(--accent); padding-top: 14px; min-width: 0; }
+.help h3 { font-size: 20px; margin-bottom: 6px; }
+.help p { color: var(--muted); font-size: 16px; }
+
+.principles { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 14px; max-width: 70ch; }
+.principles li { padding-left: 18px; border-left: 3px solid var(--accent); }
+.principles strong { font-family: var(--font-display); font-size: 18px; }
+
+footer { border-top: 1px solid var(--line); padding-block: 36px; font-size: 15px; color: var(--muted); }
+footer .wrap { display: grid; gap: 14px; }
+footer strong { color: var(--fg); }
+
+@media (max-width: 800px) {
+  .hero .wrap, .tool { grid-template-columns: 1fr; }
+  .hero { padding-block: 20px 36px; }
+}
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.navrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+.langsel { font: inherit; font-size: 15px; padding: 5px 8px; border-radius: 6px; border: 1.5px solid var(--line); background: var(--surface); color: var(--fg); }
+.menubtn { font: inherit; font-weight: 700; font-size: 15px; padding: 8px 14px; border-radius: 8px; border: 2px solid var(--accent); background: var(--accent); color: var(--accent-fg); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+.menubtn:hover { filter: brightness(1.08); }
+.menubtn .bars { display: inline-block; width: 16px; height: 12px; position: relative; }
+.menubtn .bars::before, .menubtn .bars::after, .menubtn .bars i { content: ""; position: absolute; left: 0; right: 0; height: 2px; background: currentColor; border-radius: 1px; }
+.menubtn .bars::before { top: 0; }
+.menubtn .bars i { top: 5px; display: block; }
+.menubtn .bars::after { bottom: 0; }
+.menubtn[aria-expanded="true"] .bars::before { top: 5px; transform: rotate(45deg); }
+.menubtn[aria-expanded="true"] .bars::after { bottom: 5px; transform: rotate(-45deg); }
+.menubtn[aria-expanded="true"] .bars i { opacity: 0; }
+nav#mainnav { flex-basis: 100%; flex-direction: column; gap: 2px; padding-top: 12px; margin-top: 4px; border-top: 1px solid var(--line); }
+nav#mainnav a { padding: 8px 4px; font-size: 17px; border-bottom: 0; border-left: 3px solid transparent; padding-left: 10px; }
+nav#mainnav a:hover, nav#mainnav a:focus-visible { border-left-color: var(--accent); background: var(--soft); outline: none; border-radius: 0 6px 6px 0; }
+.agenote { margin-top: 18px; font-size: 14px; color: var(--muted); }
+:root[lang="hi"] body, :root[lang="ja"] body { line-height: 1.75; }
+:root[lang="hi"] h1, :root[lang="hi"] h2, :root[lang="hi"] h3, :root[lang="ja"] h1, :root[lang="ja"] h2, :root[lang="ja"] h3 { font-family: var(--font-body); }
+.contact { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin: 28px 0 0; }
+.contact dt { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: var(--muted); }
+.contact dd { margin: 4px 0 0; font-size: 18px; overflow-wrap: anywhere; }
+</style>
+
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+
+<div class="crisis" role="region" aria-label="Crisis support">
+  <div class="wrap">
+    <label for="country"><strong data-i18n="country">Your country</strong></label>
+    <select id="country"></select>
+    <span id="crisisText"></span>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="9" fill="none" stroke="currentColor" stroke-width="2.5"/><ellipse cx="15" cy="15" rx="14" ry="4.5" fill="none" stroke="currentColor" stroke-width="2" transform="rotate(-20 15 15)"/></svg>
+      Planet Hoto
+    </a>
+    <div class="navrow">
+      <label class="langlab"><span class="sr" data-i18n="lang_label">Language</span>
+        <select id="lang" class="langsel"></select>
+      </label>
+      <button class="menubtn" id="menuBtn" type="button" aria-expanded="false" aria-controls="mainnav"><span class="bars" aria-hidden="true"><i></i></span><span data-i18n="menu">Menu</span></button>
+    </div>
+    <nav id="mainnav" aria-label="Main" hidden>
+      <a href="#guides" data-i18n="nav_guides">Guides</a>
+      <a href="#grounding" data-i18n="nav_grounding">Grounding</a>
+      <a href="#involved" data-i18n="nav_involved">Get involved</a>
+      <a href="#about" data-i18n="nav_about">About</a>
+      <a href="#contact" data-i18n="ct_k">Contact</a>
+      <a href="avoid-scientology.html" data-i18n="nav_sci">Scientology</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div>
+        <h1><span data-i18n="h1a">Mental health support, and a map for</span> <em data-i18n="h1em">getting through the world,</em> <span data-i18n="h1b">wherever you are.</span></h1>
+        <p class="lede" data-i18n="lede">We are a nonprofit that explains mental health in plain language and helps people deal with the practical side of life: finding care, paying for it, keeping a job, keeping a home, and asking for help.</p>
+        <div class="cta-row">
+          <a class="btn" href="#finder" data-i18n="cta1">Find a next step</a>
+          <a class="btn ghost" href="#grounding" data-i18n="cta2">Try a calming exercise</a>
+        </div>
+        <p class="agenote" data-i18n="age">This site is for adults aged 18 and older.</p>
+      </div>
+
+      <div class="finder" id="finder">
+        <h2 data-i18n="f_title">What is going on right now?</h2>
+        <p class="sub" data-i18n="f_sub">Pick the closest one. You get a few small steps, nothing is saved or sent.</p>
+        <div class="chips" role="group">
+          <button class="chip" data-k="overwhelmed" aria-pressed="true" data-i18n="chip_overwhelmed">I feel overwhelmed</button>
+          <button class="chip" data-k="care" aria-pressed="false" data-i18n="chip_care">I need a therapist</button>
+          <button class="chip" data-k="cost" aria-pressed="false" data-i18n="chip_cost">I can't afford care</button>
+          <button class="chip" data-k="work" aria-pressed="false" data-i18n="chip_work">It's hurting my work or school</button>
+          <button class="chip" data-k="friend" aria-pressed="false" data-i18n="chip_friend">Someone I know is struggling</button>
+        </div>
+        <div class="steps" aria-live="polite" id="steps"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="guides">
+    <div class="wrap">
+      <div class="kicker" data-i18n="g_kicker">Navigating the world</div>
+      <h2 data-i18n="g_h2">Practical guides for the parts nobody explains</h2>
+      <p class="intro" data-i18n="g_intro">Feeling better often depends on boring logistics. Each guide is written in short sections, with scripts you can copy and the questions worth asking.</p>
+      <div class="guides">
+        <article class="guide"><h3 data-i18n="g1h">Finding care</h3><p data-i18n="g1">Therapist, counselor, psychiatrist, peer support: what each one does, how to search, and what to say on the first call.</p><span class="tag" data-i18n="g_tag">Guide</span></article>
+        <article class="guide"><h3 data-i18n="g2h">Paying for it</h3><p data-i18n="g2">Public health systems, insurance, and charity care explained, plus sliding-scale clinics and how to ask for a lower rate.</p><span class="tag" data-i18n="g_tag">Guide</span></article>
+        <article class="guide"><h3 data-i18n="g3h">Work and school</h3><p data-i18n="g3">Asking for accommodations, taking leave, and writing the email when you can't write the email.</p><span class="tag" data-i18n="g_tag">Guide</span></article>
+        <article class="guide"><h3 data-i18n="g4h">Housing and benefits</h3><p data-i18n="g4">Where to start when stress puts rent, food, or paperwork at risk, and how to find local services that help you fill it out.</p><span class="tag" data-i18n="g_tag">Guide</span></article>
+        <article class="guide"><h3 data-i18n="g5h">Relationships</h3><p data-i18n="g5">Setting boundaries, talking to family, and supporting a friend without burning yourself out.</p><span class="tag" data-i18n="g_tag">Guide</span></article>
+        <article class="guide"><h3 data-i18n="g6h">Reading the news about your own brain</h3><p data-i18n="g6">How to judge a source, what screening tools can and cannot tell you, and why a quiz is not a diagnosis.</p><span class="tag" data-i18n="g_tag">Guide</span></article>
+        <a class="guide warn" href="avoid-scientology.html"><h3 data-i18n="g7h">Avoiding Scientology</h3><p data-i18n="g7">Why I hate it, how its recruiters and front groups approach you, and how to say no. A personal page.</p><span class="tag" data-i18n="g7tag">Read the page</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="grounding">
+    <div class="wrap">
+      <div class="kicker" data-i18n="r_kicker">Right now</div>
+      <h2 data-i18n="r_h2">Two ways to slow down in under two minutes</h2>
+      <div class="tool">
+        <div class="breath">
+          <div class="orb" id="orb" aria-hidden="true"></div>
+          <div id="breathLabel" aria-live="polite" style="color:var(--muted);font-size:15px;text-align:center"></div>
+          <button class="btn" id="breathBtn" type="button"></button>
+        </div>
+        <div>
+          <h3 style="font-size:22px" data-i18n="s_title">5-4-3-2-1 grounding</h3>
+          <p class="intro" style="margin-top:8px" data-i18n="s_intro">Look around and name, out loud or in your head:</p>
+          <ul class="senses">
+            <li><b>5</b><span data-i18n="s5">things you can see</span></li>
+            <li><b>4</b><span data-i18n="s4">things you can touch</span></li>
+            <li><b>3</b><span data-i18n="s3">things you can hear</span></li>
+            <li><b>2</b><span data-i18n="s2">things you can smell</span></li>
+            <li><b>1</b><span data-i18n="s1">thing you can taste</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="involved">
+    <div class="wrap">
+      <div class="kicker" data-i18n="nav_involved">Get involved</div>
+      <h2 data-i18n="i_h2">Help us reach the next person</h2>
+      <div class="help">
+        <div><h3 data-i18n="i1h">Volunteer</h3><p data-i18n="i1">Help review guides, translate them, or staff a peer-support listening line after training.</p></div>
+        <div><h3 data-i18n="i2h">Donate</h3><p data-i18n="i2">Gifts fund free guides, training, and plain-language translations. Donation setup is coming soon.</p></div>
+        <div><h3 data-i18n="i3h">Partner with us</h3><p data-i18n="i3">Clinics, schools, libraries, and employers can share our guides with the people they serve.</p></div>
+        <div><h3 data-i18n="i4h">Share your story</h3><p data-i18n="i4">Only if you want to, and only in your own words. We never publish without your written approval.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="about">
+    <div class="wrap">
+      <div class="kicker" data-i18n="nav_about">About</div>
+      <h2 data-i18n="a_h2">What we promise</h2>
+      <ul class="principles">
+        <li><strong data-i18n="p1h">Plain language.</strong> <span data-i18n="p1">If a sentence needs a dictionary, we rewrite it.</span></li>
+        <li><strong data-i18n="p2h">Sources you can check.</strong> <span data-i18n="p2">Every guide links to where its claims come from.</span></li>
+        <li><strong data-i18n="p3h">Global, locally aware.</strong> <span data-i18n="p3">Mental health is universal, but systems and words are not. Guides start with principles that travel and point to local services. Translations are drafts and we are improving them with native speakers.</span></li>
+        <li><strong data-i18n="p4h">No diagnosing, no scoring.</strong> <span data-i18n="p4">We explain and point you to people who can help. We do not replace them.</span></li>
+        <li><strong data-i18n="p5h">Your information stays yours.</strong> <span data-i18n="p5">This site does not collect or store what you tell it.</span></li>
+        <li><strong data-i18n="p6h">Equity first.</strong> <span data-i18n="p6">Care is easier to reach for some people than others, and differs a lot between countries. Our guides say so and plan around it.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block alt" id="contact">
+    <div class="wrap">
+      <div class="kicker" data-i18n="ct_k">Contact</div>
+      <h2 data-i18n="ct_h2">Get in touch</h2>
+      <p class="intro" data-i18n="ct_note">We read every message but cannot respond to emergencies. This is not a crisis line. If you need urgent help, use the numbers at the top of the page.</p>
+      <dl class="contact">
+        <div><dt data-i18n="ct_biz">Business and partnerships</dt><dd><a id="mailBiz" href="#contact"></a></dd></div>
+        <div><dt data-i18n="ct_pers">Personal inquiries</dt><dd><a id="mailPers" href="#contact"></a></dd></div>
+        <div><dt data-i18n="ct_ph">Phone</dt><dd><a id="telNum" href="#contact"></a></dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p data-i18n="age">This site is for adults aged 18 and older.</p>
+    <p><strong>Planet Hoto</strong> <span data-i18n="ft1">is an international educational nonprofit project in development.</span></p>
+    <p><span data-i18n="ft2">Nothing here is medical advice, diagnosis, or treatment. If you are in danger, call your local emergency number. Crisis lines listed here can change, so please confirm locally.</span> <a href="https://findahelpline.com" rel="noopener" data-i18n="ft3">More countries: findahelpline.com</a></p>
+  </div>
+</footer>
+
+<script>
+var T = {};
+T.en = {
+ skip:"Skip to content", country:"Your country", lang_label:"Language",
+ nav_guides:"Guides", nav_grounding:"Grounding", nav_involved:"Get involved", nav_about:"About",
+ c_crisis:"In crisis or thinking about suicide?", c_danger:"In immediate danger, call", c_more:"More countries:",
+ c_other:"In immediate danger? Call your local emergency number (112 works in many countries). Find a crisis line at",
+ m_c:"call", m_t:"text", m_ct:"call or text",
+ h1a:"Mental health support, and a map for", h1em:"getting through the world,", h1b:"wherever you are.",
+ lede:"We are a nonprofit that explains mental health in plain language and helps people deal with the practical side of life: finding care, paying for it, keeping a job, keeping a home, and asking for help.",
+ cta1:"Find a next step", cta2:"Try a calming exercise",
+ f_title:"What is going on right now?", f_sub:"Pick the closest one. You get a few small steps, nothing is saved or sent.",
+ chip_overwhelmed:"I feel overwhelmed", chip_care:"I need a therapist", chip_cost:"I can't afford care", chip_work:"It's hurting my work or school", chip_friend:"Someone I know is struggling",
+ st:{
+  overwhelmed:{t:"When everything feels like too much", s:["Try the breathing exercise below for two minutes.","Write down the one thing that has to happen today. Leave the rest.","Tell one person you trust: \"I'm having a hard time. Can you stay with me for a bit?\""], n:"If you feel unsafe, use the crisis line at the top of this page now."},
+  care:{t:"Starting the search for a therapist", s:["Decide what matters most: cost, location, language, or a therapist with a similar background.","Search your national health service or insurer directory, or a community mental health center if you have none.","Send the same short message to three people: \"I'm looking for a new client appointment. Do you have openings, and what is your rate?\""], n:"It is normal to meet more than one therapist before one feels right."},
+  cost:{t:"Care on a tight budget", s:["Ask any clinic: \"Do you have a sliding-scale fee?\"","Look for community mental health centers, university training clinics, charities, and peer support groups. Many offer online sessions.","Ask your employer about an employee assistance program, or your public health service about free sessions."], n:"Asking about price is allowed. Clinics hear it every day."},
+  work:{t:"When it is affecting work or school", s:["Look up your workplace or school's support process. It is usually handled by HR, a union rep, or a student services office. Rules differ by country.","Ask a clinician for a short note that lists what you need, not your full history.","Send a plain request: \"I'd like to discuss support that would help me do my job well.\""], n:"You do not have to share a diagnosis to ask for flexibility. Check your local rules on leave and accommodations."},
+  friend:{t:"Supporting someone you care about", s:["Ask directly and calmly: \"I've noticed you seem down. How are you really doing?\"","Listen first. Skip fixing and skip comparing.","Offer one specific help, like finding a number or going with them to an appointment."], n:"If they mention suicide, stay with them and contact a crisis line or emergency number together."}
+ },
+ g_kicker:"Navigating the world", g_h2:"Practical guides for the parts nobody explains",
+ g_intro:"Feeling better often depends on boring logistics. Each guide is written in short sections, with scripts you can copy and the questions worth asking.", g_tag:"Guide",
+ g1h:"Finding care", g1:"Therapist, counselor, psychiatrist, peer support: what each one does, how to search, and what to say on the first call.",
+ g2h:"Paying for it", g2:"Public health systems, insurance, and charity care explained, plus sliding-scale clinics and how to ask for a lower rate.",
+ g3h:"Work and school", g3:"Asking for accommodations, taking leave, and writing the email when you can't write the email.",
+ g4h:"Housing and benefits", g4:"Where to start when stress puts rent, food, or paperwork at risk, and how to find local services that help you fill it out.",
+ g5h:"Relationships", g5:"Setting boundaries, talking to family, and supporting a friend without burning yourself out.",
+ g6h:"Reading the news about your own brain", g6:"How to judge a source, what screening tools can and cannot tell you, and why a quiz is not a diagnosis.",
+ r_kicker:"Right now", r_h2:"Two ways to slow down in under two minutes",
+ b_ready:"Ready", b_in:"In", b_out:"Out", b_idle:"Breathe in for 4, out for 6.", b_run:"Follow the circle. Breathe in for 4, out for 6.", b_start:"Start breathing", b_stop:"Stop",
+ s_title:"5-4-3-2-1 grounding", s_intro:"Look around and name, out loud or in your head:",
+ s5:"things you can see", s4:"things you can touch", s3:"things you can hear", s2:"things you can smell", s1:"thing you can taste",
+ i_h2:"Help us reach the next person",
+ i1h:"Volunteer", i1:"Help review guides, translate them, or staff a peer-support listening line after training.",
+ i2h:"Donate", i2:"Gifts fund free guides, training, and plain-language translations. Donation setup is coming soon.",
+ i3h:"Partner with us", i3:"Clinics, schools, libraries, and employers can share our guides with the people they serve.",
+ i4h:"Share your story", i4:"Only if you want to, and only in your own words. We never publish without your written approval.",
+ a_h2:"What we promise",
+ p1h:"Plain language.", p1:"If a sentence needs a dictionary, we rewrite it.",
+ p2h:"Sources you can check.", p2:"Every guide links to where its claims come from.",
+ p3h:"Global, locally aware.", p3:"Mental health is universal, but systems and words are not. Guides start with principles that travel and point to local services. Translations are drafts and we are improving them with native speakers.",
+ p4h:"No diagnosing, no scoring.", p4:"We explain and point you to people who can help. We do not replace them.",
+ p5h:"Your information stays yours.", p5:"This site does not collect or store what you tell it.",
+ p6h:"Equity first.", p6:"Care is easier to reach for some people than others, and differs a lot between countries. Our guides say so and plan around it.",
+ ft1:"is an international educational nonprofit project in development.",
+ ft2:"Nothing here is medical advice, diagnosis, or treatment. If you are in danger, call your local emergency number. Crisis lines listed here can change, so please confirm locally.",
+ ft3:"More countries: findahelpline.com"
+};
+T.es = {
+ skip:"Saltar al contenido", country:"Tu país", lang_label:"Idioma",
+ nav_guides:"Guías", nav_grounding:"Calma", nav_involved:"Participa", nav_about:"Nosotros",
+ c_crisis:"¿En crisis o pensando en el suicidio?", c_danger:"Si estás en peligro inmediato, llama al", c_more:"Más países:",
+ c_other:"¿En peligro inmediato? Llama a tu número de emergencias local (el 112 funciona en muchos países). Encuentra una línea de crisis en",
+ m_c:"llamada", m_t:"mensaje", m_ct:"llamada o mensaje",
+ h1a:"Apoyo en salud mental y un mapa para", h1em:"abrirte camino en el mundo,", h1b:"estés donde estés.",
+ lede:"Somos una organización sin fines de lucro que explica la salud mental con palabras sencillas y ayuda con la parte práctica de la vida: encontrar atención, pagarla, conservar el trabajo y el hogar, y pedir ayuda.",
+ cta1:"Encuentra un siguiente paso", cta2:"Prueba un ejercicio de calma",
+ f_title:"¿Qué está pasando ahora mismo?", f_sub:"Elige lo que más se acerque. Recibirás unos pasos pequeños; no se guarda ni se envía nada.",
+ chip_overwhelmed:"Me siento desbordado/a", chip_care:"Necesito un terapeuta", chip_cost:"No puedo pagar la atención", chip_work:"Afecta mi trabajo o mis estudios", chip_friend:"Alguien cercano está sufriendo",
+ st:{
+  overwhelmed:{t:"Cuando todo parece demasiado", s:["Prueba el ejercicio de respiración de más abajo durante dos minutos.","Anota lo único que tiene que pasar hoy. Deja el resto.","Díselo a alguien de confianza: «Lo estoy pasando mal. ¿Puedes quedarte conmigo un rato?»"], n:"Si no te sientes seguro/a, usa ahora la línea de crisis que aparece arriba."},
+  care:{t:"Empezar a buscar un terapeuta", s:["Decide qué importa más: costo, ubicación, idioma o un terapeuta con una trayectoria parecida a la tuya.","Busca en el directorio de tu sistema de salud o aseguradora, o en un centro comunitario de salud mental si no tienes.","Envía el mismo mensaje breve a tres personas: «Busco cita como nuevo paciente. ¿Tienen disponibilidad y cuál es su tarifa?»"], n:"Es normal conocer a más de un terapeuta hasta encontrar a quien te convenza."},
+  cost:{t:"Atención con poco presupuesto", s:["Pregunta en cualquier clínica: «¿Tienen tarifa según ingresos?»","Busca centros comunitarios de salud mental, clínicas de formación universitarias, organizaciones benéficas y grupos de apoyo entre pares. Muchos ofrecen sesiones en línea.","Pregunta en tu empresa por un programa de asistencia al empleado, o en tu servicio público de salud por sesiones gratuitas."], n:"Preguntar por el precio está permitido. Las clínicas lo oyen a diario."},
+  work:{t:"Cuando afecta al trabajo o a los estudios", s:["Averigua cómo gestiona tu empresa o centro de estudios el apoyo. Suele encargarse recursos humanos, un representante sindical o servicios estudiantiles. Las normas varían según el país.","Pide a un profesional un breve informe con lo que necesitas, sin todo tu historial.","Envía una petición sencilla: «Me gustaría hablar de apoyos que me ayuden a hacer bien mi trabajo.»"], n:"No tienes que compartir un diagnóstico para pedir flexibilidad. Consulta las normas locales sobre licencias y adaptaciones."},
+  friend:{t:"Apoyar a alguien que te importa", s:["Pregunta con calma y de forma directa: «He notado que estás decaído/a. ¿Cómo estás de verdad?»","Primero escucha. No intentes arreglarlo ni compares.","Ofrece una ayuda concreta, como buscar un teléfono o acompañarle a una cita."], n:"Si habla de suicidio, quédate con esa persona y contacten juntos una línea de crisis o el número de emergencias."}
+ },
+ g_kicker:"Cómo moverse por el mundo", g_h2:"Guías prácticas para lo que nadie explica",
+ g_intro:"Sentirse mejor suele depender de trámites aburridos. Cada guía tiene secciones cortas, guiones que puedes copiar y las preguntas que conviene hacer.", g_tag:"Guía",
+ g1h:"Encontrar atención", g1:"Terapeuta, orientador, psiquiatra, apoyo entre pares: qué hace cada uno, cómo buscar y qué decir en la primera llamada.",
+ g2h:"Pagar la atención", g2:"Sistemas públicos de salud, seguros y atención solidaria explicados, además de clínicas con tarifa según ingresos y cómo pedir un precio menor.",
+ g3h:"Trabajo y estudios", g3:"Pedir adaptaciones, tomar una licencia y escribir el correo cuando no puedes escribir el correo.",
+ g4h:"Vivienda y ayudas", g4:"Por dónde empezar cuando el estrés pone en riesgo el alquiler, la comida o los trámites, y cómo encontrar servicios locales que te ayuden a completarlos.",
+ g5h:"Relaciones", g5:"Poner límites, hablar con la familia y apoyar a un amigo sin agotarte.",
+ g6h:"Leer noticias sobre tu propio cerebro", g6:"Cómo juzgar una fuente, qué pueden y qué no pueden decirte los cuestionarios de detección y por qué un test no es un diagnóstico.",
+ r_kicker:"Ahora mismo", r_h2:"Dos formas de calmarte en menos de dos minutos",
+ b_ready:"Listo", b_in:"Inhala", b_out:"Exhala", b_idle:"Inhala 4 segundos, exhala 6.", b_run:"Sigue el círculo. Inhala 4 segundos, exhala 6.", b_start:"Empezar a respirar", b_stop:"Detener",
+ s_title:"Anclaje 5-4-3-2-1", s_intro:"Mira a tu alrededor y nombra, en voz alta o mentalmente:",
+ s5:"cosas que puedes ver", s4:"cosas que puedes tocar", s3:"sonidos que puedes oír", s2:"olores que puedes percibir", s1:"sabor que puedes notar",
+ i_h2:"Ayúdanos a llegar a la siguiente persona",
+ i1h:"Voluntariado", i1:"Ayuda a revisar guías, a traducirlas o a atender una línea de escucha entre pares tras recibir formación.",
+ i2h:"Donar", i2:"Las donaciones financian guías gratuitas, formación y traducciones en lenguaje sencillo. La opción de donar llegará pronto.",
+ i3h:"Colabora con nosotros", i3:"Clínicas, escuelas, bibliotecas y empresas pueden compartir nuestras guías con las personas a las que atienden.",
+ i4h:"Cuenta tu historia", i4:"Solo si quieres y con tus propias palabras. Nunca publicamos sin tu aprobación por escrito.",
+ a_h2:"Lo que prometemos",
+ p1h:"Lenguaje sencillo.", p1:"Si una frase necesita un diccionario, la reescribimos.",
+ p2h:"Fuentes que puedes comprobar.", p2:"Cada guía enlaza el origen de lo que afirma.",
+ p3h:"Global y atento a lo local.", p3:"La salud mental es universal, pero los sistemas y las palabras no. Las guías parten de principios que sirven en cualquier lugar y remiten a servicios locales. Las traducciones son borradores y las mejoramos con hablantes nativos.",
+ p4h:"Sin diagnósticos ni puntuaciones.", p4:"Explicamos y te orientamos hacia quienes pueden ayudar. No los sustituimos.",
+ p5h:"Tu información es tuya.", p5:"Este sitio no recoge ni guarda lo que le cuentas.",
+ p6h:"La equidad primero.", p6:"Llegar a la atención es más fácil para unas personas que para otras, y cambia mucho entre países. Nuestras guías lo dicen y lo tienen en cuenta.",
+ ft1:"es un proyecto educativo internacional sin fines de lucro, en desarrollo.",
+ ft2:"Nada de lo que aparece aquí es consejo médico, diagnóstico ni tratamiento. Si estás en peligro, llama a tu número de emergencias local. Las líneas de crisis pueden cambiar, así que confírmalas en tu zona.",
+ ft3:"Más países: findahelpline.com"
+};
+T.pt = {
+ skip:"Pular para o conteúdo", country:"Seu país", lang_label:"Idioma",
+ nav_guides:"Guias", nav_grounding:"Calma", nav_involved:"Participe", nav_about:"Sobre",
+ c_crisis:"Em crise ou pensando em suicídio?", c_danger:"Em perigo imediato, ligue para", c_more:"Mais países:",
+ c_other:"Em perigo imediato? Ligue para o número de emergência local (o 112 funciona em muitos países). Encontre uma linha de crise em",
+ m_c:"ligação", m_t:"mensagem", m_ct:"ligação ou mensagem",
+ h1a:"Apoio em saúde mental e um mapa para", h1em:"atravessar o mundo,", h1b:"onde quer que você esteja.",
+ lede:"Somos uma organização sem fins lucrativos que explica saúde mental em linguagem simples e ajuda com o lado prático da vida: encontrar atendimento, pagar por ele, manter o emprego e a moradia e pedir ajuda.",
+ cta1:"Encontre um próximo passo", cta2:"Experimente um exercício de calma",
+ f_title:"O que está acontecendo agora?", f_sub:"Escolha a opção mais próxima. Você recebe alguns passos pequenos; nada é salvo nem enviado.",
+ chip_overwhelmed:"Estou sobrecarregado(a)", chip_care:"Preciso de um terapeuta", chip_cost:"Não consigo pagar pelo atendimento", chip_work:"Está afetando meu trabalho ou estudos", chip_friend:"Alguém próximo está sofrendo",
+ st:{
+  overwhelmed:{t:"Quando tudo parece demais", s:["Faça o exercício de respiração abaixo por dois minutos.","Anote a única coisa que precisa acontecer hoje. Deixe o resto.","Diga a alguém de confiança: \"Estou passando por um momento difícil. Você pode ficar comigo um pouco?\""], n:"Se não se sentir seguro(a), use agora a linha de crise no topo desta página."},
+  care:{t:"Começando a busca por um terapeuta", s:["Decida o que mais importa: custo, localização, idioma ou um terapeuta com trajetória parecida com a sua.","Pesquise no diretório do seu sistema de saúde ou plano, ou em um centro comunitário de saúde mental se não tiver plano.","Envie a mesma mensagem curta a três pessoas: \"Estou procurando uma consulta como novo paciente. Há vagas e qual é o valor?\""], n:"É normal conhecer mais de um terapeuta até encontrar o certo."},
+  cost:{t:"Atendimento com orçamento apertado", s:["Pergunte em qualquer clínica: \"Vocês têm valor social ou escala por renda?\"","Procure centros comunitários de saúde mental, clínicas-escola de universidades, instituições beneficentes e grupos de apoio. Muitos oferecem sessões on-line.","Pergunte ao seu empregador sobre um programa de assistência ao funcionário, ou ao serviço público de saúde sobre sessões gratuitas."], n:"Perguntar o preço é permitido. As clínicas ouvem isso todo dia."},
+  work:{t:"Quando afeta o trabalho ou os estudos", s:["Descubra como seu local de trabalho ou escola trata o apoio. Em geral é o RH, o sindicato ou a secretaria estudantil. As regras variam de país para país.","Peça a um profissional uma nota curta com o que você precisa, sem todo o seu histórico.","Envie um pedido simples: \"Gostaria de conversar sobre apoios que me ajudem a trabalhar bem.\""], n:"Você não precisa revelar um diagnóstico para pedir flexibilidade. Confira as regras locais sobre licenças e adaptações."},
+  friend:{t:"Apoiando alguém de quem você gosta", s:["Pergunte com calma e diretamente: \"Notei que você parece abatido(a). Como você está de verdade?\"","Primeiro ouça. Não tente resolver nem comparar.","Ofereça uma ajuda específica, como procurar um telefone ou acompanhar a pessoa a uma consulta."], n:"Se a pessoa falar em suicídio, fique com ela e entrem juntos em contato com uma linha de crise ou com a emergência."}
+ },
+ g_kicker:"Navegando pelo mundo", g_h2:"Guias práticos para o que ninguém explica",
+ g_intro:"Sentir-se melhor muitas vezes depende de burocracia chata. Cada guia tem seções curtas, roteiros que você pode copiar e as perguntas que vale fazer.", g_tag:"Guia",
+ g1h:"Encontrar atendimento", g1:"Terapeuta, psicólogo, psiquiatra, apoio entre pares: o que cada um faz, como buscar e o que dizer na primeira ligação.",
+ g2h:"Como pagar", g2:"Sistemas públicos de saúde, planos e atendimento solidário explicados, além de clínicas com valor social e como pedir um preço menor.",
+ g3h:"Trabalho e estudos", g3:"Pedir adaptações, tirar licença e escrever o e-mail quando você não consegue escrever o e-mail.",
+ g4h:"Moradia e benefícios", g4:"Por onde começar quando o estresse coloca aluguel, comida ou documentos em risco, e como encontrar serviços locais que ajudem a preenchê-los.",
+ g5h:"Relacionamentos", g5:"Estabelecer limites, conversar com a família e apoiar um amigo sem se esgotar.",
+ g6h:"Lendo notícias sobre o seu próprio cérebro", g6:"Como avaliar uma fonte, o que as ferramentas de triagem podem e não podem dizer e por que um teste não é um diagnóstico.",
+ r_kicker:"Agora", r_h2:"Duas formas de desacelerar em menos de dois minutos",
+ b_ready:"Pronto", b_in:"Inspire", b_out:"Expire", b_idle:"Inspire por 4 segundos, expire por 6.", b_run:"Acompanhe o círculo. Inspire por 4 segundos, expire por 6.", b_start:"Começar a respirar", b_stop:"Parar",
+ s_title:"Aterramento 5-4-3-2-1", s_intro:"Olhe ao redor e nomeie, em voz alta ou mentalmente:",
+ s5:"coisas que você vê", s4:"coisas que você pode tocar", s3:"sons que você ouve", s2:"cheiros que você sente", s1:"gosto que você percebe",
+ i_h2:"Ajude-nos a alcançar a próxima pessoa",
+ i1h:"Seja voluntário", i1:"Ajude a revisar guias, traduzi-los ou atender uma linha de escuta entre pares após treinamento.",
+ i2h:"Doe", i2:"As doações financiam guias gratuitos, treinamento e traduções em linguagem simples. A doação estará disponível em breve.",
+ i3h:"Seja parceiro", i3:"Clínicas, escolas, bibliotecas e empresas podem compartilhar nossos guias com as pessoas que atendem.",
+ i4h:"Conte sua história", i4:"Só se quiser e apenas com suas palavras. Nunca publicamos sem sua aprovação por escrito.",
+ a_h2:"O que prometemos",
+ p1h:"Linguagem simples.", p1:"Se uma frase precisa de dicionário, nós a reescrevemos.",
+ p2h:"Fontes que você pode conferir.", p2:"Cada guia aponta de onde vêm suas afirmações.",
+ p3h:"Global e atento ao local.", p3:"A saúde mental é universal, mas sistemas e palavras não são. Os guias partem de princípios que valem em qualquer lugar e indicam serviços locais. As traduções são rascunhos e as estamos melhorando com falantes nativos.",
+ p4h:"Sem diagnóstico, sem pontuação.", p4:"Explicamos e indicamos quem pode ajudar. Não substituímos essas pessoas.",
+ p5h:"Suas informações são suas.", p5:"Este site não coleta nem guarda o que você informa.",
+ p6h:"Equidade em primeiro lugar.", p6:"O atendimento é mais fácil de alcançar para algumas pessoas do que para outras e muda muito entre países. Nossos guias dizem isso e levam em conta.",
+ ft1:"é um projeto educativo internacional sem fins lucrativos, em desenvolvimento.",
+ ft2:"Nada aqui é aconselhamento médico, diagnóstico ou tratamento. Se estiver em perigo, ligue para o número de emergência local. As linhas de crise podem mudar, então confirme na sua região.",
+ ft3:"Mais países: findahelpline.com"
+};
+T.fr = {
+ skip:"Aller au contenu", country:"Votre pays", lang_label:"Langue",
+ nav_guides:"Guides", nav_grounding:"Apaisement", nav_involved:"S'impliquer", nav_about:"À propos",
+ c_crisis:"En crise ou des idées suicidaires ?", c_danger:"En danger immédiat, appelez le", c_more:"Autres pays :",
+ c_other:"En danger immédiat ? Appelez votre numéro d'urgence local (le 112 fonctionne dans de nombreux pays). Trouvez une ligne d'écoute sur",
+ m_c:"appel", m_t:"SMS", m_ct:"appel ou SMS",
+ h1a:"Un soutien en santé mentale et une carte pour", h1em:"traverser le monde,", h1b:"où que vous soyez.",
+ lede:"Nous sommes une association à but non lucratif qui explique la santé mentale en langage simple et aide pour le côté pratique de la vie : trouver des soins, les payer, garder un emploi et un logement, et demander de l'aide.",
+ cta1:"Trouver une prochaine étape", cta2:"Essayer un exercice d'apaisement",
+ f_title:"Que se passe-t-il en ce moment ?", f_sub:"Choisissez ce qui s'en approche le plus. Vous recevez quelques petites étapes ; rien n'est enregistré ni envoyé.",
+ chip_overwhelmed:"Je suis submergé(e)", chip_care:"Je cherche un thérapeute", chip_cost:"Je n'ai pas les moyens de me soigner", chip_work:"Ça affecte mon travail ou mes études", chip_friend:"Un proche va mal",
+ st:{
+  overwhelmed:{t:"Quand tout semble trop", s:["Essayez l'exercice de respiration ci-dessous pendant deux minutes.","Notez la seule chose qui doit absolument se faire aujourd'hui. Laissez le reste.","Dites à une personne de confiance : « Je traverse un moment difficile. Peux-tu rester un peu avec moi ? »"], n:"Si vous ne vous sentez pas en sécurité, utilisez dès maintenant la ligne d'écoute indiquée en haut de la page."},
+  care:{t:"Commencer à chercher un thérapeute", s:["Décidez ce qui compte le plus : coût, lieu, langue ou un thérapeute avec un parcours proche du vôtre.","Cherchez dans l'annuaire de votre système de santé ou de votre assureur, ou dans un centre de santé mentale de proximité si vous n'en avez pas.","Envoyez le même court message à trois personnes : « Je cherche un rendez-vous en tant que nouveau patient. Avez-vous des disponibilités et quel est votre tarif ? »"], n:"Il est normal de rencontrer plusieurs thérapeutes avant de trouver le bon."},
+  cost:{t:"Se soigner avec un petit budget", s:["Demandez à n'importe quelle clinique : « Avez-vous un tarif adapté aux revenus ? »","Cherchez des centres de santé mentale de proximité, des cliniques universitaires de formation, des associations et des groupes de soutien entre pairs. Beaucoup proposent des séances en ligne.","Interrogez votre employeur sur un programme d'aide aux employés, ou le service public de santé sur des séances gratuites."], n:"Poser la question du prix est permis. Les cliniques l'entendent tous les jours."},
+  work:{t:"Quand cela touche le travail ou les études", s:["Renseignez-vous sur la procédure de soutien de votre entreprise ou établissement. Elle passe souvent par les RH, un délégué syndical ou le service étudiant. Les règles varient selon les pays.","Demandez à un professionnel une courte attestation indiquant ce dont vous avez besoin, sans tout votre historique.","Envoyez une demande simple : « Je voudrais discuter des aménagements qui m'aideraient à bien faire mon travail. »"], n:"Vous n'avez pas à partager un diagnostic pour demander de la souplesse. Vérifiez les règles locales sur les congés et aménagements."},
+  friend:{t:"Soutenir une personne qui compte pour vous", s:["Demandez calmement et directement : « J'ai remarqué que tu avais l'air triste. Comment vas-tu vraiment ? »","Écoutez d'abord. Ne cherchez ni à réparer ni à comparer.","Proposez une aide précise, comme chercher un numéro ou l'accompagner à un rendez-vous."], n:"Si la personne évoque le suicide, restez avec elle et contactez ensemble une ligne d'écoute ou les urgences."}
+ },
+ g_kicker:"S'orienter dans le monde", g_h2:"Des guides pratiques pour ce que personne n'explique",
+ g_intro:"Aller mieux dépend souvent de démarches ennuyeuses. Chaque guide est écrit en sections courtes, avec des phrases à copier et les questions à poser.", g_tag:"Guide",
+ g1h:"Trouver des soins", g1:"Thérapeute, psychologue, psychiatre, soutien entre pairs : le rôle de chacun, comment chercher et que dire lors du premier appel.",
+ g2h:"Payer les soins", g2:"Systèmes publics de santé, assurances et soins solidaires expliqués, plus les cliniques à tarif adapté et comment demander un prix plus bas.",
+ g3h:"Travail et études", g3:"Demander des aménagements, prendre un congé et écrire le courriel quand on n'arrive pas à l'écrire.",
+ g4h:"Logement et aides", g4:"Par où commencer quand le stress met en danger le loyer, la nourriture ou les papiers, et comment trouver des services locaux qui aident à les remplir.",
+ g5h:"Relations", g5:"Poser des limites, parler à sa famille et soutenir un ami sans s'épuiser.",
+ g6h:"Lire l'actualité sur son propre cerveau", g6:"Comment juger une source, ce que les outils de dépistage peuvent et ne peuvent pas dire, et pourquoi un quiz n'est pas un diagnostic.",
+ r_kicker:"Maintenant", r_h2:"Deux façons de ralentir en moins de deux minutes",
+ b_ready:"Prêt", b_in:"Inspirez", b_out:"Expirez", b_idle:"Inspirez 4 secondes, expirez 6.", b_run:"Suivez le cercle. Inspirez 4 secondes, expirez 6.", b_start:"Commencer à respirer", b_stop:"Arrêter",
+ s_title:"Ancrage 5-4-3-2-1", s_intro:"Regardez autour de vous et nommez, à voix haute ou dans votre tête :",
+ s5:"choses que vous voyez", s4:"choses que vous pouvez toucher", s3:"sons que vous entendez", s2:"odeurs que vous sentez", s1:"goût que vous percevez",
+ i_h2:"Aidez-nous à atteindre la prochaine personne",
+ i1h:"Devenir bénévole", i1:"Aidez à relire les guides, à les traduire ou à tenir une ligne d'écoute entre pairs après une formation.",
+ i2h:"Faire un don", i2:"Les dons financent des guides gratuits, des formations et des traductions en langage simple. Les dons seront bientôt possibles.",
+ i3h:"Devenir partenaire", i3:"Cliniques, écoles, bibliothèques et employeurs peuvent partager nos guides avec les personnes qu'ils accompagnent.",
+ i4h:"Partager votre histoire", i4:"Seulement si vous le souhaitez, et avec vos propres mots. Nous ne publions jamais sans votre accord écrit.",
+ a_h2:"Nos engagements",
+ p1h:"Un langage simple.", p1:"Si une phrase demande un dictionnaire, nous la réécrivons.",
+ p2h:"Des sources vérifiables.", p2:"Chaque guide indique d'où viennent ses affirmations.",
+ p3h:"Mondial, attentif au local.", p3:"La santé mentale est universelle, mais les systèmes et les mots ne le sont pas. Les guides partent de principes valables partout et renvoient vers des services locaux. Les traductions sont des brouillons que nous améliorons avec des locuteurs natifs.",
+ p4h:"Ni diagnostic, ni score.", p4:"Nous expliquons et vous orientons vers des personnes qui peuvent aider. Nous ne les remplaçons pas.",
+ p5h:"Vos informations vous appartiennent.", p5:"Ce site ne collecte ni ne conserve ce que vous lui dites.",
+ p6h:"L'équité d'abord.", p6:"L'accès aux soins est plus facile pour certains que pour d'autres, et varie beaucoup selon les pays. Nos guides le disent et en tiennent compte.",
+ ft1:"est un projet éducatif international à but non lucratif, en cours de développement.",
+ ft2:"Rien ici ne constitue un avis médical, un diagnostic ou un traitement. Si vous êtes en danger, appelez votre numéro d'urgence local. Les lignes d'écoute peuvent changer : vérifiez-les localement.",
+ ft3:"Autres pays : findahelpline.com"
+};
+T.de = {
+ skip:"Zum Inhalt springen", country:"Dein Land", lang_label:"Sprache",
+ nav_guides:"Ratgeber", nav_grounding:"Beruhigung", nav_involved:"Mitmachen", nav_about:"Über uns",
+ c_crisis:"In einer Krise oder Suizidgedanken?", c_danger:"Bei akuter Gefahr ruf an:", c_more:"Weitere Länder:",
+ c_other:"Akute Gefahr? Wähle den örtlichen Notruf (die 112 gilt in vielen Ländern). Eine Krisenlinie findest du auf",
+ m_c:"Anruf", m_t:"SMS", m_ct:"Anruf oder SMS",
+ h1a:"Unterstützung für die psychische Gesundheit und eine Landkarte, um", h1em:"sich in der Welt zurechtzufinden,", h1b:"wo auch immer du bist.",
+ lede:"Wir sind eine gemeinnützige Organisation, die psychische Gesundheit in einfacher Sprache erklärt und bei den praktischen Seiten des Lebens hilft: Hilfe finden, sie bezahlen, Job und Wohnung behalten und um Unterstützung bitten.",
+ cta1:"Nächsten Schritt finden", cta2:"Beruhigungsübung ausprobieren",
+ f_title:"Was ist gerade los?", f_sub:"Wähle das Naheliegendste. Du bekommst ein paar kleine Schritte; nichts wird gespeichert oder gesendet.",
+ chip_overwhelmed:"Ich bin überfordert", chip_care:"Ich brauche eine Therapie", chip_cost:"Ich kann mir Hilfe nicht leisten", chip_work:"Es belastet Arbeit oder Studium", chip_friend:"Jemand in meinem Umfeld leidet",
+ st:{
+  overwhelmed:{t:"Wenn alles zu viel ist", s:["Probiere unten zwei Minuten lang die Atemübung aus.","Schreib das Eine auf, das heute geschehen muss. Der Rest kann warten.","Sag einer Vertrauensperson: „Mir geht es gerade schlecht. Kannst du eine Weile bei mir bleiben?“"], n:"Wenn du dich nicht sicher fühlst, nutze jetzt die Krisenlinie oben auf dieser Seite."},
+  care:{t:"Die Suche nach einer Therapie beginnen", s:["Entscheide, was dir am wichtigsten ist: Kosten, Ort, Sprache oder Therapeut:innen mit ähnlichem Hintergrund.","Suche im Verzeichnis deiner Krankenkasse oder deines Gesundheitssystems, oder bei einer Beratungsstelle, wenn du nichts davon hast.","Schick dieselbe kurze Nachricht an drei Praxen: „Ich suche einen Termin als neue Patientin / neuer Patient. Gibt es freie Plätze, und was kostet es?“"], n:"Es ist normal, mehrere Therapeut:innen kennenzulernen, bis es passt."},
+  cost:{t:"Hilfe mit kleinem Budget", s:["Frag in jeder Praxis: „Gibt es einen einkommensabhängigen Tarif?“","Suche Beratungsstellen, Ausbildungsambulanzen von Universitäten, gemeinnützige Träger und Selbsthilfegruppen. Viele bieten Online-Termine.","Frag deinen Arbeitgeber nach einem Mitarbeiterhilfeprogramm oder den öffentlichen Gesundheitsdienst nach kostenlosen Terminen."], n:"Nach dem Preis zu fragen ist völlig in Ordnung. Praxen hören das täglich."},
+  work:{t:"Wenn es Arbeit oder Studium beeinträchtigt", s:["Finde heraus, wie dein Betrieb oder deine Hochschule Unterstützung regelt. Meist sind Personalabteilung, Betriebsrat oder Studierendenservice zuständig. Die Regeln unterscheiden sich je nach Land.","Bitte eine Fachperson um ein kurzes Schreiben, das aufführt, was du brauchst, ohne deine ganze Geschichte.","Schick eine schlichte Anfrage: „Ich würde gern besprechen, welche Unterstützung mir helfen würde, meine Arbeit gut zu machen.“"], n:"Du musst keine Diagnose offenlegen, um Flexibilität zu erbitten. Prüfe die örtlichen Regeln zu Freistellung und Anpassungen."},
+  friend:{t:"Jemanden unterstützen, der dir wichtig ist", s:["Frag ruhig und direkt: „Mir ist aufgefallen, dass es dir nicht gut geht. Wie geht es dir wirklich?“","Hör zuerst zu. Versuche nicht zu lösen oder zu vergleichen.","Biete eine konkrete Hilfe an, etwa eine Nummer zu suchen oder zu einem Termin mitzukommen."], n:"Wenn die Person von Suizid spricht, bleib bei ihr und kontaktiert gemeinsam eine Krisenlinie oder den Notruf."}
+ },
+ g_kicker:"Sich in der Welt zurechtfinden", g_h2:"Praktische Ratgeber für das, was niemand erklärt",
+ g_intro:"Besserung hängt oft an lästigen Formalitäten. Jeder Ratgeber besteht aus kurzen Abschnitten mit Formulierungen zum Kopieren und den Fragen, die sich lohnen.", g_tag:"Ratgeber",
+ g1h:"Hilfe finden", g1:"Therapeut:in, Berater:in, Psychiater:in, Peer-Support: Was jede Rolle tut, wie du suchst und was du beim ersten Anruf sagst.",
+ g2h:"Die Kosten tragen", g2:"Öffentliche Gesundheitssysteme, Versicherungen und Hilfen von Wohlfahrtsträgern erklärt, dazu einkommensabhängige Angebote und wie du um einen niedrigeren Preis bittest.",
+ g3h:"Arbeit und Studium", g3:"Anpassungen beantragen, Auszeit nehmen und die E-Mail schreiben, wenn du die E-Mail nicht schreiben kannst.",
+ g4h:"Wohnen und Leistungen", g4:"Wo du anfängst, wenn Stress Miete, Essen oder Papierkram gefährdet, und wie du örtliche Stellen findest, die beim Ausfüllen helfen.",
+ g5h:"Beziehungen", g5:"Grenzen setzen, mit der Familie sprechen und Freunde unterstützen, ohne auszubrennen.",
+ g6h:"Nachrichten über das eigene Gehirn lesen", g6:"Wie du eine Quelle beurteilst, was Screening-Tests aussagen können und was nicht, und warum ein Quiz keine Diagnose ist.",
+ r_kicker:"Jetzt gleich", r_h2:"Zwei Wege, in unter zwei Minuten runterzukommen",
+ b_ready:"Bereit", b_in:"Ein", b_out:"Aus", b_idle:"4 Sekunden einatmen, 6 ausatmen.", b_run:"Folge dem Kreis. 4 Sekunden einatmen, 6 ausatmen.", b_start:"Atmung starten", b_stop:"Stopp",
+ s_title:"5-4-3-2-1-Übung", s_intro:"Schau dich um und benenne, laut oder im Kopf:",
+ s5:"Dinge, die du sehen kannst", s4:"Dinge, die du berühren kannst", s3:"Geräusche, die du hörst", s2:"Gerüche, die du wahrnimmst", s1:"Geschmack, den du spürst",
+ i_h2:"Hilf uns, den nächsten Menschen zu erreichen",
+ i1h:"Ehrenamtlich helfen", i1:"Hilf beim Prüfen und Übersetzen der Ratgeber oder betreue nach einer Schulung eine Zuhörlinie.",
+ i2h:"Spenden", i2:"Spenden finanzieren kostenlose Ratgeber, Schulungen und Übersetzungen in einfacher Sprache. Die Spendenfunktion folgt bald.",
+ i3h:"Partner werden", i3:"Praxen, Schulen, Bibliotheken und Arbeitgeber können unsere Ratgeber an die Menschen weitergeben, die sie begleiten.",
+ i4h:"Deine Geschichte teilen", i4:"Nur wenn du möchtest und in deinen eigenen Worten. Wir veröffentlichen nie ohne deine schriftliche Zustimmung.",
+ a_h2:"Unser Versprechen",
+ p1h:"Einfache Sprache.", p1:"Wenn ein Satz ein Wörterbuch braucht, schreiben wir ihn um.",
+ p2h:"Überprüfbare Quellen.", p2:"Jeder Ratgeber nennt, woher seine Aussagen stammen.",
+ p3h:"Weltweit, mit Blick fürs Lokale.", p3:"Psychische Gesundheit betrifft alle, Systeme und Wörter aber unterscheiden sich. Die Ratgeber beginnen mit Grundsätzen, die überall gelten, und verweisen auf örtliche Angebote. Die Übersetzungen sind Entwürfe, die wir mit Muttersprachler:innen verbessern.",
+ p4h:"Keine Diagnosen, keine Auswertungen.", p4:"Wir erklären und verweisen dich an Menschen, die helfen können. Wir ersetzen sie nicht.",
+ p5h:"Deine Angaben gehören dir.", p5:"Diese Website erhebt oder speichert nicht, was du ihr mitteilst.",
+ p6h:"Gerechtigkeit zuerst.", p6:"Hilfe ist für manche Menschen leichter erreichbar als für andere und unterscheidet sich stark zwischen Ländern. Unsere Ratgeber sagen das und planen damit.",
+ ft1:"ist ein internationales gemeinnütziges Bildungsprojekt im Aufbau.",
+ ft2:"Nichts hier ist medizinischer Rat, Diagnose oder Behandlung. Wenn du in Gefahr bist, wähle den örtlichen Notruf. Krisenlinien können sich ändern, bitte prüfe sie vor Ort.",
+ ft3:"Weitere Länder: findahelpline.com"
+};
+T.hi = {
+ skip:"मुख्य सामग्री पर जाएँ", country:"आपका देश", lang_label:"भाषा",
+ nav_guides:"मार्गदर्शिकाएँ", nav_grounding:"शांत होना", nav_involved:"जुड़ें", nav_about:"हमारे बारे में",
+ c_crisis:"संकट में हैं या आत्महत्या के विचार आ रहे हैं?", c_danger:"तत्काल खतरे में हों तो कॉल करें:", c_more:"अन्य देश:",
+ c_other:"तत्काल खतरे में हैं? अपने स्थानीय आपातकालीन नंबर पर कॉल करें (112 कई देशों में काम करता है)। संकट हेल्पलाइन यहाँ खोजें:",
+ m_c:"कॉल", m_t:"संदेश", m_ct:"कॉल या संदेश",
+ h1a:"मानसिक स्वास्थ्य सहायता, और दुनिया में", h1em:"अपना रास्ता खोजने का नक्शा,", h1b:"आप जहाँ भी हों।",
+ lede:"हम एक गैर-लाभकारी संस्था हैं जो मानसिक स्वास्थ्य को सरल भाषा में समझाती है और जीवन के व्यावहारिक पहलुओं में मदद करती है: इलाज ढूँढना, उसका खर्च उठाना, नौकरी और घर बनाए रखना, और मदद माँगना।",
+ cta1:"अगला कदम खोजें", cta2:"शांत होने का अभ्यास आज़माएँ",
+ f_title:"अभी क्या चल रहा है?", f_sub:"सबसे नज़दीकी विकल्प चुनें। आपको कुछ छोटे कदम मिलेंगे; कुछ भी सहेजा या भेजा नहीं जाता।",
+ chip_overwhelmed:"मैं बहुत बोझिल महसूस कर रहा/रही हूँ", chip_care:"मुझे एक थेरेपिस्ट चाहिए", chip_cost:"मैं इलाज का खर्च नहीं उठा सकता/सकती", chip_work:"इससे मेरे काम या पढ़ाई पर असर पड़ रहा है", chip_friend:"मेरा कोई जानने वाला परेशान है",
+ st:{
+  overwhelmed:{t:"जब सब कुछ बहुत ज़्यादा लगे", s:["नीचे दिया साँस का अभ्यास दो मिनट तक आज़माएँ।","वह एक काम लिख लें जो आज होना ही है। बाकी छोड़ दें।","किसी भरोसेमंद व्यक्ति से कहें: \"मुझे मुश्किल हो रही है। क्या तुम थोड़ी देर मेरे साथ रह सकते हो?\""], n:"अगर आप सुरक्षित महसूस नहीं करते, तो अभी इस पेज के ऊपर दी गई संकट हेल्पलाइन का उपयोग करें।"},
+  care:{t:"थेरेपिस्ट की तलाश शुरू करना", s:["तय करें कि सबसे ज़रूरी क्या है: खर्च, जगह, भाषा, या मिलता-जुलता पृष्ठभूमि वाला थेरेपिस्ट।","अपनी सरकारी स्वास्थ्य सेवा या बीमा कंपनी की सूची में खोजें, या बीमा न हो तो किसी सामुदायिक मानसिक स्वास्थ्य केंद्र में।","तीन लोगों को यही छोटा संदेश भेजें: \"मैं नए मरीज़ के रूप में अपॉइंटमेंट ढूँढ रहा/रही हूँ। क्या समय उपलब्ध है और फ़ीस कितनी है?\""], n:"सही थेरेपिस्ट मिलने से पहले एक से ज़्यादा से मिलना सामान्य है।"},
+  cost:{t:"कम बजट में इलाज", s:["किसी भी क्लिनिक से पूछें: \"क्या आय के अनुसार फ़ीस की व्यवस्था है?\"","सामुदायिक मानसिक स्वास्थ्य केंद्र, विश्वविद्यालयों के प्रशिक्षण क्लिनिक, धर्मार्थ संस्थाएँ और सहकर्मी सहायता समूह खोजें। कई ऑनलाइन सत्र देते हैं।","अपने नियोक्ता से कर्मचारी सहायता कार्यक्रम के बारे में, या सार्वजनिक स्वास्थ्य सेवा से मुफ़्त सत्रों के बारे में पूछें।"], n:"कीमत पूछना ठीक है। क्लिनिकों को यह रोज़ सुनने को मिलता है।"},
+  work:{t:"जब इसका असर काम या पढ़ाई पर पड़े", s:["अपने कार्यस्थल या स्कूल-कॉलेज की सहायता प्रक्रिया देखें। यह आमतौर पर एचआर, यूनियन प्रतिनिधि या छात्र सेवा कार्यालय संभालता है। नियम देश के अनुसार अलग हैं।","किसी चिकित्सक से एक छोटा पत्र माँगें जिसमें आपकी ज़रूरतें हों, पूरा इतिहास नहीं।","सीधा अनुरोध भेजें: \"मैं उन सहायताओं पर बात करना चाहता/चाहती हूँ जिनसे मैं अपना काम अच्छे से कर सकूँ।\""], n:"लचीलापन माँगने के लिए निदान बताना ज़रूरी नहीं। छुट्टी और सुविधाओं के स्थानीय नियम जाँचें।"},
+  friend:{t:"अपने किसी प्रियजन का साथ देना", s:["शांति से और सीधे पूछें: \"मैंने देखा कि तुम उदास लग रहे हो। सच में कैसे हो?\"","पहले सुनें। समाधान देने या तुलना करने से बचें।","कोई एक ठोस मदद पेश करें, जैसे नंबर खोजना या अपॉइंटमेंट पर साथ जाना।"], n:"अगर वे आत्महत्या की बात करें, तो उनके साथ रहें और साथ मिलकर संकट हेल्पलाइन या आपातकालीन नंबर पर संपर्क करें।"}
+ },
+ g_kicker:"दुनिया में राह बनाना", g_h2:"उन बातों की व्यावहारिक मार्गदर्शिकाएँ जो कोई नहीं समझाता",
+ g_intro:"बेहतर महसूस करना अक्सर उबाऊ कामों पर निर्भर करता है। हर मार्गदर्शिका छोटे हिस्सों में है, जिसमें कॉपी करने लायक वाक्य और पूछने लायक सवाल हैं।", g_tag:"मार्गदर्शिका",
+ g1h:"इलाज ढूँढना", g1:"थेरेपिस्ट, काउंसलर, मनोचिकित्सक, सहकर्मी सहायता: हर कोई क्या करता है, कैसे खोजें, और पहली कॉल पर क्या कहें।",
+ g2h:"खर्च का इंतज़ाम", g2:"सार्वजनिक स्वास्थ्य प्रणाली, बीमा और धर्मार्थ सेवाएँ समझाई गई हैं, साथ में आय आधारित फ़ीस वाले क्लिनिक और कम फ़ीस कैसे माँगें।",
+ g3h:"काम और पढ़ाई", g3:"सुविधाएँ माँगना, छुट्टी लेना, और ईमेल लिखना जब आपसे ईमेल लिखा न जा रहा हो।",
+ g4h:"आवास और लाभ", g4:"जब तनाव से किराया, खाना या कागज़ात खतरे में पड़ें तो कहाँ से शुरू करें, और फ़ॉर्म भरने में मदद करने वाली स्थानीय सेवाएँ कैसे खोजें।",
+ g5h:"रिश्ते", g5:"सीमाएँ तय करना, परिवार से बात करना, और खुद थके बिना दोस्त का साथ देना।",
+ g6h:"अपने दिमाग़ के बारे में खबरें पढ़ना", g6:"स्रोत को कैसे परखें, स्क्रीनिंग टूल क्या बता सकते हैं और क्या नहीं, और क्विज़ निदान क्यों नहीं है।",
+ r_kicker:"अभी", r_h2:"दो मिनट से कम में धीमे होने के दो तरीके",
+ b_ready:"तैयार", b_in:"साँस लें", b_out:"साँस छोड़ें", b_idle:"4 सेकंड साँस लें, 6 सेकंड छोड़ें।", b_run:"घेरे को देखें। 4 सेकंड साँस लें, 6 सेकंड छोड़ें।", b_start:"साँस का अभ्यास शुरू करें", b_stop:"रोकें",
+ s_title:"5-4-3-2-1 ग्राउंडिंग", s_intro:"चारों ओर देखें और ज़ोर से या मन में बताएँ:",
+ s5:"चीज़ें जो आप देख सकते हैं", s4:"चीज़ें जिन्हें आप छू सकते हैं", s3:"आवाज़ें जो आप सुन सकते हैं", s2:"गंध जो आप सूँघ सकते हैं", s1:"स्वाद जो आप महसूस कर सकते हैं",
+ i_h2:"अगले व्यक्ति तक पहुँचने में हमारी मदद करें",
+ i1h:"स्वयंसेवक बनें", i1:"मार्गदर्शिकाओं की समीक्षा, अनुवाद, या प्रशिक्षण के बाद सहकर्मी सुनने वाली लाइन चलाने में मदद करें।",
+ i2h:"दान करें", i2:"दान से मुफ़्त मार्गदर्शिकाएँ, प्रशिक्षण और सरल भाषा के अनुवाद संभव होते हैं। दान की सुविधा जल्द आ रही है।",
+ i3h:"हमारे साथ साझेदारी करें", i3:"क्लिनिक, स्कूल, पुस्तकालय और नियोक्ता हमारी मार्गदर्शिकाएँ उन लोगों तक पहुँचा सकते हैं जिनकी वे सेवा करते हैं।",
+ i4h:"अपनी कहानी साझा करें", i4:"केवल अगर आप चाहें, और केवल अपने शब्दों में। आपकी लिखित अनुमति के बिना हम कभी प्रकाशित नहीं करते।",
+ a_h2:"हमारे वादे",
+ p1h:"सरल भाषा।", p1:"अगर किसी वाक्य के लिए शब्दकोश चाहिए, तो हम उसे दोबारा लिखते हैं।",
+ p2h:"जाँचे जा सकने वाले स्रोत।", p2:"हर मार्गदर्शिका बताती है कि उसके दावे कहाँ से आए हैं।",
+ p3h:"वैश्विक, पर स्थानीय समझ के साथ।", p3:"मानसिक स्वास्थ्य सबके लिए है, पर व्यवस्थाएँ और शब्द अलग होते हैं। मार्गदर्शिकाएँ हर जगह लागू होने वाले सिद्धांतों से शुरू होती हैं और स्थानीय सेवाओं की ओर इशारा करती हैं। अनुवाद अभी प्रारूप हैं और हम मूल भाषा-भाषियों के साथ उन्हें सुधार रहे हैं।",
+ p4h:"न निदान, न अंक।", p4:"हम समझाते हैं और आपको मदद कर सकने वाले लोगों तक पहुँचाते हैं। हम उनकी जगह नहीं लेते।",
+ p5h:"आपकी जानकारी आपकी है।", p5:"यह साइट आपकी बताई बातें न इकट्ठा करती है, न सहेजती है।",
+ p6h:"सबसे पहले समानता।", p6:"कुछ लोगों के लिए इलाज तक पहुँचना दूसरों से आसान है, और देशों के बीच बहुत अंतर है। हमारी मार्गदर्शिकाएँ यह कहती हैं और इसी हिसाब से योजना बनाती हैं।",
+ ft1:"एक अंतरराष्ट्रीय शैक्षिक गैर-लाभकारी परियोजना है, जो विकास में है।",
+ ft2:"यहाँ कुछ भी चिकित्सकीय सलाह, निदान या उपचार नहीं है। अगर आप खतरे में हैं तो अपने स्थानीय आपातकालीन नंबर पर कॉल करें। संकट हेल्पलाइन बदल सकती हैं, इसलिए स्थानीय स्तर पर पुष्टि कर लें।",
+ ft3:"अन्य देश: findahelpline.com"
+};
+T.ja = {
+ skip:"本文へ移動", country:"お住まいの国", lang_label:"言語",
+ nav_guides:"ガイド", nav_grounding:"落ち着く", nav_involved:"参加する", nav_about:"私たちについて",
+ c_crisis:"つらくて限界、または死にたい気持ちがありますか？", c_danger:"今すぐ危険な場合は次へ連絡:", c_more:"他の国:",
+ c_other:"今すぐ危険な場合は、お住まいの地域の緊急番号に電話してください（112は多くの国で使えます）。相談窓口は次で探せます:",
+ m_c:"電話", m_t:"テキスト", m_ct:"電話またはテキスト",
+ h1a:"こころの健康を支え、", h1em:"世の中を歩んでいくための地図を", h1b:"あなたがどこにいても。",
+ lede:"私たちは非営利団体です。こころの健康をやさしい言葉で説明し、ケアを探す、費用を払う、仕事や住まいを保つ、助けを求めるといった生活の実務面を支えます。",
+ cta1:"次の一歩を探す", cta2:"落ち着くための練習を試す",
+ f_title:"いま、何が起きていますか？", f_sub:"いちばん近いものを選んでください。小さなステップが表示されます。何も保存・送信されません。",
+ chip_overwhelmed:"いっぱいいっぱいです", chip_care:"カウンセラーを探したい", chip_cost:"費用を払えない", chip_work:"仕事や学校に影響している", chip_friend:"身近な人がつらそうです",
+ st:{
+  overwhelmed:{t:"すべてが重く感じるとき", s:["下の呼吸の練習を2分間やってみましょう。","今日どうしても必要なことを1つだけ書き出し、残りは置いておきましょう。","信頼できる人に伝えます:「いまつらいんだ。少しそばにいてくれる？」"], n:"安全でないと感じたら、このページ上部の相談窓口をいますぐ利用してください。"},
+  care:{t:"カウンセラー探しの始め方", s:["何を重視するか決めましょう: 費用、場所、言語、自分に近い背景を持つ人など。","加入している公的医療制度や保険の検索ページ、未加入なら地域のこころの健康センターで探します。","同じ短い文を3か所に送ります:「新規で予約したいのですが、空きはありますか。料金はいくらですか。」"], n:"合う人に出会うまで、複数の人に会うのはよくあることです。"},
+  cost:{t:"予算が限られているとき", s:["どの窓口にも聞いてみましょう:「収入に応じた料金はありますか？」","地域のこころの健康センター、大学の訓練クリニック、慈善団体、ピアサポートのグループを探します。オンラインで受けられるところも多くあります。","勤務先の従業員支援プログラムや、公的医療機関の無料相談について尋ねてみましょう。"], n:"料金を聞くのは問題ありません。どの窓口も毎日聞かれています。"},
+  work:{t:"仕事や学校に影響が出ているとき", s:["職場や学校の支援の手続きを調べます。人事、労働組合、学生支援窓口が担当することが多いです。ルールは国によって異なります。","必要な配慮だけを書いた短い書面を、医療者に頼みましょう。経歴の全部は不要です。","簡潔に依頼します:「仕事をきちんと続けるための支援について相談したいです。」"], n:"柔軟な対応を頼むために診断名を伝える必要はありません。休暇や配慮に関する地域の規則を確認しましょう。"},
+  friend:{t:"大切な人を支える", s:["落ち着いて率直に聞きます:「元気がなさそうだったから気になって。本当はどう？」","まず聞くこと。解決しようとしたり、比べたりしないでください。","電話番号を調べる、予約に付き添うなど、具体的な手助けを1つ申し出ましょう。"], n:"自殺について話したら、そばにいて、一緒に相談窓口や緊急番号に連絡してください。"}
+ },
+ g_kicker:"世の中を歩む", g_h2:"誰も教えてくれないことの実用ガイド",
+ g_intro:"元気になるには、面倒な手続きがつきものです。各ガイドは短い節で、コピーして使える文例と、聞いておくとよい質問を載せています。", g_tag:"ガイド",
+ g1h:"ケアを探す", g1:"カウンセラー、精神科医、ピアサポート: それぞれの役割、探し方、最初の電話で話すこと。",
+ g2h:"費用の工面", g2:"公的医療制度、保険、慈善的なケアの解説と、収入に応じた料金の窓口、料金を下げてもらう頼み方。",
+ g3h:"仕事と学校", g3:"配慮を頼む、休みを取る、メールが書けないときのメールの書き方。",
+ g4h:"住まいと給付", g4:"ストレスで家賃、食事、書類が危うくなったとき、どこから始めるか。記入を手伝ってくれる地域の窓口の探し方。",
+ g5h:"人間関係", g5:"境界線を引く、家族と話す、燃え尽きずに友人を支える。",
+ g6h:"自分の脳に関するニュースの読み方", g6:"情報源の見極め方、スクリーニングで分かること・分からないこと、クイズが診断ではない理由。",
+ r_kicker:"いま", r_h2:"2分でできる、ゆっくりするための2つの方法",
+ b_ready:"準備OK", b_in:"吸って", b_out:"吐いて", b_idle:"4秒で吸い、6秒で吐きます。", b_run:"円の動きに合わせて、4秒で吸い、6秒で吐きます。", b_start:"呼吸を始める", b_stop:"止める",
+ s_title:"5-4-3-2-1グラウンディング", s_intro:"まわりを見て、声に出すか心の中で数えましょう:",
+ s5:"見えるもの", s4:"触れるもの", s3:"聞こえる音", s2:"におい", s1:"味",
+ i_h2:"次の一人に届けるために、力を貸してください",
+ i1h:"ボランティア", i1:"ガイドの確認や翻訳、研修を受けたうえでのピアによる傾聴ラインの運営を手伝ってください。",
+ i2h:"寄付", i2:"寄付は、無料のガイド、研修、やさしい言葉への翻訳に使われます。寄付の受付は準備中です。",
+ i3h:"パートナーになる", i3:"クリニック、学校、図書館、企業は、支援する人たちに私たちのガイドを届けられます。",
+ i4h:"体験を共有する", i4:"ご希望の場合のみ、ご自身の言葉で。書面での承諾なしに公開することはありません。",
+ a_h2:"私たちの約束",
+ p1h:"やさしい言葉。", p1:"辞書が必要な文は、書き直します。",
+ p2h:"確かめられる出典。", p2:"各ガイドに、主張の根拠となる出典を示します。",
+ p3h:"世界とつながり、地域に配慮。", p3:"こころの健康は誰にでも関わりますが、制度や言葉は異なります。ガイドはどこでも通用する原則から始め、地域の窓口を案内します。翻訳は草稿で、ネイティブの方々と改善を進めています。",
+ p4h:"診断も採点もしません。", p4:"説明し、助けになる人につなぎます。その人たちの代わりにはなりません。",
+ p5h:"あなたの情報はあなたのもの。", p5:"このサイトは、入力された内容を収集も保存もしません。",
+ p6h:"まず公平さを。", p6:"ケアへのたどり着きやすさは人によって違い、国によっても大きく異なります。ガイドはそれを前提に書かれています。",
+ ft1:"は、開発中の国際的な非営利の教育プロジェクトです。",
+ ft2:"ここにある内容は、医学的助言・診断・治療ではありません。危険が迫っているときは、地域の緊急番号に電話してください。相談窓口は変わることがあるため、お住まいの地域でご確認ください。",
+ ft3:"他の国: findahelpline.com"
+};
+T.en.age="This site is for adults aged 18 and older.";
+T.es.age="Este sitio es para personas adultas de 18 años o más.";
+T.pt.age="Este site é para adultos com 18 anos ou mais.";
+T.fr.age="Ce site s'adresse aux adultes de 18 ans et plus.";
+T.de.age="Diese Website richtet sich an Erwachsene ab 18 Jahren.";
+T.hi.age="यह साइट 18 वर्ष या उससे अधिक उम्र के वयस्कों के लिए है।";
+T.ja.age="このサイトは18歳以上の方向けです。";
+
+T.en.ct_k="Contact"; T.en.ct_h2="Get in touch"; T.en.ct_note="We read every message but cannot respond to emergencies. This is not a crisis line. If you need urgent help, use the numbers at the top of the page."; T.en.ct_biz="Business and partnerships"; T.en.ct_pers="Personal inquiries"; T.en.ct_ph="Phone";
+T.es.ct_k="Contacto"; T.es.ct_h2="Ponte en contacto"; T.es.ct_note="Leemos todos los mensajes, pero no podemos atender emergencias. Esta no es una línea de crisis. Si necesitas ayuda urgente, usa los números de la parte superior de la página."; T.es.ct_biz="Negocios y alianzas"; T.es.ct_pers="Consultas personales"; T.es.ct_ph="Teléfono";
+T.pt.ct_k="Contato"; T.pt.ct_h2="Fale conosco"; T.pt.ct_note="Lemos todas as mensagens, mas não podemos atender emergências. Esta não é uma linha de crise. Se precisar de ajuda urgente, use os números no topo da página."; T.pt.ct_biz="Negócios e parcerias"; T.pt.ct_pers="Consultas pessoais"; T.pt.ct_ph="Telefone";
+T.fr.ct_k="Contact"; T.fr.ct_h2="Nous écrire"; T.fr.ct_note="Nous lisons chaque message, mais nous ne pouvons pas répondre aux urgences. Ceci n'est pas une ligne d'écoute. Si vous avez besoin d'aide en urgence, utilisez les numéros en haut de la page."; T.fr.ct_biz="Affaires et partenariats"; T.fr.ct_pers="Demandes personnelles"; T.fr.ct_ph="Téléphone";
+T.de.ct_k="Kontakt"; T.de.ct_h2="Schreib uns"; T.de.ct_note="Wir lesen jede Nachricht, können aber nicht auf Notfälle reagieren. Das ist keine Krisenlinie. Wenn du dringend Hilfe brauchst, nutze die Nummern oben auf der Seite."; T.de.ct_biz="Geschäftliches und Partnerschaften"; T.de.ct_pers="Persönliche Anfragen"; T.de.ct_ph="Telefon";
+T.hi.ct_k="संपर्क"; T.hi.ct_h2="हमसे संपर्क करें"; T.hi.ct_note="हम हर संदेश पढ़ते हैं, पर आपात स्थितियों का जवाब नहीं दे सकते। यह संकट हेल्पलाइन नहीं है। तुरंत मदद चाहिए तो पेज के ऊपर दिए नंबर इस्तेमाल करें।"; T.hi.ct_biz="व्यवसाय और साझेदारी"; T.hi.ct_pers="व्यक्तिगत पूछताछ"; T.hi.ct_ph="फ़ोन";
+T.ja.ct_k="お問い合わせ"; T.ja.ct_h2="ご連絡ください"; T.ja.ct_note="すべてのメッセージに目を通しますが、緊急対応はできません。ここは相談窓口ではありません。急ぎの助けが必要なときは、ページ上部の番号をご利用ください。"; T.ja.ct_biz="事業・提携"; T.ja.ct_pers="個人的なお問い合わせ"; T.ja.ct_ph="電話";
+
+T.en.nav_sci="Scientology"; T.en.g7h="Avoiding Scientology"; T.en.g7="Why I hate it, how its recruiters and front groups approach you, and how to say no. A personal page, in English."; T.en.g7tag="Read the page";
+T.es.nav_sci="Cienciología"; T.es.g7h="Evitar la Cienciología"; T.es.g7="Por qué la detesto, cómo te abordan sus reclutadores y organizaciones fachada, y cómo decir que no. Una página personal, en inglés."; T.es.g7tag="Leer la página";
+T.pt.nav_sci="Cientologia"; T.pt.g7h="Evitar a Cientologia"; T.pt.g7="Por que eu a detesto, como seus recrutadores e organizações de fachada abordam você, e como dizer não. Uma página pessoal, em inglês."; T.pt.g7tag="Ler a página";
+T.fr.nav_sci="Scientologie"; T.fr.g7h="Éviter la Scientologie"; T.fr.g7="Pourquoi je la déteste, comment ses recruteurs et ses organisations paravents vous abordent, et comment dire non. Une page personnelle, en anglais."; T.fr.g7tag="Lire la page";
+T.de.nav_sci="Scientology"; T.de.g7h="Scientology meiden"; T.de.g7="Warum ich sie verabscheue, wie ihre Anwerber und Tarnorganisationen auf dich zugehen und wie du Nein sagst. Eine persönliche Seite, auf Englisch."; T.de.g7tag="Seite lesen";
+T.hi.nav_sci="साइंटोलॉजी"; T.hi.g7h="साइंटोलॉजी से बचना"; T.hi.g7="मैं इससे क्यों नफ़रत करता हूँ, इसके भर्ती करने वाले और मुखौटा संगठन आपसे कैसे संपर्क करते हैं, और ना कैसे कहें। एक निजी पेज, अंग्रेज़ी में।"; T.hi.g7tag="पेज पढ़ें";
+T.ja.nav_sci="サイエントロジー"; T.ja.g7h="サイエントロジーを避ける"; T.ja.g7="なぜ私が嫌うのか、勧誘員やフロント団体がどう近づいてくるのか、どう断るか。個人的なページです（英語）。"; T.ja.g7tag="ページを読む";
+T.en.menu="Menu"; T.es.menu="Menú"; T.pt.menu="Menu"; T.fr.menu="Menu"; T.de.menu="Menü"; T.hi.menu="मेनू"; T.ja.menu="メニュー";
+
+(function () {
+  var CL = {
+    us:[[["Suicide & Crisis Lifeline","988","ct"],["Crisis Text Line","HOME \u2192 741741","t"]],"911"],
+    ca:[[["Suicide Crisis Helpline","988","ct"]],"911"],
+    mx:[[["L\u00ednea de la Vida","800 911 2000","c"]],"911"],
+    br:[[["CVV","188","c"]],"192 / 190"],
+    gb:[[["Samaritans","116 123","c"],["Shout","SHOUT \u2192 85258","t"]],"999"],
+    ie:[[["Samaritans","116 123","c"]],"999 / 112"],
+    fr:[[["3114","3114","c"]],"15 / 112"],
+    de:[[["Telefonseelsorge","0800 111 0 111","c"]],"112"],
+    es:[[["L\u00ednea 024","024","c"]],"112"],
+    za:[[["SADAG","0800 567 567","c"]],"10111 / 112"],
+    in:[[["Tele-MANAS","14416","c"]],"112"],
+    jp:[[["\u3088\u308a\u305d\u3044\u30db\u30c3\u30c8\u30e9\u30a4\u30f3","0120-279-338","c"]],"119 / 110"],
+    au:[[["Lifeline","13 11 14","c"]],"000"],
+    nz:[[["1737","1737","ct"]],"111"]
+  };
+  var LANGS = {en:"English",es:"Espa\u00f1ol",pt:"Portugu\u00eas",fr:"Fran\u00e7ais",de:"Deutsch",hi:"\u0939\u093f\u0928\u094d\u0926\u0940",ja:"\u65e5\u672c\u8a9e"};
+  var lang = "en", country = "xx", chip = "overwhelmed", running = false, timer = null, phase = "idle";
+  function t(k) { var v = T[lang][k]; return v == null ? T.en[k] : v; }
+  var sel = document.getElementById("country"), ct = document.getElementById("crisisText");
+  var langSel = document.getElementById("lang"), box = document.getElementById("steps");
+  var orb = document.getElementById("orb"), btn = document.getElementById("breathBtn"), label = document.getElementById("breathLabel");
+  function el(tag, text, cls) { var e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; }
+  function link(text) { var a = el("a", text); a.href = "https://findahelpline.com"; a.rel = "noopener"; return a; }
+
+  Object.keys(LANGS).forEach(function (k) { var o = el("option", LANGS[k]); o.value = k; langSel.appendChild(o); });
+
+  function countryName(k) {
+    if (k === "xx") return { en:"Another country", es:"Otro pa\u00eds", pt:"Outro pa\u00eds", fr:"Autre pays", de:"Anderes Land", hi:"\u0905\u0928\u094d\u092f \u0926\u0947\u0936", ja:"\u305d\u306e\u4ed6\u306e\u56fd" }[lang];
+    var code = { us:"US", ca:"CA", mx:"MX", br:"BR", gb:"GB", ie:"IE", fr:"FR", de:"DE", es:"ES", za:"ZA", in:"IN", jp:"JP", au:"AU", nz:"NZ" }[k];
+    try { return new Intl.DisplayNames([lang], { type: "region" }).of(code); } catch (e) { return code; }
+  }
+  function buildCountries() {
+    sel.textContent = "";
+    Object.keys(CL).concat(["xx"]).forEach(function (k) { var o = el("option", countryName(k)); o.value = k; sel.appendChild(o); });
+    sel.value = country;
+  }
+  function renderCrisis() {
+    ct.textContent = "";
+    if (country === "xx") { ct.appendChild(document.createTextNode(t("c_other") + " ")); ct.appendChild(link("findahelpline.com")); return; }
+    var d = CL[country];
+    ct.appendChild(el("strong", t("c_crisis")));
+    d[0].forEach(function (l, i) {
+      ct.appendChild(document.createTextNode(" " + (i ? "\u00b7 " : "") + l[0] + ": "));
+      ct.appendChild(el("strong", l[1]));
+      ct.appendChild(document.createTextNode(" (" + t("m_" + l[2]) + ")"));
+    });
+    ct.appendChild(document.createTextNode(" \u00b7 " + t("c_danger") + " "));
+    ct.appendChild(el("strong", d[1]));
+    ct.appendChild(document.createTextNode(". " + t("c_more") + " "));
+    ct.appendChild(link("findahelpline.com"));
+  }
+  function renderSteps() {
+    var d = T[lang].st ? T[lang].st[chip] : T.en.st[chip];
+    box.textContent = "";
+    box.appendChild(el("h3", d.t));
+    var ol = el("ol"); d.s.forEach(function (s) { ol.appendChild(el("li", s)); }); box.appendChild(ol);
+    box.appendChild(el("p", d.n, "note"));
+  }
+  function renderBreath() {
+    label.textContent = running ? t("b_run") : t("b_idle");
+    btn.textContent = running ? t("b_stop") : t("b_start");
+    orb.textContent = !running ? t("b_ready") : (phase === "in" ? t("b_in") : t("b_out"));
+  }
+  function cycle() {
+    phase = "in"; orb.className = "orb in"; renderBreath();
+    timer = setTimeout(function () { phase = "out"; orb.className = "orb out"; renderBreath(); timer = setTimeout(cycle, 6000); }, 4000);
+  }
+  function apply() {
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-i18n]").forEach(function (n) { n.textContent = t(n.getAttribute("data-i18n")); });
+    buildCountries(); renderCrisis(); renderSteps(); renderBreath();
+    langSel.value = lang;
+  }
+
+  document.querySelectorAll(".chip").forEach(function (c) {
+    c.addEventListener("click", function () {
+      chip = c.dataset.k;
+      document.querySelectorAll(".chip").forEach(function (x) { x.setAttribute("aria-pressed", x === c ? "true" : "false"); });
+      renderSteps();
+    });
+  });
+  btn.addEventListener("click", function () {
+    running = !running;
+    if (running) cycle(); else { clearTimeout(timer); orb.className = "orb"; phase = "idle"; renderBreath(); }
+  });
+  langSel.addEventListener("change", function () { lang = langSel.value; try { localStorage.setItem("ph-lang", lang); } catch (e) {} apply(); });
+  sel.addEventListener("change", function () { country = sel.value; try { localStorage.setItem("ph-country", country); } catch (e) {} renderCrisis(); });
+
+  var sl = "", sc = "";
+  try { sl = localStorage.getItem("ph-lang") || ""; sc = localStorage.getItem("ph-country") || ""; } catch (e) {}
+  var nav = (navigator.language || "en").toLowerCase().split("-");
+  if (!T[sl]) sl = T[nav[0]] ? nav[0] : "en";
+  lang = sl;
+  if (sc && (CL[sc] || sc === "xx")) country = sc;
+  else if (nav[1] && CL[nav[1]]) country = nav[1];
+  apply();
+
+  (function () {
+    function put(id, user, host, scheme) { var a = document.getElementById(id); if (!a) return; var v = user + (host ? "@" + host : ""); a.textContent = v; a.href = scheme + v; }
+    put("mailBiz", "hoto", "planethoto.org", "mailto:");
+    put("mailPers", "1000hoto1000", "gmail.com", "mailto:");
+    var t = document.getElementById("telNum"); if (t) { t.textContent = "215-810-3950"; t.href = "tel:+12158103950"; }
+  })();
+})();
+(function () {
+  var btn = document.getElementById("menuBtn"), nav = document.getElementById("mainnav");
+  if (!btn || !nav) return;
+  function setOpen(open) { nav.hidden = !open; btn.setAttribute("aria-expanded", open ? "true" : "false"); }
+  btn.addEventListener("click", function () { setOpen(nav.hidden); });
+  nav.addEventListener("click", function (e) { if (e.target.closest("a")) setOpen(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !nav.hidden) { setOpen(false); btn.focus(); } });
+  document.addEventListener("click", function (e) { if (!nav.hidden && !e.target.closest("header.top")) setOpen(false); });
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Avoiding Scientology · Planet Hoto</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+  /* Layout: a sticky header with one menu button; below it, a single reading column
+     that opens with a blunt personal statement, then hazard-sheet style field guidance. */
+  :root {
+    color-scheme: light;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    --bg: #f3efe6;
+    --paper: #fbf9f4;
+    --fg: #1d1b17;
+    --muted: #5e584c;
+    --rule: #c9c2b2;
+    --hazard: #e8b100;
+    --hazard-ink: #1d1b17;
+    --danger: #b3261e;
+    --font-display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+    --font-body: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17161a; --paper: #211f24; --fg: #ece8df; --muted: #a7a194;
+      --rule: #3c393f; --hazard: #f0c22a; --hazard-ink: #17161a; --danger: #ff6b61;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17161a; --paper: #211f24; --fg: #ece8df; --muted: #a7a194;
+    --rule: #3c393f; --hazard: #f0c22a; --hazard-ink: #17161a; --danger: #ff6b61;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 80px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+  body::before {
+    content: ""; position: fixed; inset: 0 0 auto;
+    height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--fg);
+  }
+
+  /* Header with the menu button */
+  .topbar {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9;
+    background: var(--fg); color: var(--bg);
+    border-bottom: 4px solid var(--hazard);
+  }
+  .topbar-inner {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    max-width: 760px; margin: 0 auto;
+    padding-block: 10px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .brand {
+    font-family: var(--font-display); font-weight: 800; font-size: 1.35rem;
+    letter-spacing: .04em; text-transform: uppercase; margin: 0;
+  }
+  .brand span { color: var(--hazard); }
+  .menu-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font: 600 .95rem var(--font-body); letter-spacing: .02em;
+    background: var(--hazard); color: var(--hazard-ink);
+    border: 0; border-radius: 2px; padding: 8px 14px; cursor: pointer;
+  }
+  .menu-btn:hover { filter: brightness(1.06); }
+  .menu-btn:focus-visible { outline: 3px solid var(--bg); outline-offset: 2px; }
+  .menu-btn .bars { display: inline-block; width: 16px; height: 12px; position: relative; }
+  .menu-btn .bars::before, .menu-btn .bars::after, .menu-btn .bars i {
+    content: ""; position: absolute; left: 0; right: 0; height: 2px; background: currentColor; border-radius: 1px;
+  }
+  .menu-btn .bars::before { top: 0; }
+  .menu-btn .bars i { top: 5px; display: block; }
+  .menu-btn .bars::after { bottom: 0; }
+  .menu-btn[aria-expanded="true"] .bars::before { top: 5px; transform: rotate(45deg); }
+  .menu-btn[aria-expanded="true"] .bars::after { bottom: 5px; transform: rotate(-45deg); }
+  .menu-btn[aria-expanded="true"] .bars i { opacity: 0; }
+
+  .menu-panel {
+    background: var(--fg); color: var(--bg);
+    border-top: 1px solid var(--rule);
+  }
+  .menu-panel ul {
+    list-style: none; margin: 0 auto; max-width: 760px;
+    padding-block: 8px 14px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: grid; gap: 2px;
+  }
+  .menu-panel a {
+    display: block; color: inherit; text-decoration: none; padding: 9px 10px;
+    font-family: var(--font-display); font-weight: 700; font-size: 1.2rem;
+    letter-spacing: .03em; text-transform: uppercase; border-left: 3px solid transparent;
+  }
+  .menu-panel a:hover, .menu-panel a:focus-visible { border-left-color: var(--hazard); background: rgba(255,255,255,.06); outline: none; }
+  .menu-panel a small { font: 500 .72rem var(--font-mono); color: var(--hazard); margin-right: 10px; letter-spacing: .06em; }
+  .menu-panel li.home { border-bottom: 1px solid rgba(255,255,255,.15); margin-bottom: 6px; padding-bottom: 6px; }
+
+  /* Reading column */
+  main {
+    max-width: 760px; margin: 0 auto;
+    padding-block: 28px 64px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  section { scroll-margin-top: 80px; padding-block: 28px; border-top: 1px solid var(--rule); }
+  section:first-of-type { border-top: 0; padding-top: 8px; }
+  .eyebrow {
+    font: 500 .75rem var(--font-mono); letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); margin: 0 0 6px;
+  }
+  h1 {
+    font-family: var(--font-display); font-weight: 800; font-size: clamp(2.6rem, 9vw, 4.6rem);
+    line-height: .95; letter-spacing: .01em; text-transform: uppercase; margin: 0 0 18px;
+    text-wrap: balance;
+  }
+  h1 mark { background: var(--hazard); color: var(--hazard-ink); padding: 0 .12em; }
+  h2 {
+    font-family: var(--font-display); font-weight: 800; font-size: clamp(1.8rem, 5vw, 2.4rem);
+    line-height: 1; letter-spacing: .02em; text-transform: uppercase; margin: 0 0 14px; text-wrap: balance;
+  }
+  h3 { font: 600 1.05rem var(--font-body); margin: 0 0 4px; }
+  p { margin: 0 0 14px; max-width: 65ch; }
+  .lede { font-size: 1.2rem; line-height: 1.5; }
+  ul.plain { padding-left: 1.2em; margin: 0 0 14px; max-width: 65ch; }
+  ul.plain li { margin-bottom: 6px; }
+  a { color: inherit; text-decoration-color: var(--hazard); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  a:focus-visible { outline: 2px solid var(--hazard); outline-offset: 2px; }
+
+  .stamp {
+    display: inline-block; font: 700 1.1rem var(--font-display); letter-spacing: .08em; text-transform: uppercase;
+    border: 3px solid var(--danger); color: var(--danger); padding: 4px 10px; transform: rotate(-2deg);
+    margin: 4px 0 18px;
+  }
+
+  /* Hazard sheet cards */
+  .sheet { display: grid; gap: 10px; margin: 0 0 14px; }
+  .sheet article {
+    background: var(--paper); border: 1px solid var(--rule); border-left: 6px solid var(--hazard);
+    padding: 14px 16px; min-width: 0;
+  }
+  .sheet article p { margin: 0; color: var(--muted); font-size: .97rem; }
+
+  /* Front groups table */
+  .tablewrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--paper); margin-bottom: 14px; }
+  table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+  th, td { text-align: left; padding: 10px 12px; vertical-align: top; border-bottom: 1px solid var(--rule); }
+  th { font: 500 .72rem var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+
+  /* Checklist */
+  .checklist { list-style: none; padding: 0; margin: 0 0 14px; display: grid; gap: 8px; max-width: 65ch; }
+  .checklist li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; }
+  .checklist .box {
+    width: 22px; height: 22px; border: 2px solid var(--fg); margin-top: 3px;
+    display: grid; place-items: center; font: 800 1rem var(--font-display); color: var(--hazard-ink); background: var(--hazard);
+  }
+
+  .script {
+    background: var(--paper); border: 1px dashed var(--rule); padding: 12px 16px; margin: 0 0 14px; max-width: 65ch;
+    font-style: italic;
+  }
+  .script b { font-style: normal; font-family: var(--font-mono); font-weight: 500; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 4px; }
+
+  footer { color: var(--muted); font-size: .88rem; max-width: 65ch; border-top: 1px solid var(--rule); padding-top: 18px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+    .menu-btn .bars::before, .menu-btn .bars::after, .menu-btn .bars i { transition: transform .18s, top .18s, bottom .18s, opacity .12s; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <p class="brand">Avoid <span>Scientology</span></p>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuPanel">
+      <span class="bars" aria-hidden="true"><i></i></span> Menu
+    </button>
+  </div>
+  <nav class="menu-panel" id="menuPanel" hidden aria-label="Page sections">
+    <ul>
+      <li class="home"><a href="index.html"><small>&larr;</small>Back to Planet Hoto</a></li>
+      <li><a href="#why"><small>A</small>Why I hate it</a></li>
+      <li><a href="#approach"><small>B</small>How they approach you</a></li>
+      <li><a href="#fronts"><small>C</small>Front groups</a></li>
+      <li><a href="#refuse"><small>D</small>How to refuse</a></li>
+      <li><a href="#help"><small>E</small>If someone you know is in</a></li>
+      <li><a href="#checklist"><small>F</small>Quick checklist</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section id="why">
+    <p class="eyebrow">A personal page from Planet Hoto</p>
+    <h1>I hate Scientology.<br>Here's how to <mark>stay away</mark> from it.</h1>
+    <p class="lede">This is my opinion, and I hold it firmly. Scientology is a pay-to-progress organization that sells “auditing” and courses in escalating tiers, pressures members to cut off family who criticize it, and has a long, well-documented record of going after former members and journalists. I want nothing to do with it, and I don't want you to get pulled in either.</p>
+    <div class="stamp">Not a church I respect</div>
+    <p>The reasons below are not secrets. They come from court records, investigative books and documentaries, and the accounts of hundreds of former members, including people who spent decades inside at senior levels.</p>
+    <ul class="plain">
+      <li><strong>It costs a fortune.</strong> Advancing up “The Bridge” means paying for course after course. Ex-members routinely describe spending six figures over the years.</li>
+      <li><strong>Disconnection.</strong> Members are pushed to cut contact with relatives and friends labeled “suppressive.” Families get split for years.</li>
+      <li><strong>Fair Game.</strong> Hubbard's own policy declared that enemies may be “tricked, sued or lied to or destroyed.” The organization says it was cancelled. Critics and ex-members say the behavior never stopped.</li>
+      <li><strong>The Sea Org.</strong> Its inner workforce signs a billion-year contract, works punishing hours for a tiny stipend, and has described forced labor and confinement in detail.</li>
+      <li><strong>Secrecy by price tag.</strong> The core beliefs about Xenu and body thetans are withheld until you've paid your way to OT III. A faith that hides its own doctrine behind a paywall is selling something.</li>
+      <li><strong>It attacks the care this site exists to explain.</strong> Through its front group CCHR, Scientology campaigns against psychiatry and psychiatric medication, and tells people in crisis that the help they need is a fraud.</li>
+    </ul>
+  </section>
+
+  <section id="approach">
+    <p class="eyebrow">Recognize the pitch</p>
+    <h2>How they approach you</h2>
+    <p>Recruitment almost never starts with the word “Scientology.” It starts with something free and vague. If you learn these openers, you'll spot them from across the street.</p>
+    <div class="sheet">
+      <article>
+        <h3>“Free personality test”</h3>
+        <p>The Oxford Capacity Analysis. It has nothing to do with Oxford. Two hundred questions, then a “results session” that tells you you're depressed, anxious or unstable and that they have the fix. Everyone's results are bad. That's the point.</p>
+      </article>
+      <article>
+        <h3>“Free stress test”</h3>
+        <p>A folding table on a sidewalk or at a fair, with a small device with two metal cans attached. That's an E-meter. You hold the cans, the needle moves, and you're told your stress is “located.” The remedy is a Dianetics book and a visit to the org.</p>
+      </article>
+      <article>
+        <h3>Dianetics book tables</h3>
+        <p>The volcano cover. Sold cheap or handed out, often with a pitch about “the mind's hidden potential.” The book is the funnel into the paid courses.</p>
+      </article>
+      <article>
+        <h3>“Communication course” or “free film”</h3>
+        <p>An invite to a short course on confidence, study skills, relationships, or a free screening about “the mind.” The course is real, the follow-up is a sales interview. Registrars are trained closers.</p>
+      </article>
+      <article>
+        <h3>Online quizzes and ads</h3>
+        <p>Sponsored ads for “Are you happy?” tests, Dianetics, or “how to boost your IQ.” They harvest your phone number and email, then call. And call.</p>
+      </article>
+      <article>
+        <h3>Through a friend or a workplace</h3>
+        <p>Members are expected to recruit. A coworker's “business seminar,” a tutoring program, a drug-education talk, or a disaster-relief volunteer group can all be routes in. The next section lists the names to watch for.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="fronts">
+    <p class="eyebrow">Know the names</p>
+    <h2>Front groups</h2>
+    <p>These organizations are run by Scientologists, promote L. Ron Hubbard's methods, and in many cases are formally licensed by Scientology entities. Some don't mention the connection anywhere on their websites. If one of them shows up at your school, clinic, workplace or town council, that's your cue.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Name</th><th>Looks like</th><th>Actually</th></tr></thead>
+        <tbody>
+          <tr><td>Narconon</td><td>Drug rehab and school drug-education talks</td><td>Hubbard “purification” program with saunas and megadoses of niacin. Multiple patient deaths at facilities have led to lawsuits.</td></tr>
+          <tr><td>Criminon</td><td>Prison rehabilitation courses</td><td>Hubbard's The Way to Happiness and study methods delivered to inmates by mail.</td></tr>
+          <tr><td>Applied Scholastics / “Study Tech”</td><td>Tutoring, literacy programs, charter and private schools</td><td>Hubbard's study method. Delphi and other schools use it. Children are introduced to Scientology vocabulary and concepts.</td></tr>
+          <tr><td>The Way to Happiness Foundation</td><td>A booklet of common-sense moral rules handed out at events</td><td>Written by Hubbard. Distribution is a recruitment and public-relations channel.</td></tr>
+          <tr><td>Citizens Commission on Human Rights (CCHR)</td><td>Psychiatric-abuse watchdog, museum exhibits, lobbying</td><td>Scientology's anti-psychiatry arm. Campaigns against psychiatric medication and treatment.</td></tr>
+          <tr><td>Youth for Human Rights / United for Human Rights</td><td>Human-rights education kits and youth summits</td><td>Scientology-funded outreach that leads to Hubbard materials.</td></tr>
+          <tr><td>Volunteer Ministers</td><td>Yellow-shirted helpers and yellow tents at disasters and fairs</td><td>Scientology's disaster-relief brand. Offers “assists” and recruits on site.</td></tr>
+          <tr><td>WISE / Hubbard College of Administration</td><td>Business management consulting and training</td><td>Licenses Hubbard “admin tech” to companies, often dental and chiropractic practices. Staff get pushed toward the org.</td></tr>
+          <tr><td>Foundation for a Drug-Free World</td><td>Anti-drug pamphlets and PSAs, often in schools</td><td>Scientology-run. Materials route to Narconon.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>A fast test for any unfamiliar self-help, education or “human rights” group: search its name together with the words <em>Hubbard</em> and <em>Scientology</em>. If the group is clean, that search comes up empty.</p>
+  </section>
+
+  <section id="refuse">
+    <p class="eyebrow">In the moment</p>
+    <h2>How to refuse</h2>
+    <p>You never owe a recruiter a conversation. The pitch depends on politeness, curiosity and the awkwardness of walking away. Remove all three.</p>
+    <ul class="plain">
+      <li><strong>Don't take the test.</strong> Not “just for fun.” The test exists to open a sales conversation about your flaws.</li>
+      <li><strong>Don't give your name, number or email.</strong> No sign-in sheet, no raffle, no “we'll send you the results.” Once they have a number, calls can go on for years.</li>
+      <li><strong>Don't go inside the building.</strong> A “quick tour” or “free film” puts you in a room with a trained closer and no easy exit.</li>
+      <li><strong>Don't sign anything.</strong> Course enrollment forms contain releases and arbitration clauses that have been used against former members.</li>
+      <li><strong>Don't debate.</strong> Arguing about Xenu or Hubbard's biography keeps you at the table. Leaving ends it.</li>
+      <li><strong>Pay nothing.</strong> Not for a book, not for a “donation,” not for the sauna. The first payment is the hook.</li>
+    </ul>
+    <div class="script">
+      <b>What to say</b>
+      “No thanks, I'm not interested.” Then keep walking. You don't have to explain, soften it, or wait for a reply.
+    </div>
+    <div class="script">
+      <b>If they already have your number</b>
+      Block it. Don't ask them to stop calling, don't explain why, don't answer to confirm it's you. Each answered call gets logged as interest.
+    </div>
+  </section>
+
+  <section id="help">
+    <p class="eyebrow">Family and friends</p>
+    <h2>If someone you know is in</h2>
+    <p>The most important thing you can do for a member is stay in contact without a fight. Disconnection is Scientology's lever. Give them no reason to pull it.</p>
+    <ul class="plain">
+      <li><strong>Don't attack the group head-on.</strong> Members are trained to treat criticism as proof you're “suppressive.” Arguing hands the org a reason to cut you off.</li>
+      <li><strong>Keep the relationship warm.</strong> Birthdays, dinners, ordinary life. People leave when they have somewhere to land.</li>
+      <li><strong>Ask questions instead of making statements.</strong> “How much has it cost so far?” and “What happens if you want to stop?” do more than any argument.</li>
+      <li><strong>Don't send money.</strong> Even a loan for rent can end up as a course payment.</li>
+      <li><strong>Know the exit resources.</strong> People who leave, especially from the Sea Org, often have no money, no ID, no work history and no outside friends.</li>
+    </ul>
+    <h3>Where to read more</h3>
+    <ul class="plain">
+      <li><a href="https://www.theaftermathfoundation.org/" rel="noopener">The Aftermath Foundation</a>, which helps people leaving Scientology with housing, legal referrals and practical support.</li>
+      <li><em>Going Clear</em> by Lawrence Wright, and the Alex Gibney documentary of the same name.</li>
+      <li><em>Leah Remini: Scientology and the Aftermath</em>, three seasons of interviews with former members.</li>
+      <li><a href="https://tonyortega.org/" rel="noopener">The Underground Bunker</a>, Tony Ortega's daily reporting on the organization.</li>
+      <li><a href="https://www.reddit.com/r/scientology/" rel="noopener">r/scientology</a>, a forum run by critics and ex-members, not the church.</li>
+      <li><em>Beyond Belief</em> by Jenna Miscavige Hill and <em>Blown for Good</em> by Marc Headley, first-hand accounts of growing up in and leaving the Sea Org.</li>
+    </ul>
+  </section>
+
+  <section id="checklist">
+    <p class="eyebrow">Pocket version</p>
+    <h2>Quick checklist</h2>
+    <ul class="checklist">
+      <li><span class="box" aria-hidden="true">✓</span><span>Free “personality” or “stress” test on a table? Keep walking.</span></li>
+      <li><span class="box" aria-hidden="true">✓</span><span>A book with a volcano on it? That's Dianetics. Decline it.</span></li>
+      <li><span class="box" aria-hidden="true">✓</span><span>Unfamiliar education, rehab or “human rights” group? Search its name with “Hubbard.”</span></li>
+      <li><span class="box" aria-hidden="true">✓</span><span>Never give your phone number or email. Never sign. Never pay.</span></li>
+      <li><span class="box" aria-hidden="true">✓</span><span>Already being called? Block, don't argue.</span></li>
+      <li><span class="box" aria-hidden="true">✓</span><span>Someone you love is in? Stay close, stay calm, keep the door open.</span></li>
+    </ul>
+    <footer>
+      <p>This page reflects my own views. The practices described are drawn from public court filings, investigative journalism and the published accounts of former members. The Church of Scientology disputes many of those accounts.</p>
+      <p><a href="index.html">Back to Planet Hoto</a></p>
+    </footer>
+  </section>
+</main>
+
+<script>
+  (function () {
+    var btn = document.getElementById('menuBtn');
+    var panel = document.getElementById('menuPanel');
+
+    function setOpen(open) {
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function () {
+      setOpen(panel.hidden);
+    });
+    panel.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !panel.hidden) { setOpen(false); btn.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (!panel.hidden && !e.target.closest('.topbar')) setOpen(false);
+    });
+  })();
+</script>
+</body>
+</html>
