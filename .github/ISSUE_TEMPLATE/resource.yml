@@ -1,0 +1,22 @@
+name: Crisis line or local resource
+description: Add or correct a helpline or service for a country
+labels: ["resources"]
+body:
+  - type: input
+    id: country
+    attributes:
+      label: Country or region
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Name, number or link, and hours
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Official source confirming it
+    validations:
+      required: true
