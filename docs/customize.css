@@ -113,6 +113,8 @@ html:not(.js) .ph-open { display: none; }
 .ph-opt:hover span { border-color: var(--accent, var(--fg)); }
 .ph-opt input:checked + span { background: var(--fg); color: var(--bg); border-color: var(--fg); font-weight: 700; }
 .ph-opt input:checked + span::before { content: "\2713\00a0"; }
+/* Empty alt text keeps the check mark out of the accessible name; the radio already announces "checked" */
+.ph-opt input:checked + span::before { content: "\2713\00a0" / ""; }
 .ph-opt input:focus-visible + span { outline: 3px solid var(--accent, var(--fg)); outline-offset: 2px; }
 html:root[data-ph-theme="contrast"] .ph-opt span { border-color: #fff; }
 html:root[data-ph-theme="contrast"] .ph-opt input:checked + span { background: #ffe14d; color: #000; border-color: #ffe14d; }

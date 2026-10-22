@@ -203,3 +203,7 @@ test('Scientology top bar brand word stays readable on the inverted bar in every
   assert.ok(ratio('#7a5200', sciT.dark.fg) >= AA);
   assert.ok(ratio('#7a5200', sciT.contrast.fg) >= AA);
 });
+
+test('the visual check mark has empty alt text so screen readers do not read it as part of the option name', () => {
+  assert.match(read('customize.css'), /\.ph-opt input:checked \+ span::before \{ content: "\\2713\\00a0" \/ ""; \}/);
+});
