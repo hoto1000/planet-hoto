@@ -45,6 +45,7 @@ p { margin: 0; }
 .crisis strong { color: var(--signal); }
 .crisis select { font: inherit; font-size: 16px; min-height: 44px; padding: 4px 8px; border-radius: 6px; border: 1.5px solid var(--line); background: var(--surface); color: var(--fg); max-width: 100%; }
 .crisis .sep { color: var(--muted); }
+html:not(.js) .crisis label, html:not(.js) .crisis select { display: none; }
 
 header.top { padding-block: 8px; }
 header.top .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
@@ -157,7 +158,7 @@ nav#mainnav a:focus-visible { outline: 3px solid var(--accent); outline-offset: 
   <div class="wrap">
     <label for="country"><strong data-i18n="country">Your country</strong></label>
     <select id="country"></select>
-    <span id="crisisText"></span>
+    <span id="crisisText"><strong>In crisis or thinking about suicide?</strong> Suicide &amp; Crisis Lifeline: <strong>988</strong> (call or text) &middot; Crisis Text Line: <strong>HOME &rarr; 741741</strong> (text) &middot; In immediate danger, call <strong>911</strong>. More countries: <a href="https://findahelpline.com" rel="noopener">findahelpline.com</a></span>
   </div>
 </div>
 
@@ -305,6 +306,7 @@ nav#mainnav a:focus-visible { outline: 3px solid var(--accent); outline-offset: 
 </footer>
 
 <script>
+document.documentElement.classList.add("js");
 var T = {};
 T.en = {
  skip:"Skip to content", country:"Your country", lang_label:"Language",

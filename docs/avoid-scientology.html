@@ -18,6 +18,7 @@
     --muted: #5e584c;
     --rule: #c9c2b2;
     --hazard: #e8b100;
+    --signal-bg: #fbe9e2;
     --hazard-ink: #1d1b17;
     --danger: #b3261e;
     --font-display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
@@ -27,7 +28,7 @@
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --bg: #17161a; --paper: #211f24; --fg: #ece8df; --muted: #a7a194;
-      --rule: #3c393f; --hazard: #f0c22a; --hazard-ink: #17161a; --danger: #ff6b61;
+      --rule: #3c393f; --hazard: #f0c22a; --hazard-ink: #17161a; --danger: #ff6b61; --signal-bg: #3a211a;
       color-scheme: dark;
     }
   }
@@ -36,7 +37,7 @@
   :root[data-theme="dark"] .brand span { color: #7a5200; }
   :root[data-theme="dark"] {
     --bg: #17161a; --paper: #211f24; --fg: #ece8df; --muted: #a7a194;
-    --rule: #3c393f; --hazard: #f0c22a; --hazard-ink: #17161a; --danger: #ff6b61;
+    --rule: #3c393f; --hazard: #f0c22a; --hazard-ink: #17161a; --danger: #ff6b61; --signal-bg: #3a211a;
     color-scheme: dark;
   }
 
@@ -56,6 +57,15 @@
     content: ""; position: fixed; inset: 0 0 auto;
     height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--fg);
   }
+
+  /* Crisis strip: same wording and markup as index.html */
+  .crisis { background: var(--signal-bg); color: var(--fg); border-bottom: 1px solid var(--rule); font-size: 15px; line-height: 1.6; }
+  .crisis .wrap { max-width: 760px; margin: 0 auto; padding: 8px 16px; display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: center; }
+  .crisis strong { color: var(--danger); }
+  .crisis select { font: inherit; font-size: 16px; min-height: 44px; padding: 4px 8px; border-radius: 6px; border: 1.5px solid var(--rule); background: var(--paper); color: var(--fg); max-width: 100%; }
+  .crisis a { display: inline-block; padding-block: 11px; margin-block: -11px; }
+  .crisis select:focus-visible { outline: 3px solid var(--fg); outline-offset: 2px; }
+  html:not(.js) .crisis label, html:not(.js) .crisis select { display: none; }
 
   /* Header with the menu button */
   .topbar {
@@ -145,6 +155,9 @@
   a { color: inherit; text-decoration-color: var(--hazard); text-decoration-thickness: 2px; text-underline-offset: 3px; }
   a:focus-visible, .tablewrap:focus-visible { outline: 3px solid var(--fg); outline-offset: 2px; }
   main a, footer a { display: inline-block; padding-block: 11px; margin-block: -11px; }
+  /* Reading list: each row carries 12px above and below, so every link is at least 44px tall and neighbours never overlap */
+  ul.readmore { list-style-position: outside; }
+  ul.readmore li { margin: 0; padding-block: 12px; }
   .menu-panel a:focus-visible { outline: 3px solid var(--bg); outline-offset: -3px; }
 
   .stamp {
@@ -192,6 +205,14 @@
 </style>
 </head>
 <body>
+
+<div class="crisis" role="region" aria-label="Crisis support">
+  <div class="wrap">
+    <label for="country"><strong data-i18n="country">Your country</strong></label>
+    <select id="country"></select>
+    <span id="crisisText"><strong>In crisis or thinking about suicide?</strong> Suicide &amp; Crisis Lifeline: <strong>988</strong> (call or text) &middot; Crisis Text Line: <strong>HOME &rarr; 741741</strong> (text) &middot; In immediate danger, call <strong>911</strong>. More countries: <a href="https://findahelpline.com" rel="noopener">findahelpline.com</a></span>
+  </div>
+</div>
 
 <header class="topbar">
   <div class="topbar-inner">
@@ -319,7 +340,7 @@
       <li><strong>Know the exit resources.</strong> People who leave, especially from the Sea Org, often have no money, no ID, no work history and no outside friends.</li>
     </ul>
     <h3>Where to read more</h3>
-    <ul class="plain">
+    <ul class="plain readmore">
       <li><a href="https://www.theaftermathfoundation.org/" rel="noopener">The Aftermath Foundation</a>, which helps people leaving Scientology with housing, legal referrals and practical support.</li>
       <li><em>Going Clear</em> by Lawrence Wright, and the Alex Gibney documentary of the same name.</li>
       <li><em>Leah Remini: Scientology and the Aftermath</em>, three seasons of interviews with former members.</li>
@@ -348,6 +369,67 @@
 </main>
 
 <script>
+  document.documentElement.classList.add('js');
+  (function () {
+  var CL = {
+    us:[[["Suicide & Crisis Lifeline","988","ct"],["Crisis Text Line","HOME \u2192 741741","t"]],"911"],
+    ca:[[["Suicide Crisis Helpline","988","ct"]],"911"],
+    mx:[[["L\u00ednea de la Vida","800 911 2000","c"]],"911"],
+    br:[[["CVV","188","c"]],"192 / 190"],
+    gb:[[["Samaritans","116 123","c"],["Shout","SHOUT \u2192 85258","t"]],"999"],
+    ie:[[["Samaritans","116 123","c"]],"999 / 112"],
+    fr:[[["3114","3114","c"]],"15 / 112"],
+    de:[[["Telefonseelsorge","0800 111 0 111","c"]],"112"],
+    es:[[["L\u00ednea 024","024","c"]],"112"],
+    za:[[["SADAG","0800 567 567","c"]],"10111 / 112"],
+    in:[[["Tele-MANAS","14416","c"]],"112"],
+    jp:[[["\u3088\u308a\u305d\u3044\u30db\u30c3\u30c8\u30e9\u30a4\u30f3","0120-279-338","c"]],"119 / 110"],
+    au:[[["Lifeline","13 11 14","c"]],"000"],
+    nz:[[["1737","1737","ct"]],"111"]
+  };
+    var T = {
+      c_crisis: "In crisis or thinking about suicide?", c_danger: "In immediate danger, call", c_more: "More countries:",
+      c_other: "In immediate danger? Call your local emergency number (112 works in many countries). Find a crisis line at",
+      m_c: "call", m_t: "text", m_ct: "call or text"
+    };
+    var country = "xx";
+    var sel = document.getElementById("country"), ct = document.getElementById("crisisText");
+    function el(tag, text) { var e = document.createElement(tag); if (text != null) e.textContent = text; return e; }
+    function link(text) { var a = el("a", text); a.href = "https://findahelpline.com"; a.rel = "noopener"; return a; }
+    function countryName(k) {
+      if (k === "xx") return "Another country";
+      var code = k.toUpperCase();
+      try { return new Intl.DisplayNames(["en"], { type: "region" }).of(code); } catch (e) { return code; }
+    }
+    function buildCountries() {
+      sel.textContent = "";
+      Object.keys(CL).concat(["xx"]).forEach(function (k) { var o = el("option", countryName(k)); o.value = k; sel.appendChild(o); });
+      sel.value = country;
+    }
+    function renderCrisis() {
+      ct.textContent = "";
+      if (country === "xx") { ct.appendChild(document.createTextNode(T.c_other + " ")); ct.appendChild(link("findahelpline.com")); return; }
+      var d = CL[country];
+      ct.appendChild(el("strong", T.c_crisis));
+      d[0].forEach(function (l, i) {
+        ct.appendChild(document.createTextNode(" " + (i ? "\u00b7 " : "") + l[0] + ": "));
+        ct.appendChild(el("strong", l[1]));
+        ct.appendChild(document.createTextNode(" (" + T["m_" + l[2]] + ")"));
+      });
+      ct.appendChild(document.createTextNode(" \u00b7 " + T.c_danger + " "));
+      ct.appendChild(el("strong", d[1]));
+      ct.appendChild(document.createTextNode(". " + T.c_more + " "));
+      ct.appendChild(link("findahelpline.com"));
+    }
+    sel.addEventListener("change", function () { country = sel.value; try { localStorage.setItem("ph-country", country); } catch (e) {} renderCrisis(); });
+    var sc = "";
+    try { sc = localStorage.getItem("ph-country") || ""; } catch (e) {}
+    var nav = (navigator.language || "en").toLowerCase().split("-");
+    if (sc && (CL[sc] || sc === "xx")) country = sc;
+    else if (nav[1] && CL[nav[1]]) country = nav[1];
+    buildCountries(); renderCrisis();
+  })();
+
   (function () {
     var btn = document.getElementById('menuBtn');
     var panel = document.getElementById('menuPanel');
