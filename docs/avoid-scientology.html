@@ -31,6 +31,9 @@
       color-scheme: dark;
     }
   }
+  /* The bar is light in dark mode, so the yellow brand word needs a darker amber there */
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .brand span { color: #7a5200; } }
+  :root[data-theme="dark"] .brand span { color: #7a5200; }
   :root[data-theme="dark"] {
     --bg: #17161a; --paper: #211f24; --fg: #ece8df; --muted: #a7a194;
     --rule: #3c393f; --hazard: #f0c22a; --hazard-ink: #17161a; --danger: #ff6b61;
@@ -76,7 +79,7 @@
     display: inline-flex; align-items: center; gap: 8px;
     font: 600 .95rem var(--font-body); letter-spacing: .02em;
     background: var(--hazard); color: var(--hazard-ink);
-    border: 0; border-radius: 2px; padding: 8px 14px; cursor: pointer;
+    border: 0; border-radius: 2px; padding: 8px 14px; min-height: 44px; cursor: pointer;
   }
   .menu-btn:hover { filter: brightness(1.06); }
   .menu-btn:focus-visible { outline: 3px solid var(--bg); outline-offset: 2px; }
@@ -107,7 +110,7 @@
     font-family: var(--font-display); font-weight: 700; font-size: 1.2rem;
     letter-spacing: .03em; text-transform: uppercase; border-left: 3px solid transparent;
   }
-  .menu-panel a:hover, .menu-panel a:focus-visible { border-left-color: var(--hazard); background: rgba(255,255,255,.06); outline: none; }
+  .menu-panel a:hover, .menu-panel a:focus-visible { border-left-color: var(--hazard); background: rgba(255,255,255,.06); }
   .menu-panel a small { font: 500 .72rem var(--font-mono); color: var(--hazard); margin-right: 10px; letter-spacing: .06em; }
   .menu-panel li.home { border-bottom: 1px solid rgba(255,255,255,.15); margin-bottom: 6px; padding-bottom: 6px; }
 
@@ -125,7 +128,7 @@
     color: var(--muted); margin: 0 0 6px;
   }
   h1 {
-    font-family: var(--font-display); font-weight: 800; font-size: clamp(2.6rem, 9vw, 4.6rem);
+    font-family: var(--font-display); font-weight: 800; font-size: clamp(2.2rem, 9vw, 4.6rem);
     line-height: .95; letter-spacing: .01em; text-transform: uppercase; margin: 0 0 18px;
     text-wrap: balance;
   }
@@ -140,7 +143,9 @@
   ul.plain { padding-left: 1.2em; margin: 0 0 14px; max-width: 65ch; }
   ul.plain li { margin-bottom: 6px; }
   a { color: inherit; text-decoration-color: var(--hazard); text-decoration-thickness: 2px; text-underline-offset: 3px; }
-  a:focus-visible { outline: 2px solid var(--hazard); outline-offset: 2px; }
+  a:focus-visible, .tablewrap:focus-visible { outline: 3px solid var(--fg); outline-offset: 2px; }
+  main a, footer a { display: inline-block; padding-block: 11px; margin-block: -11px; }
+  .menu-panel a:focus-visible { outline: 3px solid var(--bg); outline-offset: -3px; }
 
   .stamp {
     display: inline-block; font: 700 1.1rem var(--font-display); letter-spacing: .08em; text-transform: uppercase;
@@ -261,7 +266,7 @@
     <p class="eyebrow">Know the names</p>
     <h2>Front groups</h2>
     <p>These organizations are run by Scientologists, promote L. Ron Hubbard's methods, and in many cases are formally licensed by Scientology entities. Some don't mention the connection anywhere on their websites. If one of them shows up at your school, clinic, workplace or town council, that's your cue.</p>
-    <div class="tablewrap">
+    <div class="tablewrap" tabindex="0" role="region" aria-label="Front groups table, scrolls sideways on small screens">
       <table>
         <thead><tr><th>Name</th><th>Looks like</th><th>Actually</th></tr></thead>
         <tbody>
