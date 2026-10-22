@@ -26,6 +26,7 @@ Feeling better often depends on boring logistics: which kind of professional to 
 - **Seven languages**: English, Español, Português, Français, Deutsch, हिन्दी, 日本語.
 - **Private by design**: a static site with no login, no forms that store data, and no analytics in the repo.
 - **Accessible**: Atkinson Hyperlegible type, keyboard focus styles, light and dark themes, and a mobile-first layout.
+- **Customize panel**: theme, text size, font, spacing, motion, sound, and density, saved only in your own browser.
 
 <img src="docs/assets/screenshot-mobile.png" alt="Planet Hoto on a phone" width="260">
 
@@ -35,6 +36,15 @@ Plain HTML, CSS, and JavaScript in [`docs/`](docs), served by GitHub Pages. No f
 
 - [`docs/index.html`](docs/index.html): home page (all seven languages, crisis strip, finder, guides, grounding tool, contact).
 - [`docs/avoid-scientology.html`](docs/avoid-scientology.html): a personal page on recognizing and declining Scientology recruiters and front groups.
+- [`docs/customize.css`](docs/customize.css), [`docs/customize.js`](docs/customize.js): the "Customize" panel (theme, text size, font, line spacing, motion, sound, layout density, reset). Choices are kept in `localStorage` under `ph-customize` only: no cookies, no accounts, no network calls. `customize.js` is loaded in `<head>` without `defer` on purpose, so saved choices are on `<html>` before first paint.
+
+### Tests
+
+```bash
+npm test
+```
+
+Node's built-in test runner, no dependencies. It covers storage, reset, the page order (skip link, then the 988/911 bar), and WCAG AA contrast for every theme. `tests/e2e/customize.e2e.js` is an optional browser check that needs Playwright and a running preview (see the header of that file).
 
 ### Preview locally
 

@@ -1,0 +1,134 @@
+/* Planet Hoto "Customize" styles. Loaded after each page's own <style> so these win on equal specificity.
+   Themes set every variable both pages use (index: --surface/--line/--accent...; Avoiding Scientology: --paper/--rule/--hazard...).
+   Light and dark are the pages' own palettes; this file adds high contrast and calm. */
+
+/* ---------- Themes ---------- */
+html:root[data-ph-theme="contrast"] {
+  --bg: #000000; --surface: #000000; --paper: #000000; --fg: #ffffff; --muted: #f0f0f0;
+  --line: #ffffff; --rule: #ffffff; --accent: #ffe14d; --accent-fg: #000000;
+  --signal: #ffd2c4; --signal-bg: #2b0000; --soft: #141414;
+  --hazard: #ffe14d; --hazard-ink: #000000; --danger: #ffd2c4;
+  color-scheme: dark;
+}
+html:root[data-ph-theme="calm"] {
+  --bg: #ebeceb; --surface: #f5f6f5; --paper: #f5f6f5; --fg: #2b3236; --muted: #4f595e;
+  --line: #c3c9c8; --rule: #c3c9c8; --accent: #3d6461; --accent-fg: #ffffff;
+  --signal: #7d3b2b; --signal-bg: #e6dcd8; --soft: #dde2e0;
+  --hazard: #c9b27a; --hazard-ink: #2b3236; --danger: #7d3b2b;
+  color-scheme: light;
+}
+/* Scientology page: its top bar is the inverse of the page, so the brand word needs a dark amber on light bars */
+html:root[data-ph-theme="contrast"] .brand span { color: #7a5200; }
+/* High contrast: every link underlined, strong outlines, heavier borders on the crisis bar */
+html:root[data-ph-theme="contrast"] a { text-decoration: underline; }
+html:root[data-ph-theme="contrast"] :focus-visible { outline: 4px solid #ffe14d; outline-offset: 3px; }
+html:root[data-ph-theme="contrast"] .crisis { border-bottom: 3px solid #ffe14d; }
+html:root[data-ph-theme="contrast"] .guide, html:root[data-ph-theme="contrast"] .finder,
+html:root[data-ph-theme="contrast"] .chip, html:root[data-ph-theme="contrast"] select { border-width: 2px; }
+
+/* ---------- Text size (--ph-ts is set by customize.js; every font-size in the pages is multiplied by it) ---------- */
+html { font-size: calc(100% * var(--ph-ts, 1)); }
+body { overflow-wrap: break-word; }
+
+/* ---------- Fonts ---------- */
+html[data-ph-font="dyslexia"] {
+  --font-body: "OpenDyslexic", "Lexend", "Atkinson Hyperlegible", Verdana, "Trebuchet MS", sans-serif;
+  --font-display: "OpenDyslexic", "Lexend", "Atkinson Hyperlegible", Verdana, "Trebuchet MS", sans-serif;
+  --font-mono: "OpenDyslexic", "Lexend", Verdana, sans-serif;
+}
+html[data-ph-font="dyslexia"] body { letter-spacing: 0.03em; word-spacing: 0.12em; }
+html[data-ph-font="dyslexia"] * { text-transform: none !important; font-style: normal !important; }
+html[data-ph-font="system"] {
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --font-display: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --font-mono: ui-monospace, Menlo, Consolas, monospace;
+}
+
+/* ---------- Line spacing (headings keep their tight leading) ---------- */
+html[data-ph-spacing="relaxed"] :where(body, p, li, dd, dt, td, th, label) { line-height: 1.8 !important; }
+html[data-ph-spacing="loose"] :where(body, p, li, dd, dt, td, th, label) { line-height: 2.1 !important; }
+
+/* ---------- Motion ---------- */
+html[data-ph-motion="reduce"] *, html[data-ph-motion="reduce"] *::before, html[data-ph-motion="reduce"] *::after {
+  animation: none !important; transition: none !important; scroll-behavior: auto !important;
+}
+html[data-ph-motion="reduce"] .stamp { transform: none; }
+
+/* ---------- Layout density ---------- */
+/* Planet Hoto home */
+html[data-ph-density="compact"] section.block { padding-block: 32px; }
+html[data-ph-density="compact"] .hero { padding-block: 20px 28px; }
+html[data-ph-density="compact"] .guide, html[data-ph-density="compact"] .finder { padding: 14px; }
+html[data-ph-density="compact"] .guides, html[data-ph-density="compact"] .help { gap: 10px; margin-top: 20px; }
+html[data-ph-density="roomy"] section.block { padding-block: 80px; }
+html[data-ph-density="roomy"] .hero { padding-block: 56px 72px; }
+html[data-ph-density="roomy"] .guide, html[data-ph-density="roomy"] .finder { padding: 28px; }
+html[data-ph-density="roomy"] .guides, html[data-ph-density="roomy"] .help { gap: 28px; margin-top: 44px; }
+html[data-ph-density="roomy"] .chips { gap: 14px; }
+/* Avoiding Scientology */
+html[data-ph-density="compact"] main > section { padding-block: 16px; }
+html[data-ph-density="compact"] .sheet article { padding: 10px 12px; }
+html[data-ph-density="compact"] .sheet { gap: 6px; }
+html[data-ph-density="roomy"] main > section { padding-block: 48px; }
+html[data-ph-density="roomy"] .sheet article { padding: 22px 22px; }
+html[data-ph-density="roomy"] .sheet { gap: 20px; }
+html[data-ph-density="roomy"] ul.plain li { margin-bottom: 14px; }
+
+/* ---------- Skip link (the home page already styles it; the Scientology page gets the same one) ---------- */
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 16px; top: 8px; background: var(--surface, var(--paper)); color: var(--fg); padding: 8px 12px; z-index: 20; min-height: 44px; display: inline-flex; align-items: center; }
+
+/* ---------- Header button ---------- */
+html:not(.js) .ph-open { display: none; }
+.ph-open {
+  font: inherit; font-weight: 700; font-size: calc(15px * var(--ph-ts, 1)); min-height: 44px; padding: 8px 14px;
+  border-radius: 8px; border: 2px solid var(--accent, var(--hazard)); background: transparent;
+  color: var(--accent, var(--hazard-ink)); cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+}
+.topbar .ph-open { color: var(--bg); border-color: var(--bg); border-radius: 2px; }
+.ph-open[aria-expanded="true"] { background: var(--accent, var(--hazard)); color: var(--accent-fg, var(--hazard-ink)); }
+.topbar .ph-open[aria-expanded="true"] { background: var(--bg); color: var(--fg); }
+.ph-open svg { flex: none; }
+.topbar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+
+/* ---------- The panel (sits in the page flow below the header, so the crisis bar is never covered) ---------- */
+.ph-panel { background: var(--surface, var(--paper)); color: var(--fg); border-bottom: 1px solid var(--line, var(--rule)); font-family: var(--font-body); font-size: calc(16px * var(--ph-ts, 1)); }
+.ph-panel[hidden] { display: none !important; }
+.ph-inner { max-width: 1080px; margin: 0 auto; padding: 16px max(16px, env(safe-area-inset-right, 0px)) 20px max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 14px; }
+.topbar ~ .ph-panel .ph-inner { max-width: 760px; }
+.ph-panel h2 { font-family: var(--font-display); font-size: calc(24px * var(--ph-ts, 1)); line-height: 1.15; margin: 0; text-transform: none; letter-spacing: 0; max-width: none; font-weight: 800; }
+.ph-panel h2:focus { outline: none; }
+.ph-panel h2:focus-visible { outline: 3px solid var(--accent, var(--fg)); outline-offset: 2px; }
+.ph-note, .ph-help { margin: 0; color: var(--muted); font-size: calc(15px * var(--ph-ts, 1)); line-height: 1.5; max-width: 70ch; }
+.ph-help { margin-top: 6px; }
+.ph-group { border: 0; margin: 0; padding: 0; min-width: 0; }
+.ph-group legend { padding: 0; margin-bottom: 6px; font-weight: 700; }
+.ph-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.ph-opt { position: relative; display: inline-flex; }
+.ph-opt input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.ph-opt span {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 8px 14px; border-radius: 999px;
+  border: 2px solid var(--line, var(--rule)); background: var(--bg); color: var(--fg); line-height: 1.3;
+}
+.ph-opt:hover span { border-color: var(--accent, var(--fg)); }
+.ph-opt input:checked + span { background: var(--fg); color: var(--bg); border-color: var(--fg); font-weight: 700; }
+.ph-opt input:checked + span::before { content: "\2713\00a0"; }
+.ph-opt input:focus-visible + span { outline: 3px solid var(--accent, var(--fg)); outline-offset: 2px; }
+html:root[data-ph-theme="contrast"] .ph-opt span { border-color: #fff; }
+html:root[data-ph-theme="contrast"] .ph-opt input:checked + span { background: #ffe14d; color: #000; border-color: #ffe14d; }
+.ph-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.ph-btn { font: inherit; font-weight: 700; min-height: 44px; padding: 8px 18px; border-radius: 8px; border: 2px solid var(--fg); background: transparent; color: var(--fg); cursor: pointer; }
+.ph-btn:hover { background: var(--fg); color: var(--bg); }
+.ph-btn:focus-visible { outline: 3px solid var(--accent, var(--fg)); outline-offset: 2px; }
+.ph-status { margin: 0; min-height: 1.4em; color: var(--muted); font-size: calc(15px * var(--ph-ts, 1)); }
+
+@media (max-width: 800px) {
+  .ph-opts { gap: 6px; }
+  .ph-opt span { padding: 8px 12px; }
+}
+@media (forced-colors: active) {
+  .ph-opt input:checked + span { outline: 2px solid Highlight; }
+}
+
+/* Scientology page header: let the brand and the two buttons wrap instead of overflowing at large text sizes */
+.topbar-inner { flex-wrap: wrap; }
