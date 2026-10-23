@@ -16,7 +16,17 @@
     spacing: ["normal", "relaxed", "loose"],
     motion: ["auto", "reduce"],
     density: ["comfortable", "compact", "roomy"],
-    sound: ["off", "on"]
+    sound: ["off", "on"],
+    accent: ["default", "blue", "purple", "green", "rose"],
+    links: ["default", "underline"],
+    width: ["default", "narrow", "wide"],
+    radius: ["default", "square", "round"],
+    columns: ["default", "single"],
+    focus: ["default", "thick"],
+    ruler: ["off", "on"],
+    letter: ["default", "wide", "wider"],
+    word: ["default", "wide", "wider"],
+    para: ["default", "wide"]
   };
   var KEYS = Object.keys(OPTIONS);
 
@@ -70,7 +80,7 @@
     var base = { light: "light", dark: "dark", contrast: "dark", calm: "light" }[p.theme];
     if (base) { el.setAttribute("data-theme", base); el.setAttribute("data-ph-theme", p.theme); }
     else { el.removeAttribute("data-theme"); el.removeAttribute("data-ph-theme"); }
-    ["font", "spacing", "motion", "density", "sound"].forEach(function (k) {
+    ["font", "spacing", "motion", "density", "sound", "accent", "links", "width", "radius", "columns", "focus", "ruler", "letter", "word", "para"].forEach(function (k) {
       if (p[k] === OPTIONS[k][0]) el.removeAttribute("data-ph-" + k);
       else el.setAttribute("data-ph-" + k, p[k]);
     });
@@ -79,9 +89,18 @@
     return p;
   }
 
+  // Returns sanitized prefs from an exported file's text, or null if it is not one of ours.
+  function parseImport(text) {
+    try {
+      var o = JSON.parse(text);
+      if (!o || o.app !== "planet-hoto" || !o.settings || typeof o.settings !== "object") return null;
+      return sanitize(o.settings);
+    } catch (e) { return null; }
+  }
+
   var api = {
     KEY: KEY, OPTIONS: OPTIONS, defaults: defaults, sanitize: sanitize, isDefault: isDefault,
-    load: load, save: save, reset: reset, apply: apply
+    load: load, save: save, reset: reset, apply: apply, parseImport: parseImport
   };
 
   // Panel text. English first; the others follow the page language and are drafts, like the site's other translations.
@@ -178,6 +197,88 @@
       saved: "この端末に保存しました。", reset_done: "初期設定に戻しました。", nostore: "ブラウザが保存をブロックしたため、この設定はページを閉じるまで有効です。"
     }
   };
+
+  // Strings for the extra options. Option labels fall back to the shared opt_* keys below.
+  var MORE = {
+    en: {
+      sec_color: "Colors", sec_text: "Text", sec_layout: "Layout", sec_read: "Reading and motion", sec_file: "Save or move your settings",
+      accent: "Accent color", links: "Links", width: "Page width", radius: "Corners", columns: "Columns", focus: "Keyboard focus outline", ruler: "Reading ruler",
+      letter: "Letter spacing", word: "Word spacing", para: "Paragraph spacing",
+      opt_default: "Default", opt_off: "Off", opt_on: "On", opt_narrow: "Narrow", opt_wide: "Wide", opt_wider: "Wider", opt_square: "Square", opt_round: "Round",
+      opt_thick: "Thicker", opt_underline: "Always underlined", opt_single: "Single column",
+      accent_blue: "Blue", accent_purple: "Purple", accent_green: "Green", accent_rose: "Rose",
+      ruler_help: "A soft band follows your pointer or the item you tab to, to help you keep your place.",
+      file_help: "Your settings can be saved to a file on this device and loaded again later, for example on another browser. Nothing is uploaded.",
+      export: "Save settings to a file", import: "Load settings from a file", imported: "Settings loaded.", import_bad: "That file is not a Planet Hoto settings file."
+    },
+    es: {
+      sec_color: "Colores", sec_text: "Texto", sec_layout: "Diseño", sec_read: "Lectura y movimiento", sec_file: "Guardar o mover tus ajustes",
+      accent: "Color de acento", links: "Enlaces", width: "Ancho de página", radius: "Esquinas", columns: "Columnas", focus: "Contorno de foco del teclado", ruler: "Regla de lectura",
+      letter: "Espaciado entre letras", word: "Espaciado entre palabras", para: "Espaciado entre párrafos",
+      opt_default: "Predeterminado", opt_off: "Desactivado", opt_on: "Activado", opt_narrow: "Estrecho", opt_wide: "Ancho", opt_wider: "Más ancho", opt_square: "Cuadradas", opt_round: "Redondeadas",
+      opt_thick: "Más grueso", opt_underline: "Siempre subrayados", opt_single: "Una columna",
+      accent_blue: "Azul", accent_purple: "Morado", accent_green: "Verde", accent_rose: "Rosa",
+      ruler_help: "Una banda suave sigue el puntero o el elemento al que llegas con el tabulador, para ayudarte a no perder el lugar.",
+      file_help: "Tus ajustes se pueden guardar en un archivo en este dispositivo y cargarse más tarde, por ejemplo en otro navegador. No se sube nada.",
+      export: "Guardar ajustes en un archivo", import: "Cargar ajustes desde un archivo", imported: "Ajustes cargados.", import_bad: "Ese archivo no es un archivo de ajustes de Planet Hoto."
+    },
+    pt: {
+      sec_color: "Cores", sec_text: "Texto", sec_layout: "Layout", sec_read: "Leitura e movimento", sec_file: "Salvar ou levar suas configurações",
+      accent: "Cor de destaque", links: "Links", width: "Largura da página", radius: "Cantos", columns: "Colunas", focus: "Contorno de foco do teclado", ruler: "Régua de leitura",
+      letter: "Espaçamento entre letras", word: "Espaçamento entre palavras", para: "Espaçamento entre parágrafos",
+      opt_default: "Padrão", opt_off: "Desligado", opt_on: "Ligado", opt_narrow: "Estreita", opt_wide: "Larga", opt_wider: "Mais larga", opt_square: "Quadrados", opt_round: "Arredondados",
+      opt_thick: "Mais grosso", opt_underline: "Sempre sublinhados", opt_single: "Uma coluna",
+      accent_blue: "Azul", accent_purple: "Roxo", accent_green: "Verde", accent_rose: "Rosa",
+      ruler_help: "Uma faixa suave acompanha o ponteiro ou o item que você alcança com a tecla Tab, para ajudar a não perder o lugar.",
+      file_help: "Suas configurações podem ser salvas em um arquivo neste dispositivo e carregadas depois, por exemplo em outro navegador. Nada é enviado.",
+      export: "Salvar configurações em arquivo", import: "Carregar configurações de arquivo", imported: "Configurações carregadas.", import_bad: "Esse arquivo não é um arquivo de configurações do Planet Hoto."
+    },
+    fr: {
+      sec_color: "Couleurs", sec_text: "Texte", sec_layout: "Mise en page", sec_read: "Lecture et animations", sec_file: "Enregistrer ou déplacer vos réglages",
+      accent: "Couleur d'accent", links: "Liens", width: "Largeur de la page", radius: "Coins", columns: "Colonnes", focus: "Contour du focus clavier", ruler: "Règle de lecture",
+      letter: "Espacement des lettres", word: "Espacement des mots", para: "Espacement des paragraphes",
+      opt_default: "Par défaut", opt_off: "Désactivé", opt_on: "Activé", opt_narrow: "Étroite", opt_wide: "Large", opt_wider: "Plus large", opt_square: "Carrés", opt_round: "Arrondis",
+      opt_thick: "Plus épais", opt_underline: "Toujours soulignés", opt_single: "Une colonne",
+      accent_blue: "Bleu", accent_purple: "Violet", accent_green: "Vert", accent_rose: "Rose",
+      ruler_help: "Une bande douce suit le pointeur ou l'élément atteint avec la touche Tab, pour vous aider à garder votre place.",
+      file_help: "Vos réglages peuvent être enregistrés dans un fichier sur cet appareil et rechargés plus tard, par exemple dans un autre navigateur. Rien n'est envoyé.",
+      export: "Enregistrer les réglages dans un fichier", import: "Charger les réglages depuis un fichier", imported: "Réglages chargés.", import_bad: "Ce fichier n'est pas un fichier de réglages Planet Hoto."
+    },
+    de: {
+      sec_color: "Farben", sec_text: "Text", sec_layout: "Layout", sec_read: "Lesen und Bewegung", sec_file: "Einstellungen sichern oder mitnehmen",
+      accent: "Akzentfarbe", links: "Links", width: "Seitenbreite", radius: "Ecken", columns: "Spalten", focus: "Tastatur-Fokusrahmen", ruler: "Leselineal",
+      letter: "Buchstabenabstand", word: "Wortabstand", para: "Absatzabstand",
+      opt_default: "Standard", opt_off: "Aus", opt_on: "An", opt_narrow: "Schmal", opt_wide: "Breit", opt_wider: "Breiter", opt_square: "Eckig", opt_round: "Rund",
+      opt_thick: "Dicker", opt_underline: "Immer unterstrichen", opt_single: "Eine Spalte",
+      accent_blue: "Blau", accent_purple: "Violett", accent_green: "Grün", accent_rose: "Rosa",
+      ruler_help: "Ein weiches Band folgt dem Zeiger oder dem Element, zu dem du mit Tab springst, damit du nicht die Zeile verlierst.",
+      file_help: "Deine Einstellungen lassen sich in einer Datei auf diesem Gerät sichern und später wieder laden, zum Beispiel in einem anderen Browser. Es wird nichts hochgeladen.",
+      export: "Einstellungen in Datei speichern", import: "Einstellungen aus Datei laden", imported: "Einstellungen geladen.", import_bad: "Diese Datei ist keine Planet-Hoto-Einstellungsdatei."
+    },
+    hi: {
+      sec_color: "रंग", sec_text: "टेक्स्ट", sec_layout: "लेआउट", sec_read: "पढ़ना और गति", sec_file: "अपनी सेटिंग सहेजें या साथ ले जाएँ",
+      accent: "एक्सेंट रंग", links: "लिंक", width: "पेज की चौड़ाई", radius: "कोने", columns: "कॉलम", focus: "कीबोर्ड फ़ोकस की रेखा", ruler: "पढ़ने की पट्टी",
+      letter: "अक्षरों के बीच की जगह", word: "शब्दों के बीच की जगह", para: "अनुच्छेदों के बीच की जगह",
+      opt_default: "डिफ़ॉल्ट", opt_off: "बंद", opt_on: "चालू", opt_narrow: "संकरा", opt_wide: "चौड़ा", opt_wider: "और चौड़ा", opt_square: "चौकोर", opt_round: "गोल",
+      opt_thick: "और मोटी", opt_underline: "हमेशा रेखांकित", opt_single: "एक कॉलम",
+      accent_blue: "नीला", accent_purple: "बैंगनी", accent_green: "हरा", accent_rose: "गुलाबी",
+      ruler_help: "एक हल्की पट्टी आपके पॉइंटर या Tab से चुने गए हिस्से के साथ चलती है, ताकि आप अपनी जगह न खोएँ।",
+      file_help: "आपकी सेटिंग इस डिवाइस पर एक फ़ाइल में सहेजी जा सकती है और बाद में दोबारा लोड की जा सकती है, जैसे किसी दूसरे ब्राउज़र में। कुछ भी अपलोड नहीं होता।",
+      export: "सेटिंग फ़ाइल में सहेजें", import: "फ़ाइल से सेटिंग लोड करें", imported: "सेटिंग लोड हो गईं।", import_bad: "यह Planet Hoto की सेटिंग फ़ाइल नहीं है।"
+    },
+    ja: {
+      sec_color: "色", sec_text: "文字", sec_layout: "レイアウト", sec_read: "読みやすさと動き", sec_file: "設定の保存と移行",
+      accent: "アクセントカラー", links: "リンク", width: "ページの幅", radius: "角", columns: "段組み", focus: "キーボードフォーカスの枠", ruler: "読み取りルーラー",
+      letter: "文字間隔", word: "単語の間隔", para: "段落の間隔",
+      opt_default: "標準", opt_off: "オフ", opt_on: "オン", opt_narrow: "狭い", opt_wide: "広い", opt_wider: "さらに広い", opt_square: "四角", opt_round: "丸み",
+      opt_thick: "太く", opt_underline: "常に下線", opt_single: "1列",
+      accent_blue: "青", accent_purple: "紫", accent_green: "緑", accent_rose: "ピンク",
+      ruler_help: "ポインターやTabキーで移動した項目に合わせて淡い帯が動き、読んでいる位置を見失わないようにします。",
+      file_help: "設定はこの端末のファイルに保存し、あとで別のブラウザなどで読み込めます。何もアップロードされません。",
+      export: "設定をファイルに保存", import: "ファイルから設定を読み込む", imported: "設定を読み込みました。", import_bad: "Planet Hotoの設定ファイルではありません。"
+    }
+  };
+  Object.keys(MORE).forEach(function (l) { Object.keys(MORE[l]).forEach(function (k) { S[l][k] = MORE[l][k]; }); });
   api.strings = S;
 
   if (typeof document === "undefined") return api;
@@ -197,14 +298,34 @@
     return S[l] ? l : "en";
   }
   function tr(k) { return S[lang()][k] || S.en[k] || k; }
+  // Option label: the group's own key (theme_dark) or the shared one (opt_default).
+  function optLabel(group, val) { var k = group + "_" + val; return S.en[k] ? tr(k) : tr("opt_" + val); }
 
-  var GROUPS = [
-    { key: "theme", type: "radio" }, { key: "size", type: "radio" }, { key: "font", type: "radio" },
-    { key: "spacing", type: "radio" }, { key: "density", type: "radio" }, { key: "motion", type: "radio" },
-    { key: "sound", type: "radio", help: "sound_help" }
+  // Panel sections: each is a <details> holding labelled radio groups.
+  var SECTIONS = [
+    { key: "sec_color", open: true, groups: [{ key: "theme" }, { key: "accent" }] },
+    { key: "sec_text", open: true, groups: [{ key: "size" }, { key: "font" }, { key: "spacing" }, { key: "letter" }, { key: "word" }, { key: "para" }] },
+    { key: "sec_layout", groups: [{ key: "density" }, { key: "width" }, { key: "columns" }, { key: "radius" }] },
+    { key: "sec_read", groups: [{ key: "ruler", help: "ruler_help" }, { key: "links" }, { key: "focus" }, { key: "motion" }, { key: "sound", help: "sound_help" }] }
   ];
 
   var openBtn, panel, built = false, status;
+
+  // Reading ruler: a soft band that follows the pointer, or the focused element when you tab. Purely visual.
+  var ruler = null;
+  function moveRuler(y) { if (ruler) ruler.style.transform = "translateY(" + Math.round(y) + "px)"; }
+  function syncRuler() {
+    if (prefs.ruler === "on" && !ruler) {
+      ruler = document.createElement("div");
+      ruler.className = "ph-ruler"; ruler.setAttribute("aria-hidden", "true");
+      ruler.style.transform = "translateY(-9999px)"; // parked until the first pointer or focus move, so it never tints the 988/911 bar at load
+      document.documentElement.appendChild(ruler);
+    } else if (prefs.ruler !== "on" && ruler) { ruler.parentNode.removeChild(ruler); ruler = null; }
+  }
+  document.addEventListener("pointermove", function (e) { if (ruler) moveRuler(e.clientY - ruler.offsetHeight / 2); }, { passive: true });
+  document.addEventListener("focusin", function (e) { if (ruler && e.target.getBoundingClientRect) { var r = e.target.getBoundingClientRect(); moveRuler(r.top + r.height / 2 - ruler.offsetHeight / 2); } });
+  window.addEventListener("ph:customize", syncRuler);
+  document.addEventListener("DOMContentLoaded", syncRuler);
 
   function persist() {
     // When storage is blocked the choices still apply for this visit; they just are not kept.
@@ -233,6 +354,35 @@
     return n;
   }
 
+  function exportFile() {
+    var data = { app: "planet-hoto", version: 1, settings: sanitize(prefs) };
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = "planet-hoto-settings.json";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  // Reads a settings file the visitor picked. Parsed locally; only known keys and values are kept.
+  function importFile(input) {
+    var f = input.files && input.files[0];
+    if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function () {
+      var parsed = parseImport(String(rd.result));
+      if (!parsed) { setStatus(tr("import_bad")); return; }
+      prefs = parsed;
+      apply(document.documentElement, prefs);
+      persist();
+      build();
+      setStatus(tr("imported"));
+      try { window.dispatchEvent(new CustomEvent("ph:customize", { detail: sanitize(prefs) })); } catch (e) { /* old browser */ }
+    };
+    rd.onerror = function () { setStatus(tr("import_bad")); };
+    rd.readAsText(f.size > 20000 ? f.slice(0, 20000) : f);
+  }
+
   function build() {
     panel.textContent = "";
     var inner = el("div", { "class": "ph-inner" });
@@ -242,28 +392,49 @@
     inner.appendChild(head);
     inner.appendChild(el("p", { "class": "ph-note" }, tr("note")));
 
-    GROUPS.forEach(function (g) {
-      var fs = el("fieldset", { "class": "ph-group" });
-      fs.appendChild(el("legend", {}, tr(g.key)));
-      var row = el("div", { "class": "ph-opts" });
-      OPTIONS[g.key].forEach(function (val) {
-        var id = "ph-" + g.key + "-" + val;
-        var lab = el("label", { "class": "ph-opt", "for": id });
-        var inp = el("input", { type: "radio", name: "ph-" + g.key, id: id, value: val });
-        if (prefs[g.key] === val) inp.checked = true;
-        inp.addEventListener("change", function () { if (inp.checked) change(g.key, val); });
-        lab.appendChild(inp);
-        lab.appendChild(el("span", {}, tr(g.key + "_" + val)));
-        row.appendChild(lab);
+    SECTIONS.forEach(function (sec) {
+      var det = el("details", { "class": "ph-sec" });
+      if (sec.open) det.setAttribute("open", "");
+      det.appendChild(el("summary", {}, tr(sec.key)));
+      sec.groups.forEach(function (g) {
+        var fs = el("fieldset", { "class": "ph-group" });
+        fs.appendChild(el("legend", {}, tr(g.key)));
+        var row = el("div", { "class": "ph-opts" });
+        OPTIONS[g.key].forEach(function (val) {
+          var id = "ph-" + g.key + "-" + val;
+          var lab = el("label", { "class": "ph-opt", "for": id });
+          var inp = el("input", { type: "radio", name: "ph-" + g.key, id: id, value: val });
+          if (prefs[g.key] === val) inp.checked = true;
+          inp.addEventListener("change", function () { if (inp.checked) change(g.key, val); });
+          lab.appendChild(inp);
+          lab.appendChild(el("span", {}, optLabel(g.key, val)));
+          row.appendChild(lab);
+        });
+        fs.appendChild(row);
+        if (g.help) {
+          var hid = "ph-" + g.key + "-help";
+          fs.appendChild(el("p", { "class": "ph-help", id: hid }, tr(g.help)));
+          fs.setAttribute("aria-describedby", hid);
+        }
+        det.appendChild(fs);
       });
-      fs.appendChild(row);
-      if (g.help) {
-        var hid = "ph-" + g.key + "-help";
-        fs.appendChild(el("p", { "class": "ph-help", id: hid }, tr(g.help)));
-        fs.setAttribute("aria-describedby", hid);
-      }
-      inner.appendChild(fs);
+      inner.appendChild(det);
     });
+
+    // Save / load settings as a local file. Nothing leaves the device.
+    var fsec = el("details", { "class": "ph-sec" });
+    fsec.appendChild(el("summary", {}, tr("sec_file")));
+    fsec.appendChild(el("p", { "class": "ph-help" }, tr("file_help")));
+    var frow = el("div", { "class": "ph-actions" });
+    var ex = el("button", { type: "button", "class": "ph-btn", id: "phExport" }, tr("export"));
+    ex.addEventListener("click", exportFile);
+    var im = el("button", { type: "button", "class": "ph-btn", id: "phImport" }, tr("import"));
+    var file = el("input", { type: "file", accept: ".json,application/json", id: "phFile", "class": "ph-file", tabindex: "-1", "aria-hidden": "true" });
+    im.addEventListener("click", function () { file.click(); });
+    file.addEventListener("change", function () { importFile(file); });
+    frow.appendChild(ex); frow.appendChild(im); frow.appendChild(file);
+    fsec.appendChild(frow);
+    inner.appendChild(fsec);
 
     var actions = el("div", { "class": "ph-actions" });
     var rs = el("button", { type: "button", "class": "ph-btn", id: "phReset" }, tr("reset"));
