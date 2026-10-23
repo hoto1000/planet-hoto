@@ -155,7 +155,7 @@ test('skip link is first, then the 988/911 bar, then header, panel, main', () =>
 test('every pixel font size on the pages is scaled by the text-size variable', () => {
   for (const p of PAGES) {
     const css = read(p).match(/<style>[\s\S]*?<\/style>/g).join('\n');
-    const bare = css.match(/font(?:-size)?:\s*(?!calc)(?:clamp\([^;]*\)|\d+(?:\.\d+)?px)/g);
+    const bare = css.match(/font(?:-size)?:\s*(?!calc)(?:clamp\([^;]*px[^;]*\)|\d+(?:\.\d+)?px)/g);
     assert.strictEqual(bare, null, p + ' has unscaled px font sizes: ' + bare);
   }
   assert.match(read('customize.css'), /html \{ font-size: calc\(100% \* var\(--ph-ts, 1\)\); \}/);
