@@ -74,3 +74,8 @@ If you like the project, a ⭐ helps other people find it.
 ## Important
 
 Planet Hoto is information and practical guidance, not medical advice, diagnosis, or treatment. If you are in immediate danger, call your local emergency number (112 works in many countries) or find a crisis line at [findahelpline.com](https://findahelpline.com).
+
+## License
+
+- **Code** (`serve.js`, `tests/`, scripts and styles in `docs/`): MIT. See [LICENSE](LICENSE).
+- **Guides, pages, and translations** in `docs/`: [CC BY 4.0](CONTENT-LICENSE.md). You may share and adapt them, including commercially, with credit.
