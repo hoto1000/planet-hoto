@@ -1,9 +1,0 @@
-{
-  "name": "planet-hoto",
-  "private": true,
-  "description": "Static site served from docs/. No build step; the only scripts here are for tests.",
-  "scripts": {
-    "test": "node --test tests/customize.test.js"
-  },
-  "engines": { "node": ">=18" }
-}

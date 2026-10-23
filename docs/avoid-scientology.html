@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Avoiding Scientology · Planet Hoto</title>
-<script src="customize.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@500&family=Lexend:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
   /* Layout: a sticky header with one menu button; below it, a single reading column
      that opens with a blunt personal statement, then hazard-sheet style field guidance. */
@@ -49,7 +48,7 @@
     background: var(--bg);
     color: var(--fg);
     font-family: var(--font-body);
-    font-size: calc(17px * var(--ph-ts, 1));
+    font-size: 17px;
     line-height: 1.6;
   }
   img { max-width: 100%; }
@@ -60,10 +59,10 @@
   }
 
   /* Crisis strip: same wording and markup as index.html */
-  .crisis { background: var(--signal-bg); color: var(--fg); border-bottom: 1px solid var(--rule); font-size: calc(15px * var(--ph-ts, 1)); line-height: 1.6; }
+  .crisis { background: var(--signal-bg); color: var(--fg); border-bottom: 1px solid var(--rule); font-size: 15px; line-height: 1.6; }
   .crisis .wrap { max-width: 760px; margin: 0 auto; padding: 8px 16px; display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: center; }
   .crisis strong { color: var(--danger); }
-  .crisis select { font: inherit; font-size: calc(16px * var(--ph-ts, 1)); min-height: 44px; padding: 4px 8px; border-radius: 6px; border: 1.5px solid var(--rule); background: var(--paper); color: var(--fg); max-width: 100%; }
+  .crisis select { font: inherit; font-size: 16px; min-height: 44px; padding: 4px 8px; border-radius: 6px; border: 1.5px solid var(--rule); background: var(--paper); color: var(--fg); max-width: 100%; }
   .crisis a { display: inline-block; padding-block: 11px; margin-block: -11px; }
   .crisis select:focus-visible { outline: 3px solid var(--fg); outline-offset: 2px; }
   html:not(.js) .crisis label, html:not(.js) .crisis select { display: none; }
@@ -139,13 +138,13 @@
     color: var(--muted); margin: 0 0 6px;
   }
   h1 {
-    font-family: var(--font-display); font-weight: 800; font-size: calc(clamp(2.2rem, 9vw, 4.6rem) * var(--ph-ts, 1));
+    font-family: var(--font-display); font-weight: 800; font-size: clamp(2.2rem, 9vw, 4.6rem);
     line-height: .95; letter-spacing: .01em; text-transform: uppercase; margin: 0 0 18px;
     text-wrap: balance;
   }
   h1 mark { background: var(--hazard); color: var(--hazard-ink); padding: 0 .12em; }
   h2 {
-    font-family: var(--font-display); font-weight: 800; font-size: calc(clamp(1.8rem, 5vw, 2.4rem) * var(--ph-ts, 1));
+    font-family: var(--font-display); font-weight: 800; font-size: clamp(1.8rem, 5vw, 2.4rem);
     line-height: 1; letter-spacing: .02em; text-transform: uppercase; margin: 0 0 14px; text-wrap: balance;
   }
   h3 { font: 600 1.05rem var(--font-body); margin: 0 0 4px; }
@@ -204,11 +203,8 @@
     .menu-btn .bars::before, .menu-btn .bars::after, .menu-btn .bars i { transition: transform .18s, top .18s, bottom .18s, opacity .12s; }
   }
 </style>
-<link rel="stylesheet" href="customize.css">
 </head>
 <body>
-
-<a class="skip" href="#main">Skip to content</a>
 
 <div class="crisis" role="region" aria-label="Crisis support">
   <div class="wrap">
@@ -221,12 +217,9 @@
 <header class="topbar">
   <div class="topbar-inner">
     <p class="brand">Avoid <span>Scientology</span></p>
-    <div class="topbar-actions">
-      <button class="ph-open" id="phOpen" type="button" aria-expanded="false" aria-controls="phPanel"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="17" r="2.2" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="ph-open-label">Customize</span></button>
-      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuPanel">
-        <span class="bars" aria-hidden="true"><i></i></span> Menu
-      </button>
-    </div>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuPanel">
+      <span class="bars" aria-hidden="true"><i></i></span> Menu
+    </button>
   </div>
   <nav class="menu-panel" id="menuPanel" hidden aria-label="Page sections">
     <ul>
@@ -241,9 +234,8 @@
     </ul>
   </nav>
 </header>
-<div class="ph-panel" id="phPanel" role="region" aria-labelledby="phTitle" hidden></div>
 
-<main id="main">
+<main>
   <section id="why">
     <p class="eyebrow">A personal page from Planet Hoto</p>
     <h1>I hate Scientology.<br>Here's how to <mark>stay away</mark> from it.</h1>
