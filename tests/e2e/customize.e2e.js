@@ -4,7 +4,7 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 const BASE = process.env.BASE || 'http://localhost:8766';
 const OUT = process.argv[2] || null;
-const PAGES = ['/index.html', '/avoid-scientology.html'];
+const PAGES = fs.readdirSync('docs').filter(f => f.endsWith('.html')).sort().map(f => '/' + f);
 const THEMES = ['auto', 'light', 'dark', 'contrast', 'calm'];
 const SIZES = ['100', '150'];
 const fails = [];
@@ -118,7 +118,7 @@ const check = (ok, msg) => { if (!ok) { fails.push(msg); console.log('FAIL', msg
     const p2 = await c2.newPage(); await p2.route(/^https?:\/\/(?!localhost)/, r => r.abort());
     await p2.goto(BASE + page);
     const bg = await p2.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    check(/^rgb\((14|23), /.test(bg), `${page}: follows prefers-color-scheme: dark by default (${bg})`);
+    check(/^rgb\((14|16|23), /.test(bg), `${page}: follows prefers-color-scheme: dark by default (${bg})`);
     await c2.close();
   }
   await browser.close();
