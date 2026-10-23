@@ -111,7 +111,7 @@ const check = (ok, msg) => { if (!ok) { fails.push(msg); console.log('FAIL', msg
     check(await p.getAttribute('#phOpen', 'aria-expanded') === 'false' && await p.evaluate(() => document.activeElement.id) === 'phOpen', `${page}: Escape closes and returns focus`);
     const cookies = await ctx.cookies();
     check(cookies.length === 0, `${page}: no cookies set`);
-    check(reqs.every(u => /\.(html|css|js)$/.test(u) || u.endsWith('/')), `${page}: only static page files requested after load (${reqs.join(' ')})`);
+    check(reqs.every(u => /\.(html|css|js)$/.test(u) || /\/assets\/fonts\/[a-z0-9-]+\.woff2$/.test(u) || u.endsWith('/')), `${page}: only static page files requested after load (${reqs.join(' ')})`);
     // system dark default + reduced motion default
     await ctx.close();
     const c2 = await browser.newContext({ colorScheme: 'dark', reducedMotion: 'reduce' });
