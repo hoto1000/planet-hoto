@@ -43,6 +43,43 @@ const check = (ok, msg) => { if (!ok) { fails.push(msg); console.log('FAIL', msg
       }
     }
   }
+  // Everything on at once, at the largest text size: the 988/911 bar must stay on top, readable and unclipped.
+  const MAX = { theme: 'contrast', size: '150', font: 'dyslexia', spacing: 'loose', density: 'roomy', accent: 'rose', links: 'underline', width: 'narrow', radius: 'round', columns: 'single', focus: 'thick', ruler: 'on', letter: 'wider', word: 'wider', para: 'wide', motion: 'reduce', sound: 'on' };
+  for (const vp of [{ w: 320, h: 700 }, { w: 390, h: 800 }, { w: 1280, h: 900 }]) {
+    for (const page of PAGES) {
+      const ctx = await browser.newContext({ viewport: { width: vp.w, height: vp.h } });
+      await ctx.addInitScript(v => localStorage.setItem('ph-customize', JSON.stringify(v)), MAX);
+      const p = await ctx.newPage(); await p.route(/^https?:\/\/(?!localhost)/, r => r.abort());
+      await p.goto(BASE + page);
+      const tag = `max ${page} ${vp.w}px`;
+      const m = await p.evaluate(() => { const c = document.querySelector('.crisis'), r = c.getBoundingClientRect(); return { top: r.top, h: r.height, sw: document.documentElement.scrollWidth - document.documentElement.clientWidth, clipped: c.scrollWidth > c.clientWidth + 1, txt: c.innerText, ruler: !!document.querySelector('.ph-ruler') }; });
+      check(m.top >= 0 && m.top < 5 && m.h > 20 && /988/.test(m.txt) && /911/.test(m.txt), `${tag}: crisis bar on top with 988 and 911`);
+      check(m.sw <= 1 && !m.clipped, `${tag}: no overflow or clipping (${m.sw}px)`);
+      check(m.ruler, `${tag}: ruler present`);
+      if (OUT) { fs.mkdirSync(OUT, { recursive: true }); await p.screenshot({ path: `${OUT}/max-${page.slice(1, -5)}-${vp.w}.png` }); }
+      await ctx.close();
+    }
+  }
+  // Settings file: export then import in a fresh context
+  {
+    const ctx = await browser.newContext({ acceptDownloads: true, viewport: { width: 390, height: 800 } });
+    const p = await ctx.newPage(); await p.route(/^https?:\/\/(?!localhost)/, r => r.abort());
+    await p.goto(BASE + PAGES[0]); await p.click('#phOpen');
+    await p.evaluate(() => document.querySelectorAll('#phPanel details').forEach(d => { d.open = true; }));
+    await p.click('label[for="ph-accent-blue"]'); await p.click('label[for="ph-width-wide"]');
+    const [dl] = await Promise.all([p.waitForEvent('download'), p.click('#phExport')]);
+    const file = await dl.path();
+    const saved = JSON.parse(fs.readFileSync(file, 'utf8'));
+    check(saved.app === 'planet-hoto' && saved.settings.accent === 'blue', 'export file has the settings');
+    await p.click('#phReset');
+    check(await p.evaluate(() => document.documentElement.dataset.phAccent) === undefined, 'reset before import');
+    await p.setInputFiles('#phFile', file);
+    await p.waitForFunction(() => document.documentElement.dataset.phAccent === 'blue');
+    check(await p.evaluate(() => document.documentElement.dataset.phWidth) === 'wide', 'import restored settings');
+    await p.setInputFiles('#phFile', { name: 'bad.json', mimeType: 'application/json', buffer: Buffer.from('{"hello":1}') });
+    await p.waitForFunction(() => /not a Planet Hoto/.test(document.getElementById('phStatus').textContent));
+    await ctx.close();
+  }
   // Panel behaviour, persistence, reset, no network
   for (const page of PAGES) {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 800 } });
@@ -54,7 +91,8 @@ const check = (ok, msg) => { if (!ok) { fails.push(msg); console.log('FAIL', msg
     await p.click('#phOpen');
     check(await p.getAttribute('#phOpen', 'aria-expanded') === 'true', `${page}: button expanded`);
     check(await p.evaluate(() => document.activeElement.id) === 'phTitle', `${page}: focus moves to panel heading`);
-    check(await p.evaluate(() => document.querySelectorAll('#phPanel fieldset legend').length) === 7, `${page}: 7 labelled groups`);
+    await p.evaluate(() => document.querySelectorAll('#phPanel details').forEach(d => { d.open = true; }));
+    check(await p.evaluate(() => document.querySelectorAll('#phPanel fieldset legend').length) === 17, `${page}: 17 labelled groups`);
     await p.click('label[for="ph-theme-contrast"]');
     await p.click('label[for="ph-size-130"]');
     await p.click('label[for="ph-font-dyslexia"]');
