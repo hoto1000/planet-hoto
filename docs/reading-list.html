@@ -19,8 +19,12 @@
   .skip { position:absolute; left:-9999px; }
   .skip:focus { left:16px; top:16px; background:var(--surface); padding:8px 12px; z-index:5; }
   header, main, footer { max-width:44rem; margin:0 auto; padding:0 16px; }
-  header { padding-top:20px; }
+  header { padding-top:9px; }
   header a { text-decoration:none; font-weight:700; }
+  /* Tap targets: at least 44px tall, with the extra height kept out of the text flow */
+  header a, .src a { display:inline-block; padding-block:11px; margin-block:-11px; }
+  header a { margin-block:0; }
+  footer a { display:block; padding-block:11px; }
   h1 { font-size:2rem; line-height:1.2; margin:1.2rem 0 0.4rem; }
   h2 { font-size:1.35rem; margin:2rem 0 0.6rem; }
   .meta { color:var(--muted); font-size:0.95rem; margin:0 0 1rem; }
@@ -103,7 +107,8 @@
   <p>Pick one book from each list and read the first chapter.</p>
 </main>
 <footer>
-  <p><a href="index.html">Back to Planet Hoto</a> · <a href="prizes-explained.html">How the Nobel Peace Prize and the Pulitzers are chosen</a></p>
+  <p><a href="index.html">Back to Planet Hoto</a></p>
+  <p><a href="prizes-explained.html">How the Nobel Peace Prize and the Pulitzers are chosen</a></p>
 </footer>
 </body>
 </html>
