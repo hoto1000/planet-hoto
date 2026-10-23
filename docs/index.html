@@ -2262,7 +2262,13 @@ T.fa = {
   var RTL = {ar:1, ur:1, fa:1};
   var LANGS = {en:"English",es:"Espa\u00f1ol",pt:"Portugu\u00eas",fr:"Fran\u00e7ais",de:"Deutsch",hi:"\u0939\u093f\u0928\u094d\u0926\u0940",ja:"\u65e5\u672c\u8a9e",tl:"Tagalog",vi:"Ti\u1ebfng Vi\u1ec7t",ar:"\u0627\u0644\u0639\u0631\u0628\u064a\u0629",zh:"\u4e2d\u6587",ru:"\u0420\u0443\u0441\u0441\u043a\u0438\u0439",id:"Bahasa Indonesia",bn:"\u09ac\u09be\u0982\u09b2\u09be",ur:"\u0627\u0631\u062f\u0648",tr:"T\u00fcrk\u00e7e",ko:"\ud55c\uad6d\uc5b4",it:"Italiano",sw:"Kiswahili",th:"\u0e44\u0e17\u0e22",pl:"Polski",fa:"\u0641\u0627\u0631\u0633\u06cc"};
   var lang = "en", country = "xx", chip = "overwhelmed", running = false, timer = null, phase = "idle";
-  function t(k) { var v = T[lang][k]; return v == null ? T.en[k] : v; }
+  // Safety-critical strings (crisis box, step guides, disclaimers) stay in English for languages
+  // whose translations a native speaker has not yet reviewed. Remove a code from UNREVIEWED once checked.
+  var UNREVIEWED = {tl:1, vi:1, ar:1, zh:1, ru:1, id:1, bn:1, ur:1, tr:1, ko:1, it:1, sw:1, th:1, pl:1, fa:1};
+  var SAFETY = {c_crisis:1, c_danger:1, c_other:1, m_c:1, m_t:1, m_ct:1, ft2:1, ct_note:1};
+  function t(k) { if (UNREVIEWED[lang] && SAFETY[k]) return T.en[k]; var v = T[lang][k]; return v == null ? T.en[k] : v; }
+  function safetyEn() { return !!UNREVIEWED[lang]; }
+  function markEn(n, on) { if (on) { n.lang = "en"; n.dir = "ltr"; } else { n.removeAttribute("lang"); n.removeAttribute("dir"); } }
   var sel = document.getElementById("country"), ct = document.getElementById("crisisText");
   var langSel = document.getElementById("lang"), box = document.getElementById("steps");
   var orb = document.getElementById("orb"), btn = document.getElementById("breathBtn"), label = document.getElementById("breathLabel");
@@ -2283,6 +2289,7 @@ T.fa = {
   }
   function renderCrisis() {
     ct.textContent = "";
+    markEn(ct, safetyEn());
     if (country === "xx") { ct.appendChild(document.createTextNode(t("c_other") + " ")); ct.appendChild(link("findahelpline.com")); return; }
     var d = CL[country];
     ct.appendChild(el("strong", t("c_crisis")));
@@ -2299,7 +2306,8 @@ T.fa = {
     ct.appendChild(link("findahelpline.com"));
   }
   function renderSteps() {
-    var d = T[lang].st ? T[lang].st[chip] : T.en.st[chip];
+    var d = T[lang].st && !safetyEn() ? T[lang].st[chip] : T.en.st[chip];
+    markEn(box, safetyEn());
     box.textContent = "";
     box.appendChild(el("h3", d.t));
     var ol = el("ol"); d.s.forEach(function (s) { ol.appendChild(el("li", s)); }); box.appendChild(ol);
@@ -2317,7 +2325,7 @@ T.fa = {
   function apply() {
     document.documentElement.lang = lang;
     document.documentElement.dir = RTL[lang] ? "rtl" : "ltr";
-    document.querySelectorAll("[data-i18n]").forEach(function (n) { n.textContent = t(n.getAttribute("data-i18n")); });
+    document.querySelectorAll("[data-i18n]").forEach(function (n) { var k = n.getAttribute("data-i18n"); n.textContent = t(k); if (SAFETY[k]) markEn(n, safetyEn()); });
     buildCountries(); renderCrisis(); renderSteps(); renderBreath();
     langSel.value = lang;
   }
