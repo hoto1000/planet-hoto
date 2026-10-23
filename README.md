@@ -26,6 +26,7 @@ Feeling better often depends on boring logistics: which kind of professional to 
 - **Seven languages**: English, Español, Português, Français, Deutsch, हिन्दी, 日本語.
 - **Private by design**: a static site with no login, no forms that store data, and no analytics in the repo.
 - **Customize panel**: theme, text size, font, line spacing, motion, sound, and layout density. Choices stay in your browser only.
+- **Privacy hardening**: fonts are served from this site (`docs/assets/fonts`), so pages make no outside requests. Each page also sets a Content-Security-Policy and `no-referrer` in its `<head>`.
 - **Accessible**: Atkinson Hyperlegible type, keyboard focus styles, WCAG AA contrast checked in tests, and a mobile-first layout.
 
 <img src="docs/assets/screenshot-mobile.png" alt="Planet Hoto on a phone" width="260">
