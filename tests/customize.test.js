@@ -125,7 +125,8 @@ test('every language has every panel string', () => {
 });
 
 /* ---------- Pages ---------- */
-const PAGES = ['index.html', 'avoid-scientology.html'];
+const PAGES = fs.readdirSync(path.join(__dirname, '..', 'docs')).filter(f => f.endsWith('.html')).sort();
+assert.ok(PAGES.length >= 7, 'expected every page in docs/ to be tested: ' + PAGES);
 
 test('both pages load the settings script in <head> (no flash) and the stylesheet', () => {
   for (const p of PAGES) {
@@ -154,7 +155,7 @@ test('skip link is first, then the 988/911 bar, then header, panel, main', () =>
 test('every pixel font size on the pages is scaled by the text-size variable', () => {
   for (const p of PAGES) {
     const css = read(p).match(/<style>[\s\S]*?<\/style>/g).join('\n');
-    const bare = css.match(/font-size:\s*(?!calc)(?:clamp\([^;]*\)|\d+(?:\.\d+)?px)/g);
+    const bare = css.match(/font(?:-size)?:\s*(?!calc)(?:clamp\([^;]*\)|\d+(?:\.\d+)?px)/g);
     assert.strictEqual(bare, null, p + ' has unscaled px font sizes: ' + bare);
   }
   assert.match(read('customize.css'), /html \{ font-size: calc\(100% \* var\(--ph-ts, 1\)\); \}/);
@@ -260,4 +261,19 @@ test('the reading ruler never captures input and is a light tint', () => {
   assert.match(m, /pointer-events: none/);
   for (const a of m.matchAll(/rgba\([^)]*, ([0-9.]+)\)/g)) assert.ok(Number(a[1]) <= 0.7, m);
   assert.ok(!/(^|\n)[^\n]*\.ph-ruler[^\n]*\bbackground:\s*#/.test(css), 'no opaque ruler background');
+});
+
+test('the small essay pages use theme variables the customize themes know about', () => {
+  for (const p of PAGES) {
+    const html = read(p);
+    // --signal is a text colour in the themes; a crisis background must come from --signal-bg (with a page fallback)
+    assert.ok(!/\.crisis\s*\{[^}]*background:\s*var\(--signal\)/.test(html), p + ': crisis bar uses --signal as a background');
+    assert.ok(!/font:\s*\d+px/.test(html), p + ': body font set in fixed px, so text size cannot scale');
+  }
+});
+
+test('the Customize button is shown by customize.js itself, not by a class each page has to add', () => {
+  assert.match(read('customize.js'), /classList\.add\("ph-js"\)/);
+  assert.match(read('customize.css'), /html:not\(\.ph-js\) \.ph-open \{ display: none; \}/);
+  assert.ok(!/html:not\(\.js\) \.ph-open/.test(read('customize.css')));
 });

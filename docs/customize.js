@@ -288,6 +288,7 @@
   try { store = window.localStorage; store.getItem(KEY); } catch (e) { store = null; }
   var prefs = load(store);
   apply(document.documentElement, prefs);
+  document.documentElement.classList.add("ph-js");
 
   api.get = function () { return sanitize(prefs); };
   api.soundOn = function () { return prefs.sound === "on"; };
