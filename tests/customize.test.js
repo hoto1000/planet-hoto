@@ -22,7 +22,11 @@ const fakeRoot = () => {
 
 /* ---------- Storage ---------- */
 test('defaults follow the device and keep everything at standard', () => {
-  assert.deepStrictEqual(C.defaults(), { theme: 'auto', size: '100', font: 'default', spacing: 'normal', motion: 'auto', density: 'comfortable', sound: 'off' });
+  assert.deepStrictEqual(C.defaults(), {
+    theme: 'auto', size: '100', font: 'default', spacing: 'normal', motion: 'auto', density: 'comfortable', sound: 'off',
+    accent: 'default', links: 'default', width: 'default', radius: 'default', columns: 'default', focus: 'default', ruler: 'off',
+    letter: 'default', word: 'default', para: 'default'
+  });
 });
 
 test('save then load round-trips, using only the ph-customize key', () => {
@@ -111,14 +115,18 @@ test('customize.js makes no network calls and sets no cookies', () => {
 test('every language has every panel string', () => {
   const en = Object.keys(C.strings.en);
   for (const l of Object.keys(C.strings)) assert.deepStrictEqual(Object.keys(C.strings[l]).sort(), en.slice().sort(), l);
-  for (const k of Object.keys(C.OPTIONS)) {
-    assert.ok(C.strings.en[k], 'group label ' + k);
-    for (const v of C.OPTIONS[k]) assert.ok(C.strings.en[k + '_' + v], 'option label ' + k + '_' + v);
+  for (const l of Object.keys(C.strings)) {
+    for (const k of Object.keys(C.OPTIONS)) {
+      assert.ok(C.strings[l][k], l + ' group label ' + k);
+      // an option label is its own key (theme_dark) or a shared one (opt_default)
+      for (const v of C.OPTIONS[k]) assert.ok(C.strings[l][k + '_' + v] || C.strings[l]['opt_' + v], l + ' option label ' + k + '_' + v);
+    }
   }
 });
 
 /* ---------- Pages ---------- */
-const PAGES = ['index.html', 'avoid-scientology.html', 'blog.html', 'blog-a-most-agreeable-war.html'];
+const PAGES = fs.readdirSync(path.join(__dirname, '..', 'docs')).filter(f => f.endsWith('.html')).sort();
+assert.ok(PAGES.length >= 7, 'expected every page in docs/ to be tested: ' + PAGES);
 
 test('every page loads the settings script in <head> (no flash) and the stylesheet', () => {
   for (const p of PAGES) {
@@ -147,7 +155,7 @@ test('skip link is first, then the 988/911 bar, then header, panel, main', () =>
 test('every pixel font size on the pages is scaled by the text-size variable', () => {
   for (const p of PAGES) {
     const css = read(p).match(/<style>[\s\S]*?<\/style>/g).join('\n');
-    const bare = css.match(/font-size:\s*(?!calc)(?:clamp\([^;]*\)|\d+(?:\.\d+)?px)/g);
+    const bare = css.match(/font(?:-size)?:\s*(?!calc)(?:clamp\([^;]*\)|\d+(?:\.\d+)?px)/g);
     assert.strictEqual(bare, null, p + ' has unscaled px font sizes: ' + bare);
   }
   assert.match(read('customize.css'), /html \{ font-size: calc\(100% \* var\(--ph-ts, 1\)\); \}/);
@@ -202,4 +210,74 @@ test('Scientology top bar brand word stays readable on the inverted bar in every
   assert.ok(ratio(sciT.calm.hazard, sciT.calm.fg) >= AA);
   assert.ok(ratio('#7a5200', sciT.dark.fg) >= AA);
   assert.ok(ratio('#7a5200', sciT.contrast.fg) >= AA);
+});
+
+/* ---------- More options ---------- */
+test('every new option maps to a data attribute and defaults remove it', () => {
+  const r = fakeRoot();
+  C.apply(r, { accent: 'rose', links: 'underline', width: 'narrow', radius: 'round', columns: 'single', focus: 'thick', ruler: 'on', letter: 'wider', word: 'wide', para: 'wide' });
+  for (const k of ['accent', 'links', 'width', 'radius', 'columns', 'focus', 'ruler', 'letter', 'word', 'para']) assert.ok(r.attrs['data-ph-' + k], k);
+  C.apply(r, C.defaults());
+  assert.deepStrictEqual(r.attrs, {});
+});
+
+test('every option value used in customize.css exists in OPTIONS', () => {
+  const css = read('customize.css');
+  for (const m of css.matchAll(/\[data-ph-([a-z]+)="([a-z]+)"\]/g)) {
+    if (m[1] === 'theme') { assert.ok(C.OPTIONS.theme.includes(m[2]), m[0]); continue; }
+    assert.ok(C.OPTIONS[m[1]] && C.OPTIONS[m[1]].includes(m[2]), 'unknown ' + m[0]);
+  }
+});
+
+test('settings file: round trip, wrong app, junk and hostile content', () => {
+  const prefs = Object.assign(C.defaults(), { theme: 'calm', accent: 'green', size: '130' });
+  const file = JSON.stringify({ app: 'planet-hoto', version: 1, settings: prefs });
+  assert.deepStrictEqual(C.parseImport(file), prefs);
+  assert.strictEqual(C.parseImport('{"app":"other","settings":{}}'), null);
+  assert.strictEqual(C.parseImport('nope'), null);
+  assert.strictEqual(C.parseImport('{"app":"planet-hoto","settings":"x"}'), null);
+  const hostile = C.parseImport('{"app":"planet-hoto","settings":{"theme":"<script>","accent":"rose","__proto__":{"x":1}}}');
+  assert.strictEqual(hostile.theme, 'auto');
+  assert.strictEqual(hostile.accent, 'rose');
+  assert.strictEqual(({}).x, undefined);
+});
+
+test('accent presets pass WCAG AA on every surface they can sit on, in their light and dark variants', () => {
+  const lightBgs = [home.light.bg, home.light.surface, home.light.soft, home.calm.bg, home.calm.surface, home.calm.soft];
+  const darkBgs = [home.dark.bg, home.dark.surface, home.dark.soft];
+  const rules = [...cz.matchAll(/html:root\[data-ph-accent="([a-z]+)"\]([^{]*)\{ --accent: (#[0-9a-f]{6}); --accent-fg: (#[0-9a-f]{6}); \}/g)];
+  assert.strictEqual(rules.length, 12); // 4 presets x (light, auto-dark media rule, explicit dark)
+  for (const [, name, sel, accent, fg] of rules) {
+    const dark = /\[data-theme="dark"\]|:not\(\[data-theme="light"\]\)/.test(sel);
+    for (const bg of dark ? darkBgs : lightBgs) assert.ok(ratio(accent, bg) >= AA, `${name} ${accent} on ${bg} = ${ratio(accent, bg).toFixed(2)}`);
+    assert.ok(ratio(fg, accent) >= AA, `${name} button text ${fg} on ${accent}`);
+    assert.ok(/:not\(\[data-ph-theme="contrast"\]\)/.test(sel), name + ' must not override high contrast');
+  }
+});
+
+test('the reading ruler never captures input and is a light tint', () => {
+  const css = read('customize.css');
+  const m = css.match(/\.ph-ruler \{[^}]*\}/)[0];
+  assert.match(m, /pointer-events: none/);
+  for (const a of m.matchAll(/rgba\([^)]*, ([0-9.]+)\)/g)) assert.ok(Number(a[1]) <= 0.7, m);
+  assert.ok(!/(^|\n)[^\n]*\.ph-ruler[^\n]*\bbackground:\s*#/.test(css), 'no opaque ruler background');
+});
+
+test('the small essay pages use theme variables the customize themes know about', () => {
+  for (const p of PAGES) {
+    const html = read(p);
+    // --signal is a text colour in the themes; a crisis background must come from --signal-bg (with a page fallback)
+    assert.ok(!/\.crisis\s*\{[^}]*background:\s*var\(--signal\)/.test(html), p + ': crisis bar uses --signal as a background');
+    assert.ok(!/font:\s*\d+px/.test(html), p + ': body font set in fixed px, so text size cannot scale');
+  }
+});
+
+test('the Customize button is shown by customize.js itself, not by a class each page has to add', () => {
+  assert.match(read('customize.js'), /classList\.add\("ph-js"\)/);
+  assert.match(read('customize.css'), /html:not\(\.ph-js\) \.ph-open \{ display: none; \}/);
+  assert.ok(!/html:not\(\.js\) \.ph-open/.test(read('customize.css')));
+});
+
+test('the visual check mark has empty alt text so screen readers do not read it as part of the option name', () => {
+  assert.match(read('customize.css'), /\.ph-opt input:checked \+ span::before \{ content: "\\2713\\00a0" \/ ""; \}/);
 });

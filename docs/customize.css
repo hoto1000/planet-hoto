@@ -79,7 +79,7 @@ html[data-ph-density="roomy"] ul.plain li { margin-bottom: 14px; }
 .skip:focus { left: 16px; top: 8px; background: var(--surface, var(--paper)); color: var(--fg); padding: 8px 12px; z-index: 20; min-height: 44px; display: inline-flex; align-items: center; }
 
 /* ---------- Header button ---------- */
-html:not(.js) .ph-open { display: none; }
+html:not(.ph-js) .ph-open { display: none; } /* customize.js adds ph-js, so the button only shows when it can work */
 .ph-open {
   font: inherit; font-weight: 700; font-size: calc(15px * var(--ph-ts, 1)); min-height: 44px; padding: 8px 14px;
   border-radius: 8px; border: 2px solid var(--accent, var(--hazard)); background: transparent;
@@ -113,6 +113,8 @@ html:not(.js) .ph-open { display: none; }
 .ph-opt:hover span { border-color: var(--accent, var(--fg)); }
 .ph-opt input:checked + span { background: var(--fg); color: var(--bg); border-color: var(--fg); font-weight: 700; }
 .ph-opt input:checked + span::before { content: "\2713\00a0"; }
+/* Empty alt text keeps the check mark out of the accessible name; the radio already announces "checked" */
+.ph-opt input:checked + span::before { content: "\2713\00a0" / ""; }
 .ph-opt input:focus-visible + span { outline: 3px solid var(--accent, var(--fg)); outline-offset: 2px; }
 html:root[data-ph-theme="contrast"] .ph-opt span { border-color: #fff; }
 html:root[data-ph-theme="contrast"] .ph-opt input:checked + span { background: #ffe14d; color: #000; border-color: #ffe14d; }
@@ -132,3 +134,58 @@ html:root[data-ph-theme="contrast"] .ph-opt input:checked + span { background: #
 
 /* Scientology page header: let the brand and the two buttons wrap instead of overflowing at large text sizes */
 .topbar-inner { flex-wrap: wrap; }
+
+/* ---------- Accent color. Each preset has a light and a dark value, all checked for WCAG AA in the tests.
+   High contrast keeps its own yellow. The Scientology page has no accent color, so there it only tints the panel. ---------- */
+html:root[data-ph-accent="blue"]:not([data-ph-theme="contrast"]) { --accent: #1f5fa8; --accent-fg: #ffffff; }
+@media (prefers-color-scheme: dark) { html:root[data-ph-accent="blue"]:not([data-theme="light"]):not([data-ph-theme="contrast"]) { --accent: #8ab8f0; --accent-fg: #08121c; } }
+html:root[data-ph-accent="blue"][data-theme="dark"]:not([data-ph-theme="contrast"]) { --accent: #8ab8f0; --accent-fg: #08121c; }
+html:root[data-ph-accent="purple"]:not([data-ph-theme="contrast"]) { --accent: #6b3fa0; --accent-fg: #ffffff; }
+@media (prefers-color-scheme: dark) { html:root[data-ph-accent="purple"]:not([data-theme="light"]):not([data-ph-theme="contrast"]) { --accent: #c3a6f0; --accent-fg: #08121c; } }
+html:root[data-ph-accent="purple"][data-theme="dark"]:not([data-ph-theme="contrast"]) { --accent: #c3a6f0; --accent-fg: #08121c; }
+html:root[data-ph-accent="green"]:not([data-ph-theme="contrast"]) { --accent: #2e6b34; --accent-fg: #ffffff; }
+@media (prefers-color-scheme: dark) { html:root[data-ph-accent="green"]:not([data-theme="light"]):not([data-ph-theme="contrast"]) { --accent: #8fd49a; --accent-fg: #08121c; } }
+html:root[data-ph-accent="green"][data-theme="dark"]:not([data-ph-theme="contrast"]) { --accent: #8fd49a; --accent-fg: #08121c; }
+html:root[data-ph-accent="rose"]:not([data-ph-theme="contrast"]) { --accent: #a02f5a; --accent-fg: #ffffff; }
+@media (prefers-color-scheme: dark) { html:root[data-ph-accent="rose"]:not([data-theme="light"]):not([data-ph-theme="contrast"]) { --accent: #f09ab8; --accent-fg: #08121c; } }
+html:root[data-ph-accent="rose"][data-theme="dark"]:not([data-ph-theme="contrast"]) { --accent: #f09ab8; --accent-fg: #08121c; }
+
+/* ---------- Links, focus outline ---------- */
+html[data-ph-links="underline"] a { text-decoration: underline !important; text-underline-offset: 3px; }
+html[data-ph-focus="thick"] :focus-visible { outline: 5px solid var(--accent, var(--fg)) !important; outline-offset: 3px !important; }
+html:root[data-ph-theme="contrast"][data-ph-focus="thick"] :focus-visible { outline-color: #ffe14d !important; }
+
+/* ---------- Letter, word and paragraph spacing (WCAG 1.4.12 values and above) ---------- */
+html[data-ph-letter="wide"] body * { letter-spacing: 0.05em !important; }
+html[data-ph-letter="wider"] body * { letter-spacing: 0.12em !important; }
+html[data-ph-word="wide"] body { word-spacing: 0.16em; }
+html[data-ph-word="wider"] body { word-spacing: 0.35em; }
+html[data-ph-para="wide"] p:not(:last-child) { margin-bottom: 2em !important; }
+
+/* ---------- Page width ---------- */
+html[data-ph-width="narrow"] .wrap, html[data-ph-width="narrow"] .ph-inner { max-width: 760px; }
+html[data-ph-width="wide"] .wrap, html[data-ph-width="wide"] .ph-inner { max-width: 1400px; }
+html[data-ph-width="narrow"] main, html[data-ph-width="narrow"] .topbar-inner, html[data-ph-width="narrow"] .crisis .wrap, html[data-ph-width="narrow"] .topbar ~ .ph-panel .ph-inner { max-width: 600px; }
+html[data-ph-width="wide"] main, html[data-ph-width="wide"] .topbar-inner, html[data-ph-width="wide"] .crisis .wrap, html[data-ph-width="wide"] .topbar ~ .ph-panel .ph-inner { max-width: 1000px; }
+
+/* ---------- Single column ---------- */
+html[data-ph-columns="single"] .hero .wrap, html[data-ph-columns="single"] .tool,
+html[data-ph-columns="single"] .guides, html[data-ph-columns="single"] .help, html[data-ph-columns="single"] .contact { grid-template-columns: 1fr !important; }
+
+/* ---------- Corners ---------- */
+html[data-ph-radius="square"] :is(.guide, .finder, .breath, .chip, .btn, .menubtn, .menu-btn, .ph-open, .ph-opt span, .ph-btn, select, .sheet article, .script, .tablewrap) { border-radius: 0 !important; }
+html[data-ph-radius="round"] :is(.guide, .finder, .breath, .sheet article, .script, .tablewrap) { border-radius: 24px !important; }
+html[data-ph-radius="round"] :is(.btn, .menubtn, .menu-btn, .ph-open, .ph-btn, select) { border-radius: 999px !important; }
+
+/* ---------- Reading ruler (pointer-events none, so it never blocks a tap or click; a light tint, never an opaque cover) ---------- */
+.ph-ruler { position: fixed; left: 0; top: 0; width: 100%; height: 2.6em; font-size: calc(16px * var(--ph-ts, 1)); pointer-events: none; z-index: 40;
+  background: rgba(255, 214, 0, 0.18); border-block: 2px solid rgba(255, 214, 0, 0.7); }
+html:root[data-ph-theme="contrast"] .ph-ruler { background: rgba(255, 225, 77, 0.2); border-color: #ffe14d; }
+
+/* ---------- Panel sections and file buttons ---------- */
+.ph-sec { border: 1px solid var(--line, var(--rule)); border-radius: 10px; padding: 0 14px 14px; }
+.ph-sec[open] { padding-bottom: 14px; }
+.ph-sec > summary { cursor: pointer; font-weight: 800; font-family: var(--font-display); font-size: calc(18px * var(--ph-ts, 1)); min-height: 44px; display: flex; align-items: center; margin-inline: -14px; padding-inline: 14px; }
+.ph-sec > summary:focus-visible { outline: 3px solid var(--accent, var(--fg)); outline-offset: -3px; }
+.ph-sec > .ph-group, .ph-sec > .ph-help, .ph-sec > .ph-actions { margin-top: 14px; }
+.ph-file { display: none; }
