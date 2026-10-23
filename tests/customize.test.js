@@ -118,9 +118,9 @@ test('every language has every panel string', () => {
 });
 
 /* ---------- Pages ---------- */
-const PAGES = ['index.html', 'avoid-scientology.html'];
+const PAGES = ['index.html', 'avoid-scientology.html', 'blog.html', 'blog-a-most-agreeable-war.html'];
 
-test('both pages load the settings script in <head> (no flash) and the stylesheet', () => {
+test('every page loads the settings script in <head> (no flash) and the stylesheet', () => {
   for (const p of PAGES) {
     const html = read(p);
     const head = html.slice(0, html.indexOf('</head>') > 0 ? html.indexOf('</head>') : 4000);
