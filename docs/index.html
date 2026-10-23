@@ -301,8 +301,6 @@ nav#mainnav a:focus-visible { outline: 3px solid var(--accent); outline-offset: 
       <p class="intro" data-i18n="ct_note">We read every message but cannot respond to emergencies. This is not a crisis line. If you need urgent help, use the numbers at the top of the page.</p>
       <dl class="contact">
         <div><dt data-i18n="ct_biz">Business and partnerships</dt><dd><a id="mailBiz" href="#contact"></a></dd></div>
-        <div><dt data-i18n="ct_pers">Personal inquiries</dt><dd><a id="mailPers" href="#contact"></a></dd></div>
-        <div><dt data-i18n="ct_ph">Phone</dt><dd><a id="telNum" href="#contact"></a></dd></div>
       </dl>
     </div>
   </section>
@@ -779,8 +777,6 @@ T.en.ft_sister="Sister site:"; T.es.ft_sister="Sitio hermano:"; T.pt.ft_sister="
   (function () {
     function put(id, user, host, scheme) { var a = document.getElementById(id); if (!a) return; var v = user + (host ? "@" + host : ""); a.textContent = v; a.href = scheme + v; }
     put("mailBiz", "hoto", "planethoto.org", "mailto:");
-    put("mailPers", "1000hoto1000", "gmail.com", "mailto:");
-    var t = document.getElementById("telNum"); if (t) { t.textContent = "215-810-3950"; t.href = "tel:+12158103950"; }
   })();
 })();
 (function () {
