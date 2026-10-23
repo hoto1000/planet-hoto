@@ -277,3 +277,7 @@ test('the Customize button is shown by customize.js itself, not by a class each 
   assert.match(read('customize.css'), /html:not\(\.ph-js\) \.ph-open \{ display: none; \}/);
   assert.ok(!/html:not\(\.js\) \.ph-open/.test(read('customize.css')));
 });
+
+test('the visual check mark has empty alt text so screen readers do not read it as part of the option name', () => {
+  assert.match(read('customize.css'), /\.ph-opt input:checked \+ span::before \{ content: "\\2713\\00a0" \/ ""; \}/);
+});
