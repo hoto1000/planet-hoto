@@ -2264,7 +2264,7 @@ T.fa = {
   var lang = "en", country = "xx", chip = "overwhelmed", running = false, timer = null, phase = "idle";
   // Safety-critical strings (crisis box, step guides, disclaimers) stay in English for languages
   // whose translations a native speaker has not yet reviewed. Remove a code from UNREVIEWED once checked.
-  var UNREVIEWED = {tl:1, vi:1, ar:1, zh:1, ru:1, id:1, bn:1, ur:1, tr:1, ko:1, it:1, sw:1, th:1, pl:1, fa:1};
+  var UNREVIEWED = {es:1, pt:1, fr:1, de:1, hi:1, ja:1, tl:1, vi:1, ar:1, zh:1, ru:1, id:1, bn:1, ur:1, tr:1, ko:1, it:1, sw:1, th:1, pl:1, fa:1};
   var SAFETY = {c_crisis:1, c_danger:1, c_other:1, m_c:1, m_t:1, m_ct:1, ft2:1, ct_note:1};
   function t(k) { if (UNREVIEWED[lang] && SAFETY[k]) return T.en[k]; var v = T[lang][k]; return v == null ? T.en[k] : v; }
   function safetyEn() { return !!UNREVIEWED[lang]; }
