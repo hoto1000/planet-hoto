@@ -36,7 +36,24 @@ Plain HTML, CSS, and JavaScript in [`docs/`](docs), served by GitHub Pages. No f
 
 - [`docs/index.html`](docs/index.html): home page (all seven languages, crisis strip, finder, guides, grounding tool, contact).
 - [`docs/avoid-scientology.html`](docs/avoid-scientology.html): a personal page on recognizing and declining Scientology recruiters and front groups.
+- [`docs/blog.html`](docs/blog.html): Hoto's Dissident Blog, essays on politics and war. Posts are `docs/blog-<slug>.html`, made from [`templates/blog-post.html`](templates/blog-post.html).
 - [`docs/customize.css`](docs/customize.css), [`docs/customize.js`](docs/customize.js): the Customize panel. Choices are kept in `localStorage` under `ph-customize` only: no cookies, no accounts, no network calls. `customize.js` loads in `<head>` without `defer` on purpose, so saved choices apply before first paint.
+
+### Writing a blog post
+
+1. Copy `templates/blog-post.html` to `docs/blog-<slug>.html` (lowercase, hyphens: `blog-why-this-war.html`).
+2. Replace every placeholder in capitals (`POST TITLE`, `ONE-LINE SUMMARY OF THE POST`, `SLUG`, `YYYY-MM-DD`) and write the body inside `<section id="post">`. List sources under `<section id="sources">`.
+3. In `docs/blog.html`, add the post to the top of `<ol class="posts">`:
+
+   ```html
+   <li><article>
+     <p class="meta"><time datetime="2026-10-23">October 23, 2026</time></p>
+     <h3><a href="blog-why-this-war.html">Why this war</a></h3>
+     <p>One-line summary.</p>
+   </article></li>
+   ```
+
+4. Commit. GitHub Pages publishes it on hoto.lol a minute later.
 
 ### Tests
 

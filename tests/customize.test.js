@@ -128,7 +128,7 @@ test('every language has every panel string', () => {
 const PAGES = fs.readdirSync(path.join(__dirname, '..', 'docs')).filter(f => f.endsWith('.html')).sort();
 assert.ok(PAGES.length >= 7, 'expected every page in docs/ to be tested: ' + PAGES);
 
-test('both pages load the settings script in <head> (no flash) and the stylesheet', () => {
+test('every page loads the settings script in <head> (no flash) and the stylesheet', () => {
   for (const p of PAGES) {
     const html = read(p);
     const head = html.slice(0, html.indexOf('</head>') > 0 ? html.indexOf('</head>') : 4000);

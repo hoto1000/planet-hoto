@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>POST TITLE · Planet Hoto</title>
+<meta name="description" content="ONE-LINE SUMMARY OF THE POST">
+<link rel="canonical" href="https://hoto.lol/blog-SLUG.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Planet Hoto">
+<meta property="og:title" content="POST TITLE">
+<meta property="og:description" content="ONE-LINE SUMMARY OF THE POST">
+<meta property="og:url" content="https://hoto.lol/blog-SLUG.html">
+<meta property="og:image" content="https://hoto.lol/assets/social-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<script src="customize.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@500&family=Lexend:wght@400;700&display=swap">
+<style>
+  /* Layout: same shell as avoid-scientology.html (crisis bar, sticky header, one reading column).
+     Below it, the blog: a list of posts on the index, or one essay on a post page. */
+  :root {
+    color-scheme: light;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    --bg: #f3efe6;
+    --paper: #fbf9f4;
+    --fg: #1d1b17;
+    --muted: #5e584c;
+    --rule: #c9c2b2;
+    --hazard: #e8b100;
+    --signal-bg: #fbe9e2;
+    --hazard-ink: #1d1b17;
+    --danger: #b3261e;
+    --font-display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+    --font-body: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17161a; --paper: #211f24; --fg: #ece8df; --muted: #a7a194;
+      --rule: #3c393f; --hazard: #f0c22a; --hazard-ink: #17161a; --danger: #ff6b61; --signal-bg: #3a211a;
+      color-scheme: dark;
+    }
+  }
+  /* The bar is light in dark mode, so the yellow brand word needs a darker amber there */
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .brand span { color: #7a5200; } }
+  :root[data-theme="dark"] .brand span { color: #7a5200; }
+  :root[data-theme="dark"] {
+    --bg: #17161a; --paper: #211f24; --fg: #ece8df; --muted: #a7a194;
+    --rule: #3c393f; --hazard: #f0c22a; --hazard-ink: #17161a; --danger: #ff6b61; --signal-bg: #3a211a;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 80px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: calc(17px * var(--ph-ts, 1));
+    line-height: 1.6;
+  }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+  body::before {
+    content: ""; position: fixed; inset: 0 0 auto;
+    height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--fg);
+  }
+
+  /* Crisis strip: same wording and markup as index.html */
+  .crisis { background: var(--signal-bg); color: var(--fg); border-bottom: 1px solid var(--rule); font-size: calc(15px * var(--ph-ts, 1)); line-height: 1.6; }
+  .crisis .wrap { max-width: 760px; margin: 0 auto; padding: 8px 16px; display: flex; flex-wrap: wrap; gap: 4px 20px; align-items: center; }
+  .crisis strong { color: var(--danger); }
+  .crisis select { font: inherit; font-size: calc(16px * var(--ph-ts, 1)); min-height: 44px; padding: 4px 8px; border-radius: 6px; border: 1.5px solid var(--rule); background: var(--paper); color: var(--fg); max-width: 100%; }
+  .crisis a { display: inline-block; padding-block: 11px; margin-block: -11px; }
+  .crisis select:focus-visible { outline: 3px solid var(--fg); outline-offset: 2px; }
+  html:not(.js) .crisis label, html:not(.js) .crisis select { display: none; }
+
+  /* Header with the menu button */
+  .topbar {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9;
+    background: var(--fg); color: var(--bg);
+    border-bottom: 4px solid var(--hazard);
+  }
+  .topbar-inner {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    max-width: 760px; margin: 0 auto;
+    padding-block: 10px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .brand {
+    font-family: var(--font-display); font-weight: 800; font-size: 1.35rem;
+    letter-spacing: .04em; text-transform: uppercase; margin: 0;
+  }
+  .brand span { color: var(--hazard); }
+  .menu-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font: 600 .95rem var(--font-body); letter-spacing: .02em;
+    background: var(--hazard); color: var(--hazard-ink);
+    border: 0; border-radius: 2px; padding: 8px 14px; min-height: 44px; cursor: pointer;
+  }
+  .menu-btn:hover { filter: brightness(1.06); }
+  .menu-btn:focus-visible { outline: 3px solid var(--bg); outline-offset: 2px; }
+  .menu-btn .bars { display: inline-block; width: 16px; height: 12px; position: relative; }
+  .menu-btn .bars::before, .menu-btn .bars::after, .menu-btn .bars i {
+    content: ""; position: absolute; left: 0; right: 0; height: 2px; background: currentColor; border-radius: 1px;
+  }
+  .menu-btn .bars::before { top: 0; }
+  .menu-btn .bars i { top: 5px; display: block; }
+  .menu-btn .bars::after { bottom: 0; }
+  .menu-btn[aria-expanded="true"] .bars::before { top: 5px; transform: rotate(45deg); }
+  .menu-btn[aria-expanded="true"] .bars::after { bottom: 5px; transform: rotate(-45deg); }
+  .menu-btn[aria-expanded="true"] .bars i { opacity: 0; }
+
+  .menu-panel {
+    background: var(--fg); color: var(--bg);
+    border-top: 1px solid var(--rule);
+  }
+  .menu-panel ul {
+    list-style: none; margin: 0 auto; max-width: 760px;
+    padding-block: 8px 14px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: grid; gap: 2px;
+  }
+  .menu-panel a {
+    display: block; color: inherit; text-decoration: none; padding: 9px 10px;
+    font-family: var(--font-display); font-weight: 700; font-size: 1.2rem;
+    letter-spacing: .03em; text-transform: uppercase; border-left: 3px solid transparent;
+  }
+  .menu-panel a:hover, .menu-panel a:focus-visible { border-left-color: var(--hazard); background: rgba(255,255,255,.06); }
+  .menu-panel a small { font: 500 .72rem var(--font-mono); color: var(--hazard); margin-right: 10px; letter-spacing: .06em; }
+  .menu-panel li.home { border-bottom: 1px solid rgba(255,255,255,.15); margin-bottom: 6px; padding-bottom: 6px; }
+
+  /* Reading column */
+  main {
+    max-width: 760px; margin: 0 auto;
+    padding-block: 28px 64px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  section { scroll-margin-top: 80px; padding-block: 28px; border-top: 1px solid var(--rule); }
+  section:first-of-type { border-top: 0; padding-top: 8px; }
+  .eyebrow {
+    font: 500 .75rem var(--font-mono); letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); margin: 0 0 6px;
+  }
+  h1 {
+    font-family: var(--font-display); font-weight: 800; font-size: calc(clamp(2rem, 7.5vw, 4.2rem) * var(--ph-ts, 1));
+    line-height: .95; letter-spacing: .01em; text-transform: uppercase; margin: 0 0 18px;
+    text-wrap: balance;
+  }
+  h1 mark { background: var(--hazard); color: var(--hazard-ink); padding: 0 .12em; }
+  h2 {
+    font-family: var(--font-display); font-weight: 800; font-size: calc(clamp(1.8rem, 5vw, 2.4rem) * var(--ph-ts, 1));
+    line-height: 1; letter-spacing: .02em; text-transform: uppercase; margin: 0 0 14px; text-wrap: balance;
+  }
+  h3 { font: 600 1.05rem var(--font-body); margin: 0 0 4px; }
+  p { margin: 0 0 14px; max-width: 65ch; }
+  .lede { font-size: 1.2rem; line-height: 1.5; }
+  ul.plain { padding-left: 1.2em; margin: 0 0 14px; max-width: 65ch; }
+  ul.plain li { margin-bottom: 6px; }
+  a { color: inherit; text-decoration-color: var(--hazard); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  a:focus-visible, .tablewrap:focus-visible { outline: 3px solid var(--fg); outline-offset: 2px; }
+  main a, footer a { display: inline-block; padding-block: 11px; margin-block: -11px; }
+  /* Reading list: each row carries 12px above and below, so every link is at least 44px tall and neighbours never overlap */
+  ul.readmore { list-style-position: outside; }
+  ul.readmore li { margin: 0; padding-block: 12px; }
+  .menu-panel a:focus-visible { outline: 3px solid var(--bg); outline-offset: -3px; }
+
+  /* Post list */
+  .posts { list-style: none; padding: 0; margin: 0 0 14px; display: grid; gap: 10px; }
+  .posts li { min-width: 0; }
+  .posts article {
+    background: var(--paper); border: 1px solid var(--rule); border-left: 6px solid var(--hazard);
+    padding: 14px 16px; min-width: 0;
+  }
+  .posts h3 { overflow-wrap: anywhere; font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; line-height: 1.05; letter-spacing: .02em; text-transform: uppercase; margin: 0 0 6px; }
+  .posts p { margin: 0; color: var(--muted); font-size: .97rem; }
+  .posts .meta, .byline { font: 500 .75rem var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .empty { background: var(--paper); border: 1px dashed var(--rule); padding: 14px 16px; max-width: 65ch; }
+
+  /* Essay */
+  .essay h2 { margin-top: 28px; }
+  .essay blockquote { margin: 0 0 14px; padding: 4px 0 4px 16px; border-left: 4px solid var(--hazard); max-width: 65ch; font-style: italic; }
+  .essay figure { margin: 0 0 14px; }
+  .essay figcaption { color: var(--muted); font-size: .88rem; }
+  .sources { font-size: .95rem; }
+
+  footer { color: var(--muted); font-size: .88rem; max-width: 65ch; border-top: 1px solid var(--rule); padding-top: 18px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+    .menu-btn .bars::before, .menu-btn .bars::after, .menu-btn .bars i { transition: transform .18s, top .18s, bottom .18s, opacity .12s; }
+  }
+</style>
+<link rel="stylesheet" href="customize.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="crisis" role="region" aria-label="Crisis support">
+  <div class="wrap">
+    <label for="country"><strong data-i18n="country">Your country</strong></label>
+    <select id="country"></select>
+    <span id="crisisText"><strong>In crisis or thinking about suicide?</strong> Suicide &amp; Crisis Lifeline: <strong>988</strong> (call or text) &middot; Crisis Text Line: <strong>HOME &rarr; 741741</strong> (text) &middot; In immediate danger, call <strong>911</strong>. More countries: <a href="https://findahelpline.com" rel="noopener">findahelpline.com</a></span>
+  </div>
+</div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <p class="brand">Dissident <span>Blog</span></p>
+    <div class="topbar-actions">
+      <button class="ph-open" id="phOpen" type="button" aria-expanded="false" aria-controls="phPanel"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="17" r="2.2" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="ph-open-label">Customize</span></button>
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuPanel">
+        <span class="bars" aria-hidden="true"><i></i></span> Menu
+      </button>
+    </div>
+  </div>
+  <nav class="menu-panel" id="menuPanel" hidden aria-label="Blog">
+    <ul>
+      <li class="home"><a href="blog.html"><small>&larr;</small>All posts</a></li>
+      <li class="home"><a href="index.html"><small>&larr;</small>Back to Planet Hoto</a></li>
+      <li><a href="#post"><small>A</small>The post</a></li>
+      <li><a href="#sources"><small>B</small>Sources</a></li>
+    </ul>
+  </nav>
+</header>
+<div class="ph-panel" id="phPanel" role="region" aria-labelledby="phTitle" hidden></div>
+
+<main id="main">
+  <article class="essay">
+    <section id="post">
+      <p class="eyebrow"><a href="blog.html">Dissident Blog</a></p>
+      <h1>POST TITLE</h1>
+      <p class="byline">By Hoto · <time datetime="YYYY-MM-DD">Month D, YYYY</time></p>
+      <p class="lede">One or two sentences that say what this post argues.</p>
+
+      <p>Body paragraphs go here. Use &lt;h2&gt; for section headings, &lt;blockquote&gt; for quotes,
+        and &lt;ul class="plain"&gt; for lists.</p>
+    </section>
+
+    <section id="sources">
+      <p class="eyebrow">Where the facts come from</p>
+      <h2>Sources</h2>
+      <ul class="plain readmore sources">
+        <li><a href="https://example.com" rel="noopener">Source name</a>, what it supports.</li>
+      </ul>
+      <footer>
+        <p>This post is my opinion.</p>
+        <p><a href="blog.html">All posts</a> · <a href="index.html">Back to Planet Hoto</a></p>
+      </footer>
+    </section>
+  </article>
+</main>
+
+<script>
+  document.documentElement.classList.add('js');
+  (function () {
+  var CL = {
+    us:[[["Suicide & Crisis Lifeline","988","ct"],["Crisis Text Line","HOME \u2192 741741","t"]],"911"],
+    ca:[[["Suicide Crisis Helpline","988","ct"]],"911"],
+    mx:[[["L\u00ednea de la Vida","800 911 2000","c"]],"911"],
+    br:[[["CVV","188","c"]],"192 / 190"],
+    gb:[[["Samaritans","116 123","c"],["Shout","SHOUT \u2192 85258","t"]],"999"],
+    ie:[[["Samaritans","116 123","c"]],"999 / 112"],
+    fr:[[["3114","3114","c"]],"15 / 112"],
+    de:[[["Telefonseelsorge","0800 111 0 111","c"]],"112"],
+    es:[[["L\u00ednea 024","024","c"]],"112"],
+    za:[[["SADAG","0800 567 567","c"]],"10111 / 112"],
+    in:[[["Tele-MANAS","14416","c"]],"112"],
+    jp:[[["\u3088\u308a\u305d\u3044\u30db\u30c3\u30c8\u30e9\u30a4\u30f3","0120-279-338","c"]],"119 / 110"],
+    au:[[["Lifeline","13 11 14","c"]],"000"],
+    nz:[[["1737","1737","ct"]],"111"]
+  };
+    var T = {
+      c_crisis: "In crisis or thinking about suicide?", c_danger: "In immediate danger, call", c_more: "More countries:",
+      c_other: "In immediate danger? Call your local emergency number (112 works in many countries). Find a crisis line at",
+      m_c: "call", m_t: "text", m_ct: "call or text"
+    };
+    var country = "xx";
+    var sel = document.getElementById("country"), ct = document.getElementById("crisisText");
+    function el(tag, text) { var e = document.createElement(tag); if (text != null) e.textContent = text; return e; }
+    function link(text) { var a = el("a", text); a.href = "https://findahelpline.com"; a.rel = "noopener"; return a; }
+    function countryName(k) {
+      if (k === "xx") return "Another country";
+      var code = k.toUpperCase();
+      try { return new Intl.DisplayNames(["en"], { type: "region" }).of(code); } catch (e) { return code; }
+    }
+    function buildCountries() {
+      sel.textContent = "";
+      Object.keys(CL).concat(["xx"]).forEach(function (k) { var o = el("option", countryName(k)); o.value = k; sel.appendChild(o); });
+      sel.value = country;
+    }
+    function renderCrisis() {
+      ct.textContent = "";
+      if (country === "xx") { ct.appendChild(document.createTextNode(T.c_other + " ")); ct.appendChild(link("findahelpline.com")); return; }
+      var d = CL[country];
+      ct.appendChild(el("strong", T.c_crisis));
+      d[0].forEach(function (l, i) {
+        ct.appendChild(document.createTextNode(" " + (i ? "\u00b7 " : "") + l[0] + ": "));
+        ct.appendChild(el("strong", l[1]));
+        ct.appendChild(document.createTextNode(" (" + T["m_" + l[2]] + ")"));
+      });
+      ct.appendChild(document.createTextNode(" \u00b7 " + T.c_danger + " "));
+      ct.appendChild(el("strong", d[1]));
+      ct.appendChild(document.createTextNode(". " + T.c_more + " "));
+      ct.appendChild(link("findahelpline.com"));
+    }
+    sel.addEventListener("change", function () { country = sel.value; try { localStorage.setItem("ph-country", country); } catch (e) {} renderCrisis(); });
+    var sc = "";
+    try { sc = localStorage.getItem("ph-country") || ""; } catch (e) {}
+    var nav = (navigator.language || "en").toLowerCase().split("-");
+    if (sc && (CL[sc] || sc === "xx")) country = sc;
+    else if (nav[1] && CL[nav[1]]) country = nav[1];
+    buildCountries(); renderCrisis();
+  })();
+
+  (function () {
+    var empty = document.getElementById('noPosts');
+    if (empty && document.querySelector('.posts li')) empty.hidden = true;
+  })();
+
+  (function () {
+    var btn = document.getElementById('menuBtn');
+    var panel = document.getElementById('menuPanel');
+
+    function setOpen(open) {
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function () {
+      setOpen(panel.hidden);
+    });
+    panel.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !panel.hidden) { setOpen(false); btn.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (!panel.hidden && !e.target.closest('.topbar')) setOpen(false);
+    });
+  })();
+</script>
+</body>
+</html>
