@@ -29,6 +29,8 @@ html:root[data-ph-theme="contrast"] .chip, html:root[data-ph-theme="contrast"] s
 /* ---------- Text size (--ph-ts is set by customize.js; every font-size in the pages is multiplied by it) ---------- */
 html { font-size: calc(100% * var(--ph-ts, 1)); }
 body { overflow-wrap: break-word; }
+/* Links are inline-block for 44px tap targets, so they size to their longest word; let long URLs break at large text sizes */
+a { overflow-wrap: anywhere; max-width: 100%; }
 
 /* ---------- Fonts ---------- */
 html[data-ph-font="dyslexia"] {
