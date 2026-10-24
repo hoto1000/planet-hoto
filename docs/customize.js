@@ -253,7 +253,7 @@
       accent_blue: "Blau", accent_purple: "Violett", accent_green: "Grün", accent_rose: "Rosa",
       ruler_help: "Ein weiches Band folgt dem Zeiger oder dem Element, zu dem du mit Tab springst, damit du nicht die Zeile verlierst.",
       file_help: "Deine Einstellungen lassen sich in einer Datei auf diesem Gerät sichern und später wieder laden, zum Beispiel in einem anderen Browser. Es wird nichts hochgeladen.",
-      export: "Einstellungen in Datei speichern", import: "Einstellungen aus Datei laden", imported: "Einstellungen geladen.", import_bad: "Diese Datei ist keine Project-Hoto-Einstellungsdatei."
+      export: "Einstellungen in Datei speichern", import: "Einstellungen aus Datei laden", imported: "Einstellungen geladen.", import_bad: "Diese Datei ist keine Einstellungsdatei von Project Hoto."
     },
     hi: {
       sec_color: "रंग", sec_text: "टेक्स्ट", sec_layout: "लेआउट", sec_read: "पढ़ना और गति", sec_file: "अपनी सेटिंग सहेजें या साथ ले जाएँ",
