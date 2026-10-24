@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hoto.lol/sitemap.xml
+Sitemap: https://blog.hoto.lol/sitemap.xml
