@@ -37,7 +37,7 @@ Plain HTML, CSS, and JavaScript in [`docs/`](docs), served by GitHub Pages. No f
 
 - [`docs/index.html`](docs/index.html): home page (all seven languages, crisis strip, finder, guides, grounding tool, contact).
 - [`docs/avoid-scientology.html`](docs/avoid-scientology.html): a personal page on recognizing and declining Scientology recruiters and front groups.
-- [`docs/blog.html`](docs/blog.html): Hoto's Dissident Blog, essays on politics and war. Posts are `docs/blog-<slug>.html`, made from [`templates/blog-post.html`](templates/blog-post.html).
+- [`docs/blog.html`](docs/blog.html): Hoto's Dissident Blog, essays on politics, war, and how to live. Posts are `docs/blog-<slug>.html`, made from [`templates/blog-post.html`](templates/blog-post.html).
 - [`docs/customize.css`](docs/customize.css), [`docs/customize.js`](docs/customize.js): the Customize panel. Choices are kept in `localStorage` under `ph-customize` only: no cookies, no accounts, no network calls. `customize.js` loads in `<head>` without `defer` on purpose, so saved choices apply before first paint.
 
 ### Writing a blog post
