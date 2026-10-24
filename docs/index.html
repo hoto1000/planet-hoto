@@ -126,6 +126,11 @@ a.guide:hover, a.guide:focus-visible { border-color: var(--accent); }
 .principles li { padding-left: 18px; border-left: 3px solid var(--accent); }
 .principles strong { font-family: var(--font-display); font-size: calc(18px * var(--ph-ts, 1)); }
 
+.artband { line-height: 0; overflow: hidden; }
+.artband svg { display: block; width: 100%; height: clamp(70px, 12vw, 150px); }
+.artband .a1 { fill: var(--soft); } .artband .a2 { fill: var(--accent); opacity: .22; } .artband .a3 { fill: var(--accent); }
+.artband .a4 { fill: none; stroke: var(--signal); stroke-width: 5; } .artband .a5 { fill: var(--signal); } .artband .a6 { fill: none; stroke: var(--muted); stroke-width: 1.5; opacity: .5; }
+
 footer { border-top: 1px solid var(--line); padding-block: 36px; font-size: calc(15px * var(--ph-ts, 1)); color: var(--muted); }
 footer .wrap { display: grid; gap: 14px; }
 footer strong { color: var(--fg); }
@@ -202,6 +207,7 @@ nav#mainnav a:focus-visible { outline: 3px solid var(--accent); outline-offset: 
     <nav id="mainnav" aria-label="Main" hidden>
       <a href="#guides" data-i18n="nav_guides">Guides</a>
       <a href="blog.html">Hoto’s Dissident Blog (English)</a>
+      <a href="art.html">Abstract art (English)</a>
       <a href="#grounding" data-i18n="nav_grounding">Grounding</a>
       <a href="#involved" data-i18n="nav_involved">Get involved</a>
       <a href="#about" data-i18n="nav_about">About</a>
@@ -246,6 +252,19 @@ nav#mainnav a:focus-visible { outline: 3px solid var(--accent); outline-offset: 
       </div>
     </div>
   </section>
+
+  <div class="artband" aria-hidden="true">
+    <svg viewBox="0 0 1200 150" preserveAspectRatio="xMidYMax slice" focusable="false">
+      <path class="a6" d="M-20 60 C 200 10, 420 110, 640 60 S 1040 10, 1220 70"/>
+      <path class="a2" d="M0 150 L0 95 C 160 60, 300 120, 480 96 S 820 50, 1000 90 S 1150 110, 1200 84 L1200 150 Z"/>
+      <path class="a1" d="M0 150 L0 120 C 200 100, 380 140, 600 118 S 980 96, 1200 124 L1200 150 Z"/>
+      <circle class="a3" cx="905" cy="62" r="30"/>
+      <ellipse class="a4" cx="905" cy="62" rx="52" ry="13" transform="rotate(-18 905 62)"/>
+      <circle class="a5" cx="230" cy="40" r="9"/>
+      <circle class="a3" cx="1010" cy="28" r="5"/>
+      <circle class="a3" cx="140" cy="70" r="4"/>
+    </svg>
+  </div>
 
   <section class="block alt" id="guides">
     <div class="wrap">
