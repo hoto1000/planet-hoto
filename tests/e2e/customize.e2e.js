@@ -77,7 +77,7 @@ const check = (ok, msg) => { if (!ok) { fails.push(msg); console.log('FAIL', msg
     await p.waitForFunction(() => document.documentElement.dataset.phAccent === 'blue');
     check(await p.evaluate(() => document.documentElement.dataset.phWidth) === 'wide', 'import restored settings');
     await p.setInputFiles('#phFile', { name: 'bad.json', mimeType: 'application/json', buffer: Buffer.from('{"hello":1}') });
-    await p.waitForFunction(() => /not a Planet Hoto/.test(document.getElementById('phStatus').textContent));
+    await p.waitForFunction(() => /not a Project Hoto/.test(document.getElementById('phStatus').textContent));
     await ctx.close();
   }
   // Panel behaviour, persistence, reset, no network
