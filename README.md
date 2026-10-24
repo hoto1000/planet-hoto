@@ -56,6 +56,12 @@ Plain HTML, CSS, and JavaScript in [`docs/`](docs), served by GitHub Pages. No f
 
 4. Commit. GitHub Pages publishes it on hoto.lol a minute later.
 
+### Ads on the blog
+
+Blog pages load [`docs/ads.js`](docs/ads.js), a small self-hosted ad system. Edit the `ADS` list at the top of that file to change what runs: each entry is a sponsor, headline, text, link, and button label. One ad is picked at random per page load and placed at the end of a post (before the sources) and under the post list on `blog.html`. It makes no network calls and keeps no data, so it fits the site's Content-Security-Policy and the "nothing tracks you" promise. An empty list renders nothing.
+
+A third-party network such as AdSense would need its own script and iframes, which the `default-src 'self'` and `script-src 'self'` policy on every page blocks on purpose, and it would track readers. Switching to one means loosening that policy on the blog pages and rewriting the ground rules on `blog.html` to match.
+
 ### Tests
 
 ```bash
