@@ -8,12 +8,13 @@
 <title>Kind words · Planet Hoto</title>
 <meta name="description" content="A quiet, free page of kind words and gentle gratitude prompts. No account, no pressure, no data collected.">
 <link rel="canonical" href="https://hoto.lol/kind-words.html">
+<script src="customize.js"></script>
 <style>
-:root { color-scheme: light; --paper:#f7f5ef; --card:#fffdf9; --ink:#263b37; --muted:#465d57; --accent:#255e52; --border:#d0ddd5; }
-@media (prefers-color-scheme:dark) { :root { color-scheme:dark; --paper:#172521; --card:#20332d; --ink:#f2f6ef; --muted:#d1e2d8; --accent:#a8ded0; --border:#526c60; } }
+:root { color-scheme: light; --paper:#f7f5ef; --card:#fffdf9; --ink:#263b37; --muted:#465d57; --accent:#255e52; --border:#d0ddd5; --bg:var(--paper); --surface:var(--card); --fg:var(--ink); --line:var(--border); --accent-fg:#ffffff; }
+@media (prefers-color-scheme:dark) { :root { color-scheme:dark; --paper:#172521; --card:#20332d; --ink:#f2f6ef; --muted:#d1e2d8; --accent:#a8ded0; --border:#526c60; --accent-fg:#172521; } }
 * { box-sizing:border-box; }
 html { font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
-body { margin:0; background:var(--paper); color:var(--ink); font-size:1.0625rem; line-height:1.75; }
+body { margin:0; background:var(--paper); color:var(--ink); font-size:calc(1.0625rem * var(--ph-ts, 1)); line-height:1.75; }
 a { color:var(--accent); text-underline-offset:.2em; }
 a:focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
 .skip { position:absolute; left:-9999px; top:0; background:var(--card); padding:.75rem; }
@@ -34,10 +35,13 @@ footer { border-top:1px solid var(--border); margin-top:2.5rem; padding-top:1rem
 @media (min-width:42rem) { .cards { grid-template-columns:repeat(2,minmax(0,1fr)); } .card.wide { grid-column:1/-1; } }
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition:none!important; animation:none!important; } }
 </style>
+<link rel="stylesheet" href="customize.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <div class="crisis" role="region" aria-label="Crisis support"><div class="crisis-inner">In the U.S., for immediate danger call <strong>911</strong>. For suicide or emotional crisis support, call or text <strong>988</strong>. Outside the U.S., <a href="https://findahelpline.com/" rel="noopener noreferrer">find a local helpline</a>.</div></div>
+<header class="wrap"><button type="button" id="phOpen" aria-expanded="false" aria-controls="phPanel">Customize appearance</button></header>
+<div class="ph-panel" id="phPanel" role="region" aria-labelledby="phTitle" hidden></div>
 <div class="wrap">
 <nav aria-label="Page navigation"><a href="./">Planet Hoto home</a><a href="./#guides">Free practical guides</a></nav>
 <main id="main">
