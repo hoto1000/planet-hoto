@@ -7,7 +7,7 @@
 Finding care, paying for it, keeping a job, keeping a home, and asking for help.
 Seven languages. No accounts, no tracking, nothing sent to a server.
 
-[**Visit the site → blog.hoto.lol**](https://blog.hoto.lol) · [Contribute](CONTRIBUTING.md) · [Report a problem](https://github.com/hoto1000/planet-hoto/issues/new/choose)
+[**Visit the site → hoto.lol**](https://hoto.lol) · [Contribute](CONTRIBUTING.md) · [Report a problem](https://github.com/hoto1000/planet-hoto/issues/new/choose)
 
 <img src="docs/assets/screenshot-desktop.png" alt="Planet Hoto home page: a crisis strip, a headline, and a 'What is going on right now?' step finder" width="820">
 
@@ -54,7 +54,7 @@ Plain HTML, CSS, and JavaScript in [`docs/`](docs), served by GitHub Pages. No f
    </article></li>
    ```
 
-4. Commit. GitHub Pages publishes it on blog.hoto.lol a minute later.
+4. Commit. GitHub Pages publishes it on hoto.lol a minute later.
 
 ### Tests
 
