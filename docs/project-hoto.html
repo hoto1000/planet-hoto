@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Project Hoto · Planet Hoto</title>
+<meta name="description" content="Project Hoto: personal, unofficial essays, podcast episodes and a neutral civic reflection guide on happiness, schools, thinking and how we live together.">
+<link rel="canonical" href="https://hoto.lol/project-hoto.html">
+<script src="customize.js"></script>
+<style>
+:root { color-scheme: light; --paper:#f7f5ef; --card:#fffdf9; --ink:#263b37; --muted:#465d57; --accent:#255e52; --border:#d0ddd5; --bg:var(--paper); --surface:var(--card); --fg:var(--ink); --line:var(--border); --accent-fg:#ffffff; }
+@media (prefers-color-scheme:dark) { :root { color-scheme:dark; --paper:#172521; --card:#20332d; --ink:#f2f6ef; --muted:#d1e2d8; --accent:#a8ded0; --border:#526c60; --accent-fg:#172521; } }
+* { box-sizing:border-box; }
+html { font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
+body { margin:0; background:var(--paper); color:var(--ink); font-size:calc(1.0625rem * var(--ph-ts, 1)); line-height:1.75; }
+a { color:var(--accent); text-underline-offset:.2em; }
+a:focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
+.skip { position:absolute; left:-9999px; top:0; background:var(--card); padding:.75rem; }
+.skip:focus { left:1rem; z-index:2; }
+.crisis { background:var(--card); border-bottom:2px solid var(--border); padding:.75rem 1rem; font-size:.9375rem; }
+.crisis-inner { max-width:48rem; margin:auto; }
+.wrap { max-width:48rem; margin:auto; padding:clamp(1.25rem,5vw,3rem); }
+nav { display:flex; flex-wrap:wrap; gap:1.5rem; padding-block:.5rem 2rem; }
+h1,h2 { line-height:1.25; letter-spacing:-.02em; }
+h1 { font-size:clamp(2rem,6vw,3.25rem); margin:.4rem 0 1.25rem; }
+h2 { font-size:1.35rem; margin:0 0 .75rem; }
+.lede { color:var(--muted); font-size:1.15rem; max-width:38rem; }
+.cards { display:grid; gap:1.25rem; margin-block:2.25rem; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:1.25rem; padding:clamp(1.25rem,4vw,2rem); }
+.card p + p { margin-top:1rem; }
+.note { color:var(--muted); }
+footer { border-top:1px solid var(--border); margin-top:2.5rem; padding-top:1rem; font-size:.9375rem; }
+@media (min-width:42rem) { .cards { grid-template-columns:repeat(2,minmax(0,1fr)); } .card.wide { grid-column:1/-1; } }
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition:none!important; animation:none!important; } }
+
+.jump { display:flex; flex-wrap:wrap; gap:.6rem; padding:0; margin:1.25rem 0 .5rem; }
+.jump a { border:1px solid var(--border); background:var(--card); border-radius:999px; padding:.5rem 1rem; min-height:44px; display:inline-flex; align-items:center; text-decoration:none; font-size:.95rem; }
+.jump a:hover { border-color:var(--accent); }
+.cat { margin-block:2.5rem; scroll-margin-top:1rem; }
+.cat h2 { font-size:1.6rem; margin-bottom:.25rem; }
+.blurb { color:var(--muted); margin:0 0 1rem; }
+.eps { display:grid; gap:1.1rem; }
+.ep { background:var(--card); border:1px solid var(--border); border-top:4px solid var(--accent); border-radius:1rem; padding:1.25rem 1.4rem; }
+.ep h3 { font-size:1.15rem; line-height:1.3; margin:0 0 .4rem; }
+.ep p { margin:.4rem 0; }
+.listen { display:inline-flex; align-items:center; min-height:44px; font-weight:600; }
+.sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+@media (min-width:42rem) { .eps { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+</style>
+<link rel="stylesheet" href="customize.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="crisis" role="region" aria-label="Crisis support"><div class="crisis-inner">In the U.S., for immediate danger call <strong>911</strong>. For suicide or emotional crisis support, call or text <strong>988</strong>. Outside the U.S., <a href="https://findahelpline.com/" rel="noopener noreferrer">find a local helpline</a>.</div></div>
+<header class="wrap"><button type="button" id="phOpen" aria-expanded="false" aria-controls="phPanel">Customize appearance</button></header>
+<div class="ph-panel" id="phPanel" role="region" aria-labelledby="phTitle" hidden></div>
+<div class="wrap">
+<nav class="site-nav sn-wrap" aria-label="Main"><ul><li><a href="index.html">Home</a></li><li><a href="index.html#guides">Guides</a></li><li><a href="blog.html">Blog</a></li><li><a href="podcasts.html">Podcasts</a></li><li><a href="project-hoto.html" aria-current="page">Project Hoto</a></li><li><a href="candidates-2026.html">Voting</a></li><li><a href="index.html#lang">Language</a></li><li><a href="index.html#contact">Contact</a></li></ul></nav>
+<main id="main">
+<p class="note">Essays &middot; Episodes &middot; Questions &middot; English</p>
+<h1>Project Hoto</h1>
+<p class="lede">Big questions, asked plainly. Short essays and podcast episodes about happiness, schools, how to think, and how we live together.</p>
+<p class="note">Personal, unofficial commentary. Not affiliated with any campaign or candidate, and not paid for by any campaign. Everything here is education and opinion. It is not therapy, diagnosis or treatment, and not a substitute for a licensed professional. If you need help now, call or text 988 (U.S.).</p>
+<div class="cards">
+<section class="card"><h2>Latest writing</h2><p><a href="https://project.hoto.lol/blog/a-school-should-be-a-harbor/">A school should be a harbor, not a sorting machine</a> (Oct 24, 2026). Eight small, testable ways to make a school feel safe: private help, a calm start, a quiet room, meals without shame, and rules that listen.</p><p><a href="https://project.hoto.lol/blog/how-great-thinkers-are-made/">How great thinkers are made</a> (Oct 23, 2026). Six habits that build a sharper mind, from reading the originals to arguing with people who disagree.</p><p><a href="blog.html">More writing on the Planet Hoto blog</a></p></section>
+<section class="card"><h2>Podcasts</h2><p>Audio episodes, including the latest, &ldquo;A Study on Happiness&rdquo; (9 min): what happiness really is, why change matters, and why learning every side of politics can help us know ourselves.</p><p><a href="podcasts.html">All episodes</a></p></section>
+<section class="card wide"><h2>Civic guide: where do my political views sit?</h2><p>A neutral, privacy-first self-reflection tool. Seven policy areas, each on its own line, no labels and no voting advice. Your answers never leave your device, and the guide has no ads.</p><p><a href="https://project.hoto.lol/civic/">Try the civic guide</a></p></section>
+</div>
+<p class="note">The full Project Hoto site lives at <a href="https://project.hoto.lol/">project.hoto.lol</a>.</p>
+</main>
+<footer><nav class="footer-nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="index.html#guides">Guides</a></li><li><a href="blog.html">Blog</a></li><li><a href="podcasts.html">Podcasts</a></li><li><a href="project-hoto.html" aria-current="page">Project Hoto</a></li><li><a href="candidates-2026.html">Voting</a></li><li><a href="index.html#lang">Language</a></li><li><a href="index.html#contact">Contact</a></li><li><a href="sitemap.html">Sitemap</a></li></ul></nav><a href="./">Return to Planet Hoto</a> · All guides remain free.</footer>
+</div>
+</body>
+</html>
