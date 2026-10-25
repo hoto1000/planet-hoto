@@ -1,6 +1,6 @@
 # Writing guide
 
-This guide is for writing posts for hoto.lol and Hotolosophy. It is not part of the site. Files at the repo root are not published by GitHub Pages, which serves only `docs/`.
+This guide is for writing posts for blog.hoto.lol (Planet Hoto) and Hotolosophy. It is not part of the site. Files at the repo root are not published by GitHub Pages, which serves only `docs/`.
 
 ## Before you publish
 
@@ -16,7 +16,7 @@ Ask: does this sound like me, help someone understand something real, and protec
 
 ## Where posts go
 
-- **hoto.lol** can hold personal arguments and a faith lens.
+- **blog.hoto.lol (Planet Hoto)** can hold personal arguments and a faith lens.
 - **Hotolosophy** stays focused on free, practical education and resources.
 
 ## Three shelves
