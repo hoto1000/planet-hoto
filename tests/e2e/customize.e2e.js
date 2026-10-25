@@ -77,7 +77,7 @@ const check = (ok, msg) => { if (!ok) { fails.push(msg); console.log('FAIL', msg
     await p.waitForFunction(() => document.documentElement.dataset.phAccent === 'blue');
     check(await p.evaluate(() => document.documentElement.dataset.phWidth) === 'wide', 'import restored settings');
     await p.setInputFiles('#phFile', { name: 'bad.json', mimeType: 'application/json', buffer: Buffer.from('{"hello":1}') });
-    await p.waitForFunction(() => /not a Planet Hoto/.test(document.getElementById('phStatus').textContent));
+    await p.waitForFunction(() => /not a Project Hoto/.test(document.getElementById('phStatus').textContent));
     await ctx.close();
   }
   // Panel behaviour, persistence, reset, no network
@@ -111,7 +111,7 @@ const check = (ok, msg) => { if (!ok) { fails.push(msg); console.log('FAIL', msg
     check(await p.getAttribute('#phOpen', 'aria-expanded') === 'false' && await p.evaluate(() => document.activeElement.id) === 'phOpen', `${page}: Escape closes and returns focus`);
     const cookies = await ctx.cookies();
     check(cookies.length === 0, `${page}: no cookies set`);
-    check(reqs.every(u => /\.(html|css|js)$/.test(u) || /\/assets\/fonts\/[a-z0-9-]+\.woff2$/.test(u) || u.endsWith('/')), `${page}: only static page files requested after load (${reqs.join(' ')})`);
+    check(reqs.every(u => /\.(html|css|js)$/.test(u) || /\/assets\/fonts\/[a-z0-9-]+\.woff2$/.test(u) || /\/assets\/art\/[a-z0-9-]+\.svg$/.test(u) || /\/assets\/audio\/[a-z0-9-]+\.m4a$/.test(u) || u.endsWith('/')), `${page}: only static page files requested after load (${reqs.join(' ')})`);
     // system dark default + reduced motion default
     await ctx.close();
     const c2 = await browser.newContext({ colorScheme: 'dark', reducedMotion: 'reduce' });

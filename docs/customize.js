@@ -209,7 +209,7 @@
       accent_blue: "Blue", accent_purple: "Purple", accent_green: "Green", accent_rose: "Rose",
       ruler_help: "A soft band follows your pointer or the item you tab to, to help you keep your place.",
       file_help: "Your settings can be saved to a file on this device and loaded again later, for example on another browser. Nothing is uploaded.",
-      export: "Save settings to a file", import: "Load settings from a file", imported: "Settings loaded.", import_bad: "That file is not a Planet Hoto settings file."
+      export: "Save settings to a file", import: "Load settings from a file", imported: "Settings loaded.", import_bad: "That file is not a Project Hoto settings file."
     },
     es: {
       sec_color: "Colores", sec_text: "Texto", sec_layout: "Diseño", sec_read: "Lectura y movimiento", sec_file: "Guardar o mover tus ajustes",
@@ -220,7 +220,7 @@
       accent_blue: "Azul", accent_purple: "Morado", accent_green: "Verde", accent_rose: "Rosa",
       ruler_help: "Una banda suave sigue el puntero o el elemento al que llegas con el tabulador, para ayudarte a no perder el lugar.",
       file_help: "Tus ajustes se pueden guardar en un archivo en este dispositivo y cargarse más tarde, por ejemplo en otro navegador. No se sube nada.",
-      export: "Guardar ajustes en un archivo", import: "Cargar ajustes desde un archivo", imported: "Ajustes cargados.", import_bad: "Ese archivo no es un archivo de ajustes de Planet Hoto."
+      export: "Guardar ajustes en un archivo", import: "Cargar ajustes desde un archivo", imported: "Ajustes cargados.", import_bad: "Ese archivo no es un archivo de ajustes de Project Hoto."
     },
     pt: {
       sec_color: "Cores", sec_text: "Texto", sec_layout: "Layout", sec_read: "Leitura e movimento", sec_file: "Salvar ou levar suas configurações",
@@ -231,7 +231,7 @@
       accent_blue: "Azul", accent_purple: "Roxo", accent_green: "Verde", accent_rose: "Rosa",
       ruler_help: "Uma faixa suave acompanha o ponteiro ou o item que você alcança com a tecla Tab, para ajudar a não perder o lugar.",
       file_help: "Suas configurações podem ser salvas em um arquivo neste dispositivo e carregadas depois, por exemplo em outro navegador. Nada é enviado.",
-      export: "Salvar configurações em arquivo", import: "Carregar configurações de arquivo", imported: "Configurações carregadas.", import_bad: "Esse arquivo não é um arquivo de configurações do Planet Hoto."
+      export: "Salvar configurações em arquivo", import: "Carregar configurações de arquivo", imported: "Configurações carregadas.", import_bad: "Esse arquivo não é um arquivo de configurações do Project Hoto."
     },
     fr: {
       sec_color: "Couleurs", sec_text: "Texte", sec_layout: "Mise en page", sec_read: "Lecture et animations", sec_file: "Enregistrer ou déplacer vos réglages",
@@ -242,7 +242,7 @@
       accent_blue: "Bleu", accent_purple: "Violet", accent_green: "Vert", accent_rose: "Rose",
       ruler_help: "Une bande douce suit le pointeur ou l'élément atteint avec la touche Tab, pour vous aider à garder votre place.",
       file_help: "Vos réglages peuvent être enregistrés dans un fichier sur cet appareil et rechargés plus tard, par exemple dans un autre navigateur. Rien n'est envoyé.",
-      export: "Enregistrer les réglages dans un fichier", import: "Charger les réglages depuis un fichier", imported: "Réglages chargés.", import_bad: "Ce fichier n'est pas un fichier de réglages Planet Hoto."
+      export: "Enregistrer les réglages dans un fichier", import: "Charger les réglages depuis un fichier", imported: "Réglages chargés.", import_bad: "Ce fichier n'est pas un fichier de réglages Project Hoto."
     },
     de: {
       sec_color: "Farben", sec_text: "Text", sec_layout: "Layout", sec_read: "Lesen und Bewegung", sec_file: "Einstellungen sichern oder mitnehmen",
@@ -253,7 +253,7 @@
       accent_blue: "Blau", accent_purple: "Violett", accent_green: "Grün", accent_rose: "Rosa",
       ruler_help: "Ein weiches Band folgt dem Zeiger oder dem Element, zu dem du mit Tab springst, damit du nicht die Zeile verlierst.",
       file_help: "Deine Einstellungen lassen sich in einer Datei auf diesem Gerät sichern und später wieder laden, zum Beispiel in einem anderen Browser. Es wird nichts hochgeladen.",
-      export: "Einstellungen in Datei speichern", import: "Einstellungen aus Datei laden", imported: "Einstellungen geladen.", import_bad: "Diese Datei ist keine Planet-Hoto-Einstellungsdatei."
+      export: "Einstellungen in Datei speichern", import: "Einstellungen aus Datei laden", imported: "Einstellungen geladen.", import_bad: "Diese Datei ist keine Einstellungsdatei von Project Hoto."
     },
     hi: {
       sec_color: "रंग", sec_text: "टेक्स्ट", sec_layout: "लेआउट", sec_read: "पढ़ना और गति", sec_file: "अपनी सेटिंग सहेजें या साथ ले जाएँ",
@@ -264,7 +264,7 @@
       accent_blue: "नीला", accent_purple: "बैंगनी", accent_green: "हरा", accent_rose: "गुलाबी",
       ruler_help: "एक हल्की पट्टी आपके पॉइंटर या Tab से चुने गए हिस्से के साथ चलती है, ताकि आप अपनी जगह न खोएँ।",
       file_help: "आपकी सेटिंग इस डिवाइस पर एक फ़ाइल में सहेजी जा सकती है और बाद में दोबारा लोड की जा सकती है, जैसे किसी दूसरे ब्राउज़र में। कुछ भी अपलोड नहीं होता।",
-      export: "सेटिंग फ़ाइल में सहेजें", import: "फ़ाइल से सेटिंग लोड करें", imported: "सेटिंग लोड हो गईं।", import_bad: "यह Planet Hoto की सेटिंग फ़ाइल नहीं है।"
+      export: "सेटिंग फ़ाइल में सहेजें", import: "फ़ाइल से सेटिंग लोड करें", imported: "सेटिंग लोड हो गईं।", import_bad: "यह Project Hoto की सेटिंग फ़ाइल नहीं है।"
     },
     ja: {
       sec_color: "色", sec_text: "文字", sec_layout: "レイアウト", sec_read: "読みやすさと動き", sec_file: "設定の保存と移行",
@@ -275,7 +275,7 @@
       accent_blue: "青", accent_purple: "紫", accent_green: "緑", accent_rose: "ピンク",
       ruler_help: "ポインターやTabキーで移動した項目に合わせて淡い帯が動き、読んでいる位置を見失わないようにします。",
       file_help: "設定はこの端末のファイルに保存し、あとで別のブラウザなどで読み込めます。何もアップロードされません。",
-      export: "設定をファイルに保存", import: "ファイルから設定を読み込む", imported: "設定を読み込みました。", import_bad: "Planet Hotoの設定ファイルではありません。"
+      export: "設定をファイルに保存", import: "ファイルから設定を読み込む", imported: "設定を読み込みました。", import_bad: "Project Hotoの設定ファイルではありません。"
     }
   };
   Object.keys(MORE).forEach(function (l) { Object.keys(MORE[l]).forEach(function (k) { S[l][k] = MORE[l][k]; }); });
