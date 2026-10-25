@@ -215,3 +215,45 @@ html:root[data-ph-theme="contrast"] .ph-ruler { background: rgba(255, 225, 77, 0
 .ph-sec > summary:focus-visible { outline: 3px solid var(--accent, var(--fg)); outline-offset: -3px; }
 .ph-sec > .ph-group, .ph-sec > .ph-help, .ph-sec > .ph-actions { margin-top: 14px; }
 .ph-file { display: none; }
+
+/* ---------- Visual polish (shared by every page; colors come from each page's own variables, so light, dark, calm and high contrast all follow) ----------
+   One card look everywhere: soft border, 4px accent top border, rounded corners. The page that defines its own accent uses it; the guide pages use their hazard yellow. */
+:is(.guide, .finder, .breath, .sheet article, .card, .ep) {
+  border: 1px solid var(--line, var(--rule, var(--border)));
+  border-top: 4px solid var(--accent, var(--hazard));
+  border-radius: 14px;
+}
+.guide.soon { border-top-width: 1px; }           /* "coming soon" cards stay quiet: dashed, no accent */
+.sheet article { background: var(--surface, var(--paper)); }
+/* The guide pages use a bare .card callout (Counterpoint) that had no styles; give it the same box, with padding */
+:where(.card) { background: var(--surface, var(--paper)); padding: 14px 18px; margin-block: 1rem; }
+
+/* Type hierarchy and reading width */
+:is(h1, h2, h3) { text-wrap: balance; }
+/* :where() keeps these at zero specificity, so any width or spacing a page sets for itself still wins */
+:where(main) p { text-wrap: pretty; }
+:where(main) :where(p, li) { line-height: 1.7; }
+:where(main) :where(p, ul, ol, dl, blockquote) { max-width: 68ch; }
+.eyebrow, .kicker, .meta { letter-spacing: .08em; }
+
+/* Calmer header: thinner rule, the same 8px corners as the other buttons, less shouting brand name */
+.topbar { border-bottom-width: 2px; }
+.topbar .brand { letter-spacing: .02em; }
+.topbar .menu-btn, .topbar .ph-open { border-radius: 8px; }
+
+/* Calmer footer: more air, a soft rule, text a little larger so it is easy to read */
+footer { font-size: .95rem; margin-top: 2.5rem; padding-top: 20px; line-height: 1.7; }
+body > footer:not(:has(.wrap)) { padding-inline: max(16px, env(safe-area-inset-left, 0px)); }   /* guide-page footers touched the screen edge at 360px */
+
+/* Small screens: cards and gutters stay comfortable at 360px */
+@media (max-width: 480px) {
+  :is(.guide, .finder, .breath, .sheet article, .card, .ep) { border-radius: 12px; }
+  .finder { padding: 16px; }
+}
+/* Pages that only give the button an id (podcasts, kind words, community) get the same button as the rest of the site */
+#phOpen:not(.ph-open) {
+  font: inherit; font-weight: 700; font-size: calc(15px * var(--ph-ts, 1)); min-height: 44px; padding: 8px 14px;
+  border-radius: 8px; border: 2px solid var(--accent, var(--hazard)); background: transparent; color: var(--accent, var(--fg)); cursor: pointer;
+}
+#phOpen:not(.ph-open)[aria-expanded="true"] { background: var(--accent, var(--fg)); color: var(--accent-fg, var(--bg)); }
+header.wrap:has(> #phOpen) { padding-block: 12px 0; }
