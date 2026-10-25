@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2314675f'/%3E%3Cellipse cx='16' cy='16' rx='15' ry='5' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Where do I stand? A private political questionnaire · Planet Hoto</title>
+<meta name="description" content="A short, private questionnaire on US issues. Choose the topics you care about and see where your answers lean. Nothing is stored or sent.">
+<link rel="canonical" href="https://hoto.lol/where-do-i-stand.html">
+<script src="customize.js"></script>
+<style>
+  :root { color-scheme: light; --bg:#f2f6f5; --surface:#fff; --fg:#14201e; --muted:#4a5c59; --accent:#14675f; --rule:#c9d6d3; --signal:#fff4dc; --danger:#a3281c; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { color-scheme: dark; --bg:#101816; --surface:#17241f; --fg:#e6efec; --muted:#a9bcb7; --accent:#6fd0c4; --rule:#2c3f3a; --signal:#2a2414; --danger:#ff9b8f; }
+  }
+  :root[data-theme="dark"] { color-scheme: dark; --bg:#101816; --surface:#17241f; --fg:#e6efec; --muted:#a9bcb7; --accent:#6fd0c4; --rule:#2c3f3a; --signal:#2a2414; --danger:#ff9b8f; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-size:calc(17px * var(--ph-ts, 1)); line-height:1.6; font-family:var(--font-body, "Atkinson Hyperlegible", "Segoe UI", Helvetica, Arial, sans-serif); }
+  a { color:var(--accent); }
+  .skip { position:absolute; left:-9999px; }
+  .skip:focus { left:16px; top:16px; background:var(--surface); padding:8px 12px; z-index:5; }
+  .crisis { background:var(--signal-bg, var(--signal)); border-bottom:1px solid var(--rule); font-size:0.95rem; }
+  .crisis p { max-width:44rem; margin:0 auto; padding:8px 16px; }
+  .crisis strong:first-child { color:var(--danger); }
+  header, main, footer { max-width:44rem; margin:0 auto; padding:0 16px; }
+  header { padding-top:20px; }
+  header a { text-decoration:none; font-weight:700; }
+  header { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  header + .ph-panel .ph-inner { max-width:44rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:1.2rem 0 0.4rem; }
+  h2 { font-size:1.35rem; margin:2rem 0 0.6rem; }
+  .meta { color:var(--muted); font-size:0.95rem; margin:0 0 1rem; }
+  .card { background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:14px 18px; margin:1rem 0; }
+  .card ul { margin:0.4rem 0 0; padding-left:1.2rem; }
+  .src { color:var(--muted); font-size:0.95rem; }
+  .src li { margin:0.3rem 0; }
+  footer { padding-bottom:40px; color:var(--muted); font-size:0.95rem; }
+  header a, .crisis a, .src a, .card a, footer a { display:inline-block; padding-block:12px; margin-block:-12px; }
+  .quiz fieldset { border:1px solid var(--rule); border-radius:12px; background:var(--surface); margin:1rem 0; padding:12px 16px 14px; }
+  .quiz legend { padding:0 6px; font-weight:700; }
+  .quiz .stmt { margin:0 0 0.6rem; }
+  .scale { display:flex; flex-wrap:wrap; gap:6px; }
+  .scale label { position:relative; display:inline-flex; align-items:center; justify-content:center; min-height:44px; min-width:44px; padding:6px 12px; border:1.5px solid var(--rule); border-radius:8px; background:var(--bg); cursor:pointer; text-align:center; font-size:0.95rem; }
+  .scale input { position:absolute; opacity:0; inset:0; margin:0; cursor:pointer; }
+  .scale label:has(input:checked) { background:var(--fg); color:var(--bg); border-color:var(--fg); font-weight:700; }
+  .scale label:has(input:checked)::before { content:"\2713\00a0" / ""; }
+  .scale label:has(input:focus-visible) { outline:3px solid var(--accent); outline-offset:2px; }
+  .topics { display:flex; flex-wrap:wrap; gap:8px 18px; margin:0.4rem 0 0; padding:0; list-style:none; }
+  .topics label { display:inline-flex; align-items:center; gap:8px; min-height:44px; }
+  .topics input { width:20px; height:20px; }
+  button.go, button.alt { font:inherit; font-weight:700; min-height:44px; padding:8px 18px; border-radius:8px; border:2px solid var(--accent); cursor:pointer; }
+  button.go { background:var(--accent); color:var(--bg); }
+  button.alt { background:transparent; color:var(--accent); margin-inline-start:8px; }
+  .result { background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:14px 18px; margin:1rem 0; }
+  .result h3 { margin:0 0 0.2rem; font-size:1.1rem; }
+  .bar { position:relative; height:14px; border-radius:7px; background:var(--rule); margin:0.7rem 0 0.3rem; }
+  .bar i { position:absolute; top:-4px; width:22px; height:22px; margin-left:-11px; border-radius:50%; background:var(--accent); border:3px solid var(--surface); box-shadow:0 0 0 2px var(--accent); }
+  .bar b { position:absolute; left:50%; top:0; width:2px; height:100%; background:var(--muted); }
+  .poles { display:flex; justify-content:space-between; gap:12px; font-size:0.9rem; color:var(--muted); }
+  .poles span:last-child { text-align:right; }
+  .note { border-inline-start:4px solid var(--accent); padding:4px 14px; margin:1rem 0; }
+  :focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+</style>
+<link rel="stylesheet" href="customize.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="crisis" role="region" aria-label="Crisis support">
+  <p><strong>In crisis or thinking about suicide?</strong> In the US, call or text <strong>988</strong>. In immediate danger, call <strong>911</strong> or your local emergency number. Other countries: <a href="https://findahelpline.com" rel="noopener">findahelpline.com</a></p>
+</div>
+<header><a href="index.html">Planet Hoto</a>
+  <button class="ph-open" id="phOpen" type="button" aria-expanded="false" aria-controls="phPanel"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="17" r="2.2" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="ph-open-label">Customize</span></button>
+</header>
+<div class="ph-panel" id="phPanel" role="region" aria-labelledby="phTitle" hidden></div>
+<main id="main">
+  <h1>Where do I stand?</h1>
+  <p class="meta">Questionnaire · US issues · Private, nothing is stored or sent</p>
+
+  <p>Most people agree with different parties on different issues. This short questionnaire shows where your answers lean on a few broad questions, so you can think about what matters to you. It is not voting advice, it does not tell you which party to pick, and it is rough: a handful of statements cannot capture your views.</p>
+  <p class="note"><strong>How it works.</strong> Choose the topics you want, rate each statement from strongly disagree to strongly agree (or skip it), then see a summary. Your answers stay in this browser tab. Nothing is saved, and nothing is sent anywhere. The statements are about US politics.</p>
+
+  <form id="quiz" class="quiz" novalidate>
+    <fieldset>
+      <legend>1. Pick your topics</legend>
+      <ul class="topics" id="topics"></ul>
+    </fieldset>
+    <div id="statements"></div>
+    <p><button class="go" type="submit">Show my summary</button><button class="alt" type="button" id="startover">Start over</button></p>
+  </form>
+
+  <section id="results" aria-live="polite" tabindex="-1" hidden>
+    <h2>Your summary</h2>
+    <div id="resultlist"></div>
+    <p class="note">Each bar shows where your answers lean on one question, not a label for you. The middle means your answers were mixed or balanced. People who sit near each end often have thoughtful reasons, and many people sit near the middle on some topics and far from it on others. Compare with <a href="democrats-and-republicans.html">what supporters and critics say about each US party</a>, and then look up your own candidates.</p>
+  </section>
+
+  <h2>How the statements were written</h2>
+  <p>Each topic has four statements: two where agreeing points one way and two where it points the other, so that agreeing with everything does not push the result to one side. Wording tries to avoid loaded terms. A neutral score of "neither agree nor disagree" counts as the middle, and statements you skip are left out. A topic with no answers is not shown.</p>
+
+  <div class="src">
+    <p>Where to learn more, from outside this site:</p>
+    <ul>
+      <li><a href="https://www.vote411.org/" rel="noopener">VOTE411</a>, from the League of Women Voters, for nonpartisan candidate information and your ballot.</li>
+      <li><a href="https://ballotpedia.org/" rel="noopener">Ballotpedia</a>, for candidates, ballot measures, and officeholders.</li>
+      <li><a href="https://news.gallup.com/" rel="noopener">Gallup</a>, for polling on how Americans describe their views.</li>
+    </ul>
+  </div>
+</main>
+<footer>
+  <p><a href="index.html">Back to Planet Hoto</a> · <a href="democrats-and-republicans.html">Democrats and Republicans</a> · <a href="candidates-2026.html">2026 Senate and governor candidates</a></p>
+</footer>
+<script>
+(function () {
+  // d: +1 means agreeing moves the result toward the "plus" pole, -1 toward the "minus" pole.
+  var TOPICS = [
+    { id: "econ", name: "Government and the economy", plus: "A bigger role for government", minus: "A smaller role for government",
+      items: [
+        { t: "The federal government should do more to make health insurance available to everyone.", d: 1 },
+        { t: "Lower taxes and lighter regulation are the best way to create jobs and growth.", d: -1 },
+        { t: "The federal minimum wage should be raised.", d: 1 },
+        { t: "Many programs would work better if states, charities, or private companies ran them instead of the federal government.", d: -1 }
+      ] },
+    { id: "social", name: "Social issues", plus: "More weight on individual choice and change", minus: "More weight on established tradition",
+      items: [
+        { t: "Same-sex couples should have the same legal right to marry as any other couple.", d: 1 },
+        { t: "Society works better when people follow traditional family and community norms.", d: -1 },
+        { t: "Abortion should be legal in most cases.", d: 1 },
+        { t: "Religion should play a larger role in public life.", d: -1 }
+      ] },
+    { id: "imm", name: "Immigration", plus: "More openness", minus: "More restriction",
+      items: [
+        { t: "The US should reduce the number of immigrants it admits each year.", d: -1 },
+        { t: "People brought to the US illegally as children should have a path to legal status.", d: 1 },
+        { t: "Border enforcement should be a higher priority than it is now.", d: -1 },
+        { t: "Immigrants strengthen the US economy more than they strain it.", d: 1 }
+      ] },
+    { id: "world", name: "The US and the world", plus: "More engagement abroad", minus: "More restraint abroad",
+      items: [
+        { t: "The US should keep or strengthen its military alliances, such as NATO.", d: 1 },
+        { t: "The US spends too much on foreign aid and overseas commitments.", d: -1 },
+        { t: "The US should lead international efforts on problems like pandemics and climate.", d: 1 },
+        { t: "The US should stay out of foreign conflicts unless it is directly attacked.", d: -1 }
+      ] }
+  ];
+  var CHOICES = [["-2", "Strongly disagree"], ["-1", "Disagree"], ["0", "Neither"], ["1", "Agree"], ["2", "Strongly agree"]];
+  var form = document.getElementById("quiz"), topicsEl = document.getElementById("topics"), stmtsEl = document.getElementById("statements");
+  var results = document.getElementById("results"), list = document.getElementById("resultlist");
+
+  function el(tag, text, cls) { var e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; }
+
+  function build() {
+    topicsEl.textContent = ""; stmtsEl.textContent = "";
+    TOPICS.forEach(function (tp) {
+      var li = el("li"), lab = el("label"), cb = el("input");
+      cb.type = "checkbox"; cb.checked = true; cb.value = tp.id; cb.addEventListener("change", showHide);
+      lab.appendChild(cb); lab.appendChild(document.createTextNode(tp.name)); li.appendChild(lab); topicsEl.appendChild(li);
+
+      var fs = el("fieldset"); fs.id = "fs-" + tp.id; fs.appendChild(el("legend", tp.name));
+      tp.items.forEach(function (it, i) {
+        var box = el("div"), name = tp.id + "-" + i;
+        box.appendChild(el("p", it.t, "stmt")); box.setAttribute("role", "group"); box.setAttribute("aria-label", it.t);
+        var sc = el("div", null, "scale");
+        CHOICES.forEach(function (c) {
+          var lb = el("label"), r = el("input");
+          r.type = "radio"; r.name = name; r.value = c[0];
+          lb.appendChild(r); lb.appendChild(document.createTextNode(c[1])); sc.appendChild(lb);
+        });
+        box.appendChild(sc); box.appendChild(document.createElement("br")); fs.appendChild(box);
+      });
+      stmtsEl.appendChild(fs);
+    });
+  }
+  function showHide() {
+    TOPICS.forEach(function (tp) {
+      var on = topicsEl.querySelector('input[value="' + tp.id + '"]').checked;
+      document.getElementById("fs-" + tp.id).hidden = !on;
+    });
+  }
+  function describe(s, tp) {
+    var a = Math.abs(s), side = s > 0 ? tp.plus : tp.minus;
+    if (a < 0.2) return "About in the middle, or mixed";
+    return (a < 0.5 ? "Leans slightly toward: " : a < 0.8 ? "Leans toward: " : "Leans strongly toward: ") + side.toLowerCase();
+  }
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    list.textContent = "";
+    var shown = 0;
+    TOPICS.forEach(function (tp) {
+      if (!topicsEl.querySelector('input[value="' + tp.id + '"]').checked) return;
+      var sum = 0, n = 0;
+      tp.items.forEach(function (it, i) {
+        var r = form.querySelector('input[name="' + tp.id + "-" + i + '"]:checked');
+        if (r) { sum += it.d * Number(r.value); n++; }
+      });
+      if (!n) return;
+      var s = sum / (2 * n), card = el("div", null, "result");
+      card.appendChild(el("h3", tp.name));
+      card.appendChild(el("p", describe(s, tp) + " (answered " + n + " of " + tp.items.length + ")"));
+      var bar = el("div", null, "bar"); bar.setAttribute("role", "img");
+      bar.setAttribute("aria-label", describe(s, tp) + ", on a scale from " + tp.minus.toLowerCase() + " to " + tp.plus.toLowerCase());
+      bar.appendChild(el("b")); var dot = el("i"); dot.style.left = ((s + 1) * 50) + "%"; bar.appendChild(dot); card.appendChild(bar);
+      var poles = el("div", null, "poles"); poles.appendChild(el("span", tp.minus)); poles.appendChild(el("span", tp.plus)); card.appendChild(poles);
+      list.appendChild(card); shown++;
+    });
+    if (!shown) list.appendChild(el("p", "No statements answered yet. Rate at least one statement in a topic you picked."));
+    results.hidden = false; results.focus(); results.scrollIntoView({ block: "start" });
+  });
+  document.getElementById("startover").addEventListener("click", function () {
+    form.reset(); results.hidden = true; list.textContent = ""; showHide(); window.scrollTo(0, 0);
+  });
+  build(); showHide();
+})();
+</script>
+</body>
+</html>
