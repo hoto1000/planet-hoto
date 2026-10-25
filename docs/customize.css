@@ -76,6 +76,30 @@ html[data-ph-density="roomy"] .sheet article { padding: 22px 22px; }
 html[data-ph-density="roomy"] .sheet { gap: 20px; }
 html[data-ph-density="roomy"] ul.plain li { margin-bottom: 14px; }
 
+/* ---------- Site navigation and footer links (same on every page) ---------- */
+.site-nav, .footer-nav { font-family: var(--font-body, inherit); }
+.site-nav { margin: 0 auto; padding: 12px max(16px, env(safe-area-inset-left, 0px)) 4px; }
+.site-nav.sn-760 { max-width: 760px; }
+.site-nav.sn-704 { max-width: 44rem; }
+.site-nav.sn-1024 { max-width: 64rem; }
+.wrap > .site-nav { padding-inline: 0; max-width: none; }
+.site-nav ul, .footer-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 8px; }
+.site-nav li, .footer-nav li { margin: 0; padding: 0; }
+.site-nav a, .footer-nav a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; margin: 0; border-radius: 999px;
+  border: 1px solid var(--line, var(--rule, var(--border))); background: var(--surface, var(--paper, transparent));
+  color: var(--fg, inherit); text-decoration: none; font-size: calc(15px * var(--ph-ts, 1)); line-height: 1.2;
+}
+.site-nav a:hover, .footer-nav a:hover { border-color: var(--accent, var(--hazard, currentColor)); }
+.site-nav a[aria-current], .footer-nav a[aria-current] {
+  background: var(--accent, var(--hazard)); color: var(--accent-fg, var(--hazard-ink, #fff));
+  border-color: var(--accent, var(--hazard)); font-weight: 700;
+}
+.footer-nav { margin: 0 0 14px; }
+.footer-nav a { font-size: calc(14.5px * var(--ph-ts, 1)); }
+.related ul { margin-bottom: 0; }
+@media (max-width: 480px) { .site-nav a, .footer-nav a { padding: 0 12px; } }
+
 /* ---------- Skip link (the home page already styles it; the Scientology page gets the same one) ---------- */
 .skip { position: absolute; left: -999px; }
 .skip:focus { left: 16px; top: 8px; background: var(--surface, var(--paper)); color: var(--fg); padding: 8px 12px; z-index: 20; min-height: 44px; display: inline-flex; align-items: center; }
